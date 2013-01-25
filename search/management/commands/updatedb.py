@@ -11,20 +11,18 @@ class Command(BaseCommand):
             "selecting .csv or by using 'Export'.\n")
 
     def handle(self, *args, **options):
+        print Experiment.__init__.__doc__
+        # This is the expected order of columns. It can easily be re-arranged.
+        columns = ['gene', 'transcription_family', 'pmid', 'species',
+                'experimental_tissues', 'cell_line',
+                'expt_name', 'replicates', 'control', 'quality']
         if len(args) != 1:
             raise CommandError("Please give one and only one filename.")
         #(jfriedly) I considered putting this in a try: except IOError, but I
         # think it's better to just let that bubble up.
         with open(args[0], 'r') as csvfile:
-            reader = csv.reader(csvfile, delimiter='\t')
+            reader = csv.DictReader(csvfile, fieldnames=columns, delimiter='\t')
+            r = reader.next()
             for row in reader:
-                # If a row contains column headers, just skip over it. This
-                # check is a bit naive, since it only checks the first column.
-                if row[0].lower().strip() == 'gene':
-                    continue
-                
-                e = Experiment(gene=row[0], pmid=row[2],
-                    transcription_family=row[1], species=row[3],
-                    expt_name=row[4], replicates=row[5], control=row[6],
-                    quality=row[7])
+                e = Experiment()
                 e.save()
