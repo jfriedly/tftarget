@@ -23,5 +23,5 @@ class Command(BaseCommand):
             reader = csv.DictReader(csvfile, fieldnames=columns, delimiter='\t')
             r = reader.next()
             for row in reader:
-                e = Experiment()
+                e = Experiment(**row)
                 e.save()
