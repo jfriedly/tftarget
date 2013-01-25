@@ -11,7 +11,6 @@ class Command(BaseCommand):
             "selecting .csv or by using 'Export'.\n")
 
     def handle(self, *args, **options):
-        print Experiment.__init__.__doc__
         # This is the expected order of columns. It can easily be re-arranged.
         columns = ['gene', 'transcription_family', 'pmid', 'species',
                 'experimental_tissues', 'cell_line',

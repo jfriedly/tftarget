@@ -16,9 +16,11 @@ class BaseModel():
 class Experiment(BaseModel, models.Model):
     """Stores data about each known experiment."""
     gene = models.CharField(max_length=255, default='', null=True)
-    pmid = models.IntegerField()
+    pmid = models.IntegerField(null=True)
     transcription_family = models.CharField(max_length=50)
     species = models.CharField(max_length=255)
+    experimental_tissues = models.CharField(max_length=255, null=True)
+    cell_line = models.CharField(max_length=255)
     expt_name = models.CharField(max_length=255)
     replicates = models.CharField(max_length=50, default='', null=True)
     control = models.CharField(max_length=255, default='', null=True)
