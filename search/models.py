@@ -21,11 +21,15 @@ class Experiment(BaseModel, models.Model):
     species = models.CharField(max_length=255)
     experimental_tissues = models.CharField(max_length=255, null=True)
     cell_line = models.CharField(max_length=255)
-    expt_name = models.CharField(max_length=255)
+    expt_name = models.ManyToManyField(Experiment_Type)
     replicates = models.CharField(max_length=50, default='', null=True)
     control = models.CharField(max_length=255, default='', null=True)
     quality = models.CharField(max_length=50, default='', null=True)
 
+
+class Experiment_Type(BaseModel, models.Model):
+    """Stores data about each known experiment type"""
+    type_name = models.CharField(max_length=255, default='', null=True)
 
 class Transcription(BaseModel, models.Model):
     """Relates transcription factors to experiments."""
