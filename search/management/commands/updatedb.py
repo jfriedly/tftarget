@@ -43,11 +43,12 @@ class Command(BaseCommand):
             exp_type = Experiment.objects.get(type_name__contains=name)
             print exp_type
             if not exp_type:  # We don't see it in the db, so ask the user
-                print ("Experiment type %s is not known by the database. Would"
-                       "you like to [A]dd the type or [I]gnore it?")
                 response = ''
                 while response not in "AaIi":
-                    response = raw_input()
+                    response = raw_input("Experiment type %s is not known by "
+                                         "the database.  Would you like to "
+                                         "[A]dd the type or [I]gnore it?" %
+                                         exp_type)
 
                 if response == "A" or "a":
                     exp_type = Experiment_Type(experiment)
