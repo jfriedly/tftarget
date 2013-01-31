@@ -43,8 +43,8 @@ class Command(BaseCommand):
             exp_type = Experiment.objects.get(type_name__contains=name)
             print exp_type
             if not exp_type:  # We don't see it in the db, so ask the user
-                print "Experiment type %s is not known by the database. Would"
-                    "you like to [A]dd the type or [I]gnore it?"
+                print ("Experiment type %s is not known by the database. Would"
+                       "you like to [A]dd the type or [I]gnore it?")
                 response = ''
                 while response not in "AaIi":
                     response = raw_input()
@@ -63,7 +63,7 @@ class Command(BaseCommand):
         # Check for valid gene
         if not len(row['gene']) <= 255:
             return False
-        
+
         # Make sure pmid can be made an int
         try:
             int(row['pmid'])

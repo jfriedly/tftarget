@@ -13,41 +13,6 @@ class BaseModel():
         return json.dumps(d)
 
 
-class Experiment(BaseModel, models.Model):
-    """Stores data about each known experiment."""
-    #TODO(jfriedly): We need to inspect the DB to figure out the options
-    # for these
-    E2F = 'E2F'
-    MYC = 'Myc'
-    NFKB = 'NFkB'
-    FOX = 'FOX'
-    STAT = 'STAT'
-    TF_FAMILIES = ((E2F, E2F),
-                   (MYC, MYC),
-                   (NFKB, NFkB),
-                   (FOX, FOX),
-                   (STAT, STAT))
-    HUMAN = 'Human'
-    MOUSE = 'Mouse'
-    RAT = 'Rat'
-    ARABIDOPSIS = 'Arabidopsis'
-    SPECIES = ((HUMAN, HUMAN),
-               (MOUSE, MOUSE),
-               (RAT, RAT),
-               (ARABIDOPSIS, ARABIDOPSIS))
-
-    gene = models.CharField(max_length=255, default='', null=True)
-    pmid = models.IntegerField(null=True)
-    transcription_family = models.CharField(max_length=50, choices=TF_FAMILIES)
-    species = models.CharField(max_length=255, choices=SPECIES)
-    experimental_tissues = models.CharField(max_length=255, null=True)
-    cell_line = models.CharField(max_length=255)
-    expt_name = models.ManyToManyField(Experiment_Type)
-    replicates = models.CharField(max_length=50, default='', null=True)
-    control = models.CharField(max_length=255, default='', null=True)
-    quality = models.CharField(max_length=50, default='', null=True)
-
-
 class Experiment_Type(BaseModel, models.Model):
     """Stores data about each known experiment type"""
     CHIP = 'ChIP'
@@ -88,6 +53,41 @@ class Experiment_Type(BaseModel, models.Model):
                              NUCLEAR_RUN_ON, NUCLEAR_RUN_OFF]
     type_name = models.CharField(max_length=255, default='', null=True,
                                  choices=EXPERIMENT_TYPES)
+
+
+class Experiment(BaseModel, models.Model):
+    """Stores data about each known experiment."""
+    #TODO(jfriedly): We need to inspect the DB to figure out the options
+    # for these
+    E2F = 'E2F'
+    MYC = 'Myc'
+    NFKB = 'NFkB'
+    FOX = 'FOX'
+    STAT = 'STAT'
+    TF_FAMILIES = ((E2F, E2F),
+                   (MYC, MYC),
+                   (NFKB, NFKB),
+                   (FOX, FOX),
+                   (STAT, STAT))
+    HUMAN = 'Human'
+    MOUSE = 'Mouse'
+    RAT = 'Rat'
+    ARABIDOPSIS = 'Arabidopsis'
+    SPECIES = ((HUMAN, HUMAN),
+               (MOUSE, MOUSE),
+               (RAT, RAT),
+               (ARABIDOPSIS, ARABIDOPSIS))
+
+    gene = models.CharField(max_length=255, default='', null=True)
+    pmid = models.IntegerField(null=True)
+    transcription_family = models.CharField(max_length=50, choices=TF_FAMILIES)
+    species = models.CharField(max_length=255, choices=SPECIES)
+    experimental_tissues = models.CharField(max_length=255, null=True)
+    cell_line = models.CharField(max_length=255)
+    expt_name = models.ManyToManyField(Experiment_Type)
+    replicates = models.CharField(max_length=50, default='', null=True)
+    control = models.CharField(max_length=255, default='', null=True)
+    quality = models.CharField(max_length=50, default='', null=True)
 
 
 class Transcription(BaseModel, models.Model):
