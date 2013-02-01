@@ -15,6 +15,7 @@ class BaseModel():
 
 class Experiment_Type(BaseModel, models.Model):
     """Stores data about each known experiment type"""
+    EMPTY_STRING = ''
     CHIP = 'ChIP'
     CHIP_QPCR = 'ChIP-qPCR'
     CHIP_PCR = 'ChIP-PCR'
@@ -31,7 +32,8 @@ class Experiment_Type(BaseModel, models.Model):
     RNA_SEQ = 'RNA-seq'
     NUCLEAR_RUN_ON = 'Nuclearn run-on'
     NUCLEAR_RUN_OFF = 'Nuclearn run-off'
-    EXPERIMENT_TYPES = ((CHIP, CHIP),
+    EXPERIMENT_TYPES = ((EMPTY_STRING, EMPTY_STRING),
+                        (CHIP, CHIP),
                         (CHIP_QPCR, CHIP_QPCR),
                         (CHIP_PCR, CHIP_PCR),
                         (CHIP_CHIP, CHIP_CHIP),
@@ -59,12 +61,14 @@ class Experiment(BaseModel, models.Model):
     """Stores data about each known experiment."""
     #TODO(jfriedly): We need to inspect the DB to figure out the options
     # for these
+    EMPTY_STRING = ''
     E2F = 'E2F'
     MYC = 'Myc'
     NFKB = 'NFkB'
     FOX = 'FOX'
     STAT = 'STAT'
-    TF_FAMILIES = ((E2F, E2F),
+    TF_FAMILIES = ((EMPTY_STRING, EMPTY_STRING),
+                   (E2F, E2F),
                    (MYC, MYC),
                    (NFKB, NFKB),
                    (FOX, FOX),
@@ -73,7 +77,8 @@ class Experiment(BaseModel, models.Model):
     MOUSE = 'Mouse'
     RAT = 'Rat'
     ARABIDOPSIS = 'Arabidopsis'
-    SPECIES = ((HUMAN, HUMAN),
+    SPECIES = ((EMPTY_STRING, EMPTY_STRING),
+               (HUMAN, HUMAN),
                (MOUSE, MOUSE),
                (RAT, RAT),
                (ARABIDOPSIS, ARABIDOPSIS))
