@@ -13,18 +13,28 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # This is the expected order of columns. It can easily be re-arranged.
-        columns = ['gene', 'transcription_family', 'pmid', 'species',
+        columns = ['gene', 'transcription_factor', 'pmid', 'species',
                 'experimental_tissues', 'cell_line',
                 'expt_name', 'replicates', 'control', 'quality']
         if len(args) != 1:
             raise CommandError("Please give one and only one filename.")
         #(jfriedly) I considered putting this in a try: except IOError, but I
         # think it's better to just let that bubble up.
+
+        transcription_family = args[0].split('.')[0]
+        families = {f[0].lower(): f[0] for f in Experiment.TF_FAMILIES}
+        if not transcription_family.lower() in families:
+            print ("Please make the name of your file the same as the"
+                "transcription family of the factors in it. This will likely"
+                "be the name of the worksheet you are exporting from.")
+            return
+        
         with open(args[0], 'r') as csvfile:
             reader = csv.DictReader(csvfile, fieldnames=columns, delimiter='\t')
             # Skip the first row (column names)
             r = reader.next()
             for row in reader:
+                row['transcription_family'] = families[transcription_family]
                 expt_names = row.pop('expt_name')
                 e = Experiment(**row)
                 e.save()

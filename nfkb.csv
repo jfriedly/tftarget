@@ -1,0 +1,18 @@
+Gene	Family Member	PMID	Species	Experimental Tissue(s)	Cell line	Experiment	# Replicates	Control	Quality/Fold Change
+Bcl-xL	NF-kB1	22970906	Mouse	hepatic macrophages	C57BL/6	ChIP	2 strains	NF-kB-/- mice liver cells 	2 fold increase in TNFa mRNA
+IkB	NF-kB1	7982908	Mouse	Jurkat T-lymphocytes	NA	western blot	2 strains	reticulocyte lysate	High 
+Bcl-2	NF-kB2	12835724	human	colon carcinoma	HCT116	EMSA	NA	cells not treated with TNF-alpha (unstimulated)	good
+Bcl-2	NF-kB2	12835724	human	breast cancer	MCF7AZ	western blot	NA	untransfected cells	good
+Bcl-xL	NF-kB2	15079071	human	T cells	NA	ChIP	NA	cells not treated with NF-kB inhibitors or stimulated with Dap3/B7 cells	poor
+IL-8	NF-kB2	15079071	human	T cells	NA	ChIP	NA	cells not treated with NF-kB inhibitors or stimulated with Dap3/B7 cells	poor 
+SELP	NF-kB2	7559449	human	megakaryocytic cells	CHRF-288	EMSA	NA	plasmid without insert	-1.4 fold
+STAT2	NF-kB2	22198284	human	lung cancer	H1299	ChIP	3	transfected with vector HC5 instead of mutant vector	poor
+DAPK1	NF-kB2	22096027	human	leukemic cells	MV-4-11	ChIP	at least 3	nonspecific IgG	10-100 fold
+CRH	NF-kB2	22734038	human	placenta	NA	ChIP	NA	rabbit IgG	5 fold
+CRH	NF-kB2	22734038	human	placenta	NA	reporter gene assay	NA	mutant version of promoter	2.5 fold
+CCND1	NF-kB2	20420878	human	bronchial epithelium	BEAS-2B	ChIP	at least 3	cells not exposed to arsenite	poor
+CD21	NF-kB2	17140663	mouse	splenic B cells	NA	ChIP	NA	mouse IgG	poor
+CD23	NF-kB2	17140663	mouse	splenic B cells	NA	ChIP	NA	mouse IgG	poor
+CCL5	NF-kB2	15994789	human	pulmonary epithelium	A549	reporter gene assay	6	empty eukaryotic expression vector	fair
+IL2Ralpha	NF-kB2	10773315	human	T cells 	Jurkat	EMSA	NA	mutant NF-kB promoter sequence	poor
+IL-8	NF-kB2	8413215	human	T cells 	Jurkat	EMSA	3	probe contains Ig/HIV kB element	poor

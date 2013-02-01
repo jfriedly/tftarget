@@ -81,6 +81,7 @@ class Experiment(BaseModel, models.Model):
     gene = models.CharField(max_length=255, default='', null=True)
     pmid = models.IntegerField(null=True)
     transcription_family = models.CharField(max_length=50, choices=TF_FAMILIES)
+    transcription_factor = models.CharField(max_length=50)
     species = models.CharField(max_length=255, choices=SPECIES)
     experimental_tissues = models.CharField(max_length=255, null=True)
     cell_line = models.CharField(max_length=255)
