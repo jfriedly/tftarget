@@ -50,7 +50,7 @@ class Command(BaseCommand):
                                          "[A]dd the type or [I]gnore it?" %
                                          exp_type)
 
-                if response == "A" or "a":
+                if response in "Aa":
                     exp_type = Experiment_Type(experiment)
                     exp_type.save()
                 else:
