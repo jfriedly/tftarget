@@ -1,7 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 import csv
+import re
 
-from search.models import Experiment, Transcription, Tissue
+from search.models import Experiment, Experiment_Type, Transcription, Tissue
 
 class Command(BaseCommand):
     args = 'filename'
@@ -27,9 +28,10 @@ class Command(BaseCommand):
                 expt_names = row.pop('expt_name')
                 e = Experiment(**row)
                 e.save()
-                add_experiment_types(e, expt_names)
+                self.add_experiment_types(e, expt_names)
+                e.save()
 
-    def check_expts(experiment, expt_names):
+    def add_experiment_types(self, experiment, expt_names):
         """
         Takes string of experiment types, splits them, and ensures that they are
         valid and extant. Asks user to confirm addition of new type if not.
@@ -40,22 +42,28 @@ class Command(BaseCommand):
         names = delimiter.split(expt_names)
         for name in names:
             name = name.lower()
-            exp_type = Experiment.objects.get(type_name__contains=name)
-            print exp_type
-            if not exp_type:  # We don't see it in the db, so ask the user
+            type_results = Experiment_Type.objects.filter(type_name__iexact=name)
+            if not type_results:  # We don't see it in the db, so ask the user
                 response = ''
-                while response not in "AaIi":
+                while not response or response not in "AaIi":
                     response = raw_input("Experiment type %s is not known by "
                                          "the database.  Would you like to "
-                                         "[A]dd the type or [I]gnore it?" %
-                                         exp_type)
+                                         "[A]dd the type or [I]gnore it? " %
+                                         name)
 
                 if response in "Aa":
-                    exp_type = Experiment_Type(experiment)
+                    exp_type = Experiment_Type(type_name=name)
                     exp_type.save()
                 else:
                     continue
-            experiment.expt_name.add(name)
+            elif len(type_results) != 1:
+                print ("Warning: More than one match for experiment type %s:\n"
+                    "%s \n Using first result." % (name, type_results))
+                exp_type = type_results[0]
+            else:
+                exp_type = type_results[0]
+            experiment.expt_name.add(exp_type)
+            experiment.save()
 
     def _valid_row(row):
         """
