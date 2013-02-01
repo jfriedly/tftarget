@@ -46,10 +46,11 @@ $(document).ready(function () {
     $.ajaxSetup({traditional: true});
 
     $('#search_button').click(ajaxSearch);
-    $('input').keypress(function (e) {
+    $('.input-text').keypress(function (e) {
         if (e.which == 13) {
             console.log('enter pressed');
             ajaxSearch();
         }
     });
+    $('.input-select').change(ajaxSearch);
 });
