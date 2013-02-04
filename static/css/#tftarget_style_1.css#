@@ -2,10 +2,12 @@
     float:right;
 }
 .input-wrapper {
-    
+    width:100%;
  }
 .input-label {
-
+    float:left;
+    
 }
 .input-textbox {
+    float:left;
 }

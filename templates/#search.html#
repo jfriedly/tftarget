@@ -2,7 +2,7 @@
 {% block body %}
 <link href="{{ STATIC_URL }}uni_form/uni-form.css" media="screen" type="text/css" rel="stylesheet" />
 <!-- <link href="{{ STATIC_URL }}uni_form/blue.uni-form.css" media="screen" type="text/css" rel="stylesheet" /> -->
-<script type="text/javascript" src="{{ STATIC_URL }}js/search1.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
 
 <div class="container">
   <br>
@@ -14,14 +14,14 @@
 
   <h2>Create your search below</h2>
   <br>
-  <br>
   <form id="search_form" class="form-horizontal">
     {% csrf_token %}
     {{ form }}
   </form>
   <a id="search_button" class="btn btn-primary btn-medium">Search!</a>
-
-  <div id="search_results">
+  <div class="span12">
+    <div id="search_results">
+    </div>
   </div>
 </div>
 
