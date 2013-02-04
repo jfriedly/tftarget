@@ -5,9 +5,17 @@ table - the table you want to append a row to.
 object - the json object
 row_num - to distinguish between a heading and data ....will think of a better way. If row_num == 0, it meas it is a heading otherwise data.
 */
-function BeuatifyInputForm () {
+function initSearchForm () {
+    var $searchForm = $('#search_form').children();
+    /*add the class control-label to all labels in the 
+      input form
+    */
     $('label').addClass('control-label');
     $('.input').wrap('<div class="controls"/>');
+    for(var i=1, j=$searchForm.length; i<j; i+=2) {
+       $searchForm.slice(i, i+2).wrapAll('<div class="control-group"/div>')
+    }
+    
     console.log('Beuatifying your search Form');
 }
 function printTable (table, object, row_num) {
@@ -58,6 +66,6 @@ $(document).ready(function () {
         }
     });
     $('.input-select').change(ajaxSearch);
-    BeuatifyInputForm ();
+    initSearchForm ();
     console.log('hello');
 });
