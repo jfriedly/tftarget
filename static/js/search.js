@@ -5,10 +5,7 @@ table - the table you want to append a row to.
 object - the json object
 row_num - to distinguish between a heading and data ....will think of a better way. If row_num == 0, it meas it is a heading otherwise data.
 */
-function BeuatifyInputForm () {
-    $('.input').wrap('<div class="controls"/>');
-    console.log('Beuatifying your search Form');
-}
+
 function printTable (table, object, row_num) {
  //initialize the row
     var row = '<tr>';
@@ -29,8 +26,22 @@ function printTable (table, object, row_num) {
     row += '</tr>'; //end the row, ready to append
     table.append(row);
 }
-
-
+/*initSearchForm require that values are in pairs label and a bunch of ctrols.
+*/
+function initSearchForm () {
+    var $searchForm = $('#search_form').children();
+    /*add the class control-label to all labels in the 
+      input form
+    */
+    $('label').addClass('control-label');
+    $('.input').wrap('<div class="controls"/>');//every input has a paret of div controls
+    for(var i=1, j=$searchForm.length; i<j; i+=2) {
+       $searchForm.slice(i, i+2).wrapAll('<div class="control-group"/div>')
+    }
+    //$searchForm.children(0).remove();
+    //
+    console.log('Beuatifying your search Form');
+}
 function ajaxSearch () {
     $.post('/', $('#search_form').serialize(), function (data) {
     //clear the search result for ready for next search result
@@ -57,6 +68,6 @@ $(document).ready(function () {
         }
     });
     $('.input-select').change(ajaxSearch);
-    BeuatifyInputForm ();
+    initSearchForm ();
     console.log('hello');
 });
