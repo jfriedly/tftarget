@@ -94,15 +94,3 @@ class Experiment(BaseModel, models.Model):
     replicates = models.CharField(max_length=50, default='', null=True)
     control = models.CharField(max_length=255, default='', null=True)
     quality = models.CharField(max_length=50, default='', null=True)
-
-
-class Transcription(BaseModel, models.Model):
-    """Relates transcription factors to experiments."""
-    expt_id = models.ForeignKey(Experiment)
-    transcription_factor = models.CharField(max_length=255, default='', null=True)
-
-
-class Tissue(BaseModel, models.Model):
-    """Relates tissues to experiments."""
-    expt_id = models.ForeignKey(Experiment)
-    tissue_name = models.CharField(max_length=255)

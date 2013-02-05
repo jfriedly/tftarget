@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 import csv
 import re
 
-from search.models import Experiment, Experiment_Type, Transcription, Tissue
+from search.models import Experiment, Experiment_Type
 
 class Command(BaseCommand):
     args = 'filename'
@@ -18,8 +18,6 @@ class Command(BaseCommand):
                 'expt_name', 'replicates', 'control', 'quality']
         if len(args) != 1:
             raise CommandError("Please give one and only one filename.")
-        #(jfriedly) I considered putting this in a try: except IOError, but I
-        # think it's better to just let that bubble up.
 
         transcription_family = args[0].split('.')[0]
         families = {f[0].lower(): f[0] for f in Experiment.TF_FAMILIES}
@@ -28,7 +26,9 @@ class Command(BaseCommand):
                 "transcription family of the factors in it. This will likely"
                 "be the name of the worksheet you are exporting from.")
             return
-        
+
+        #(jfriedly) I considered putting this in a try: except IOError, but I
+        # think it's better to just let that bubble up.
         with open(args[0], 'r') as csvfile:
             reader = csv.DictReader(csvfile, fieldnames=columns, delimiter='\t')
             # Skip the first row (column names)
