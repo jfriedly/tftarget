@@ -49,9 +49,9 @@ If you're unsure whether or not your MySQLdb installation worked, open a Python 
 Once the Python library is installed, you'll need to create your ``tftarget`` MySQL user.
 To do this, run ``mysql -uroot -p`` and enter the root password that you picked above, then input these SQL commands at the prompt, where $PASSWORD is a new password that you choose::
 
-    CREATE USER 'tftarget'@'localhost' IDENTIFIED BY '$PASSWORD';
-    CREATE DATABASE tftarget;
-    GRANT ALL PRIVILEGES ON *.* to 'tftarget'@'localhost' WITH GRANT OPTION;
+    mysql> CREATE USER 'tftarget'@'localhost' IDENTIFIED BY '$PASSWORD';
+    mysql> CREATE DATABASE tftarget DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+    mysql> GRANT ALL PRIVILEGES ON tftarget.* to 'tftarget'@'localhost' WITH GRANT OPTION;
 
 MySQL should tell you that each query was ok.
 Exit the MySQL prompt and now create a file in this directory called ``local_settings.py``.
@@ -64,10 +64,10 @@ Put the following lines into the file and save it, making up a secret key to use
 
 Ensure that Django has access to the MySQL database by opening a Python interpreter with ``python manage.py shell`` and then running these commands::
 
-    from search.models import Experiment
-    exp = Experiment(gene='3 feet tall', pmid=42, transcription_family='teddy bear', species='ewok', expt_name='giant ewok experiment', replicates='one million', control='human', quality='God-given')
-    exp.save()
-    exp.delete()
+    >>> from search.models import TranscriptionFactor
+    >>> tf = TranscriptionFactor(tf='E2F1')
+    >>> tf.save()
+    >>> tf.delete()
 
 
 Using South
@@ -76,23 +76,28 @@ Using South
 Databases complain whenever a table schema is changed, and anytime you make a change to a class in a models.py file it represents a change to a table schema.
 South makes migrating table schemas easy, without losing your data.
 Information on South can be found on `their tutorial`_, and you should already have it installed if the ``pip install -r requirements.txt`` worked.
-The first thing you'll need to do is open the ``settings.py`` file and comment out lines in INSTALLED_APPS that list apps that we built.
-Currently, the only app that we've built is called 'search', so just comment out the line that says ``'search',``.
-Now run a ``python manage.py syncdb``, and create a Django admin user by following the prompts.
-Finally, uncomment the line(s) you just commented out and run this command for each app that we built, replacing $APP_NAME with the name of the app::
+The first thing you'll need to do is run a ``python manage.py syncdb``, and create a Django admin user by following the prompts.
+Then, run this command for each app that we built, replacing $APP_NAME with the name of the app (currently we've only created one app, called ``search``)::
 
-    python manage.py migrate $APP_NAME
+    $ python manage.py migrate $APP_NAME
 
-In order to load the latest SQL dump, run ``mysql -uroot -p tftarget < insert.sql`` and give the root user's password at the prompt.
+In order to load the latest SQL dump, run these commands, giving the root user's password at the prompt each time::
+
+    $ mysql -uroot -p tftarget < search_experiment_expt_type.sql 
+    $ mysql -uroot -p tftarget < search_experiment.sql
+    $ mysql -uroot -p tftarget < search_experiment_transcription_factor.sql
+    $ mysql -uroot -p tftarget < search_experimenttype.sql
+    $ mysql -uroot -p tftarget < search_transcriptionfactor.sql
 
 What to do if the ID's are Wrong
 ''''''''''''''''''''''''''''''''
 
 If you run into errors that rows are attempting to foreign key to other rows that don't exist when you're trying to import the data, read on.
-First, delete all the data in each table that currently contains data using the SQL command ``DELETE FROM $TABLE_NAME``.
-Then, run ``ALTER TABLE $TABLE_NAME AUTO_INCREMENT=n`` to set the AUTO_INCREMENT value back down to one (or any other value).
-You should now be able to retry the ``mysql -uroot -p tftarget < insert.sql`` command and hopefully it will work.
-If it doesn't don't worry, we're just using fake data for now.
+Simply drop the table with  ``DROP TABLE $TABLE_NAME`` and then try to import the data again using ``mysql -uroot -p tftarget < $TABLE_NAME.sql``.
+Depending on which table it was, you may need to drop some other tables first because of foreign key constraints.
+The many-to-many lookup tables can always be dropped, and once those are gone, any of the others can be dropped.
+The tables can be restored in any order (I think).
+If this doesn't work, don't worry, we're just using fake data for now.
 Do NOT do this on a production database.
 
 

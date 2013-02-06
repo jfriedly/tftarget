@@ -1,6 +1,6 @@
 from django import forms
 
-from search.models import Experiment, Experiment_Type
+from search.models import Experiment, ExperimentType
 
 
 class SearchForm(forms.Form):
@@ -20,8 +20,8 @@ class SearchForm(forms.Form):
         choices=Experiment.SPECIES,
         widget=forms.Select(attrs={'class': 'input input-select'}),
         required=False)
-    expt_name = forms.ChoiceField(label="Experiment Name",
-        choices=Experiment_Type.EXPERIMENT_TYPES,
+    expt_type = forms.ChoiceField(label="Experiment Name",
+        choices=ExperimentType.EXPERIMENT_TYPES,
         widget=forms.Select(attrs={'class': 'input input-select'}),
         required=False)
     tissue_name = forms.CharField(label="Tissue Name",

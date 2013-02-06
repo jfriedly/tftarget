@@ -1,4 +1,5 @@
 import json
+import copy
 
 from django.db import models
 
@@ -7,14 +8,16 @@ class BaseModel():
     """Base model that other models inherit methods from."""
 
     def __repr__(self):
-        d = self.__dict__
+        d = copy.deepcopy(self.__dict__)
         if '_state' in d:
             d.pop('_state')
         return json.dumps(d)
 
 
-class Experiment_Type(BaseModel, models.Model):
-    """Stores data about each known experiment type"""
+class ExperimentType(BaseModel, models.Model):
+    """Stores the experiment types as a many to many relation because an
+    experiment can have multiple types.
+    """
     EMPTY_STRING = ''
     CHIP = 'ChIP'
     CHIP_QPCR = 'ChIP-qPCR'
@@ -53,8 +56,58 @@ class Experiment_Type(BaseModel, models.Model):
     GENE_EXPRESSION_EXPTS = [REPORTER_GENE_ASSAY, WESTERN_BLOT, NORTHERN_BLOT,
                              PCR, Q_PCR, RT_PCR, MICROARRAY, RNA_SEQ,
                              NUCLEAR_RUN_ON, NUCLEAR_RUN_OFF]
+    ALL_EXPTS = BINDING_EXPTS + GENE_EXPRESSION_EXPTS
+
     type_name = models.CharField(max_length=255, default='', null=True,
                                  choices=EXPERIMENT_TYPES)
+
+    def __repr__(self):
+        return "<ExperimentType: %s>" % self.type_name
+
+
+class TranscriptionFactor(BaseModel, models.Model):
+    """Stores the transcription factors as a many to many relation because an
+    experiment can investigate multiple different factors.
+    """
+    NF_KB1 = 'NF-kB1'
+    NF_KB2 = 'NF-kB2'
+    NFKB_TFS = [NF_KB1, NF_KB2]
+
+    STAT1 = 'STAT1'
+    STAT1A = 'STAT1a'
+    STAT3 = 'STAT3'
+    STAT4 = 'STAT4'
+    STAT5 = 'STAT5'
+    STAT5A = 'STAT5a'
+    STAT5B = 'STAT5b'
+    STAT6 = 'STAT6'
+    STAT_TFS = [STAT1, STAT1A, STAT3, STAT4, STAT5, STAT5A, STAT5B, STAT6]
+
+    C_MYC = 'c-Myc'
+    N_MYC = 'n-Myc'
+    MYC_TFS = [C_MYC, N_MYC]
+
+    E2F1 = 'E2F1'
+    E2F2 = 'E2F2'
+    E2F3 = 'E2F3'
+    E2F3A = 'E2F3a'
+    E2F4 = 'E2F4'
+    E2F5 = 'E2F5'
+    E2F6 = 'E2F6'
+    E2F7 = 'E2F7'
+    E2F_TFS = [E2F1, E2F2, E2F3, E2F3A, E2F4, E2F5, E2F6, E2F7]
+
+    FOXA = 'FOXA'
+    FOXM = 'FOXM'
+    FOXO = 'FOXO'
+    FOX_TFS = [FOXA, FOXM, FOXO]
+
+    ALL_TFS = NFKB_TFS + STAT_TFS + MYC_TFS + E2F_TFS + FOX_TFS
+
+    tf = models.CharField(max_length=255, null=True)
+
+    def __repr__(self):
+        return "<TranscriptionFactor: %s>" % self.tf
 
 
 class Experiment(BaseModel, models.Model):
@@ -86,11 +139,11 @@ class Experiment(BaseModel, models.Model):
     gene = models.CharField(max_length=255, default='', null=True)
     pmid = models.IntegerField(null=True)
     transcription_family = models.CharField(max_length=50, choices=TF_FAMILIES)
-    transcription_factor = models.CharField(max_length=50)
+    transcription_factor = models.ManyToManyField(TranscriptionFactor)
     species = models.CharField(max_length=255, choices=SPECIES)
     experimental_tissues = models.CharField(max_length=255, null=True)
     cell_line = models.CharField(max_length=255)
-    expt_name = models.ManyToManyField(Experiment_Type)
+    expt_type = models.ManyToManyField(ExperimentType)
     replicates = models.CharField(max_length=50, default='', null=True)
     control = models.CharField(max_length=255, default='', null=True)
-    quality = models.CharField(max_length=50, default='', null=True)
+    quality = models.CharField(max_length=255, default='', null=True)

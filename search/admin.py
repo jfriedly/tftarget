@@ -1,5 +1,6 @@
 from django.contrib import admin
-from search.models import Experiment, Experiment_Type
+from search.models import Experiment, ExperimentType, TranscriptionFactor
 
 admin.site.register(Experiment)
-admin.site.register(Experiment_Type)
+admin.site.register(ExperimentType)
+admin.site.register(TranscriptionFactor)

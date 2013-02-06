@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
-from search.models import Experiment, Experiment_Type
+from search.models import Experiment
 from search.forms import SearchForm
 
 
@@ -13,9 +13,9 @@ def search(request):
         return render_to_response("search.html", {"form": form},
                                   context_instance=RequestContext(request))
     results = set()
-    if form.cleaned_data['expt_name']:
-        expt_name = form.cleaned_data.pop('expt_name')
-        experiments = Experiment.objects.filter(expt_name__type_name=expt_name)
+    if form.cleaned_data['expt_type']:
+        expt_type = form.cleaned_data.pop('expt_type')
+        experiments = Experiment.objects.filter(expt_type__type_name=expt_type)
         results = _intersect_unless_empty(results, experiments)
 
     if form.cleaned_data['tissue_name']:

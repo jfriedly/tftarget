@@ -1,0 +1,110 @@
+Gene	Family Member	PMID	Species	Experimental Tissue(s)	Cell line	Experiment	# Replicates	Control	Quality/Fold Change
+N/A	C	12695333	HUMAN	histiocityc lymphoma	Cell Lines U-937,HL60,P493,T98G,WS1	ChIP	Supplemental Table A		
+N/A	C	12808131	HUMAN	human Burkitt's lymphoma	Daudi Cell Line	Microarray	Supporting Raw Data Set		
+ATF4	C	12808131	HUMAN	human Burkitt's lymphoma	Daudi Cell Line	ChIP	NA	magnetic beads, no antibody	medium
+MARS	C	12808131	HUMAN	human Burkitt's lymphoma	Daudi Cell Line	ChIP	NA	magnetic beads, no antibody	high
+TIP110	C	23088399	HUMAN	cervical cells, embryonic stem cell	HeLa Cell Line,Embryonic Stem Cell- NTero-2 Cell Line	ChIP	NA	RNA polymerase II antibody as a positive control (L2); Rabbit IgG as negative control (L3), no antibody added as negative control (L4)	high
+TIP110	C	23088399	HUMAN	embryonic stem cells	Embryonic Stem Cell-NTero-2 Cell Line	qPCR	3+	β-actin was used as a loading control	high/1.6
+TIP110	C	23088399	HUMAN	embryonic stem cells	Embryonic Stem Cell-NTero-2 Cell Line	Western Blot	NA	β-actin	high
+TIP110	C	23088399	HUMAN	cervical cells, embryonic stem cells	HeLa Cell Line,Embryonic Stem Cell- NTero-2 Cell Line	EMSA	10	Non-biotin labeled probe or C-MYC antibody	medium
+TTP	C	22863009	MOUSE	B cells	P493-6 cells ± Tet	ChIP	NA	magnetic protein G beads	~3.5
+TS11B	C	22863009	MOUSE	B cells	P493-6 cells ± Tet	ChIP	NA	magnetic protein G beads	~3.5
+TTP	C	22863009	MOUSE	B cells	P493-6 cells ± Tet	qPCR	NA	Ubiquitin	
+TS11B	C	22863009	MOUSE	B cells	P493-6 cells ± Tet	qPCR	NA	Ubiquitin	
+MAP4K1	C	22801218	HUMAN	embryonic kidney	HEK293 cells	Western Blot	NA	GAPDH	medium
+MAP4K1	C	22801218	HUMAN	embryonic kidney	HEK293 cells	qPCR	3,3	GEO-shLacZ/ ratio map4k1:GAPDH	~1.5
+MAP4K1	C	22801218	HUMAN	embryonic kidney	HEK293 cells	ChIP	NA	preimmune IgC	~8
+MAP4K1	C	22801218	HUMAN	embryonic kidney	HEK293 cells	Reporter Gene Assay	5	0 ng c-Myc vector transfected	~2
+HPV-16	C	22740717	HUMAN	cervical cells	HeLa Cell Line	ChIP	3+	Goat IgC	high
+HPV-18	C	22740717	HUMAN	cervical cells	HeLa Cell Line	ChIP	3+	Goat IgC	high
+HPV-16	C	22740717	HUMAN	breast cancer, breast cancer	eP5, eP30 cell lines	Western Blot	NA	tubulin	medium
+HPV-18	C	22740717	HUMAN	cervical cells, cervical cancer cells	HeLa, C33 Cell Lines	Western Blot	NA	tubulin	medium
+PRPS2	C	11139609	HUMAN	B cells	P493-6 cells	Northern Blot	NA	Jnk cDNA	high
+NM23-H1	C	11139609	HUMAN	B cells	P493-6 cells	Northern Blot	NA	Jnk cDNA	high
+JTV-1	C	11139609	HUMAN	B cells	P493-6 cells	Northern Blot	NA	Jnk cDNA	high
+p130	C	11139609	HUMAN	B cells	P493-6 cells	Northern Blot	NA	Jnk cDNA	high
+EIF3	C	11139609	HUMAN	B cells	P493-6 cells	Northern Blot	NA	Jnk cDNA	high
+B23	C	11604407	HUMAN	human skin fibroblasts	 ATCC 2091	ChIP	NA	TGR, H015, H015-myc	medium
+B23	C	11604407	HUMAN	human skin fibroblasts	ATCC 2091	EMSA	NA	noncanonical oligonucleotide	medium
+B23	C	11604407	HUMAN	human skin fibroblasts	ATCC 2091	Reporter Gene Assay	NA	noncanonical oligonucleotide	medium
+B23	C	11604407	HUMAN	Fibroblasts	HO15	Northern Blot	NA	36B4, vimentin loading controls	~3
+CAD	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~8
+CDK4	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~7
+MNT	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~6
+PHBa	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~4
+PHBb	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~7
+CCNB1	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~15
+CEB1	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~8
+PHB	C	11983916	HUMAN	cervical cells	HeLa	qPCR	NA	serum-deprived	~2.7
+CDC2L1	C	11983916	HUMAN	cervical cells	HeLa	qPCR	NA	serum-deprived	~2.5
+MSH2	C	11983916	HUMAN	cervical cells	HeLa	qPCR	NA	serum-deprived	~3
+BRCA1	C	11983916	HUMAN	cervical cells	HeLa	qPCR	NA	serum-deprived	~7.7
+MetAP2	C	11983916	HUMAN	cervical cells	HeLa	qPCR	NA	serum-deprived	~2
+TIP48	C	11983916	HUMAN	cervical cells	HeLa	qPCR	NA	serum-deprived	~3.3
+CCNB1	C	11983916	HUMAN	cervical cells	HeLa	qPCR	NA	serum-deprived	~4
+E2f2	C	9271400	Mouse	embryonic fibroblasts	REF52	Reporter Gene Assay	NA	control CMV vector set to 1	High/10
+Odc	C	8356088	Mouse	embryonic fibroblasts	NIH 3T3	Reporter Gene Assay	NA	null myc expression vector	High/100
+Odc	C	8356088	Mouse	embryonic fibroblasts	NIH 3T3	Reporter Gene Assay	NA	mutant vs. wt	High
+PRDX3	C	12011429	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a vs, Rat1a-myc	High/2
+PRDX3	C	12011429	Rat	embryonic fibroblasts	TGR1	Northern Blot	NA	Vimentin	High
+MINA53	C	12091391	Human	brain	T98G	Northern Blot	NA		
+CDK4	C	10688915	Human	umbilical Chord	HUVEC	Northern Blot	NA	Laminin	High
+CDK4	C	10688915	Mouse	embryonic fibroblasts	NIH 3T3	Reporter Gene Assay	NA	empty control vector	High/5
+CDK4	C	10688915	Mouse	embryonic fibroblasts	TGR-1	Northern Blot	NA	Gapdh as an internal control	High
+CDK4	C	10688915	Mouse	embryonic fibroblasts	HO15.19	Northern Blot	NA	Gapdh as an internal control	High
+MT-I-hGH	C	3678827	Mouse	embryonic fibroblasts	BALB/c 3T3	Reporter Gene Assay	NA	pfsmyc-20 is transfected as a control plasmid	Medium/12
+GLUT1	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a-myc transfected vs. Rat1a with Vimentin as a sample loading control	High/10
+PFK	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a-myc transfected vs. Rat1a with Vimentin as a sample loading control	High/10
+GADPH	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a-myc transfected vs. Rat1a with Vimentin as a sample loading control	High/10
+GPI	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a-myc transfected vs. Rat1a with Vimentin as a sample loading control	High/10
+PGM	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a-myc transfected vs. Rat1a with Vimentin as a sample loading control	High/10
+Enolase	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a-myc transfected vs. Rat1a with Vimentin as a sample loading control	High/10
+Ald A	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a-myc transfected vs. Rat1a with Vimentin as a sample loading control	High/10
+Ald C	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	Rat1a-myc transfected vs. Rat1a with Vimentin as a sample loading control	High/10
+GLUT1	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	"18 S rRNA and
+human ribosomal phosphoprotein 36B4 as loading controls"	High
+PFK	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	"18 S rRNA and
+human ribosomal phosphoprotein 36B4 as loading controls"	High
+enolase	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	"18 S rRNA and
+human ribosomal phosphoprotein 36B4 as loading controls"	High
+TPI	C	10823814	Rat	embryonic fibroblasts	Rat1a	Northern Blot	NA	"18 S rRNA and
+human ribosomal phosphoprotein 36B4 as loading controls"	High
+GLUT1	C	10823814	Rat	embryonic fibroblasts	Rat1a	Nuclear Run on	NA	Rat1a vs Rat1a-myc Vimentin as contol	Medium
+GLUT1	C	10823814	Human	lymphoblastoid	CB33	Northern Blot	NA	Rat 1a vs. Rat1a-mycPhosphoprotein 36B4 and 18 S rRNA as loading controls	Medium
+GLUT1	C	10823814	Human	lymphoblastoid	Burkitt’s lymphoma	Northern Blot	NA	Rat 1a vs. Rat1a-mycPhosphoprotein 36B4 and 18 S rRNA as loading controls	Medium
+GLUT1	C	10823814	Human	lymphoblastoid	Ramos	Northern Blot	NA	Rat 1a vs. Rat1a-mycPhosphoprotein 36B4 and 18 S rRNA as loading controls	Medium
+GLUT1	C	10823814	Human	lymphoblastoid	ST486	Northern Blot	NA	Rat 1a vs. Rat1a-mycPhosphoprotein 36B4 and 18 S rRNA as loading controls	Medium
+Inr lambda 5		7870572	Mouse		pre-B cell line 230-238	Reporter Gene Assay	NA	 cell line co-transfected with no expression vector	High
+Pax-3	C	12095979	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay	NA	NIH3T3 cells co-transfected with null expression vector	High
+Pax-3	N	12095979	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay	NA	NIH3T3 cells co-transfected with null expression vector	High
+Pax-3	N	12095979	Monkey	Kidney	Cos-7	EMSA	NA	Cos-7 transfected with empty expression vector	Medium
+Pax-3	C	12095979	Monkey	Kidney	Cos-7	EMSA	NA	Cos-7 transfected with empty expression vector	Medium
+Pax-3	N	12095979	Mouse	neuroblastoma	C1300	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3 expression detected in SK-N-SH cells, 	High
+Pax-3	N	12095979	Human	neuroblastoma	SHSY-5Y	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3 expression detected in SK-N-SH cells,	High
+Pax-3	N	12095979	Human	neuroblastoma	SK-N-AS	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3 expression detected in SK-N-SH cells,	High
+Pax-3	N	12095979	Human	neuroblastoma	SK-N-BE	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3 expression detected in SK-N-SH cells,	High
+Pax-3	N	12095979	Human	neuroblastoma	SK-N-DZ	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3 expression detected in SK-N-SH cells,	High
+Pax-3	N	12095979	Human	neuroblastoma	IMR-32	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3 expression detected in SK-N-SH cells,	High
+Pax-3	N	12095979	Human	neuroblastoma	Kelly. B	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3 expression detected in SK-N-SH cells,	High
+Pax-3	N	12095979	Mouse	neuroblastoma	ND-7	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3expression detected in the ND7 cell line transfected with an empty expression vector (V1)	High
+Pax-3	C	12095979	Mouse	neuroblastoma	ND-7	q-PCR	NA	Levels of Pax-3 mRNA are expressed relative to the level of Pax-3 expression detected in V1 cells without OHt treatment	High
+MT-MC1	C	11909865	Rat	 myeloid cells 	32D	Northern Blot	NA	32D-neo;(GAPDH) probe as a control for RNA loading	High
+MT-MC1	C	11909865	Monkey	Kidney	Cos-7	Reporter Gene Assay	NA	 transiently transfected with the pEGFP-C1 vector/ GFP only	Medium
+MT-MC1	C	11909865	Monkey	Kidney	Cos-7	Western Blot	NA	transiently transfected with the pEGFP-C1 vector/ GFP only	Medium
+MT-MC1	C	11909865	Rat	Fibroblasts	 Rat1a	Reporter Gene Assay	NA	Rat1a-neo 	High
+MT-MC1	C	11909865	Rat	Fibroblasts	Rat1a-MT-MC1 	Western Blot	NA	 clones transfected with the control neo vector	High
+MT-MC1	C	11909865	Rat	myeloid cells	 32D-MT-MC1 	Western Blot	NA	clones transfected with the control neo vector	High
+MT-MC1	C	11909865	Rat	myeloid cells	NA	EMSA	NA		
+MT-MC1	C	11909865	Rat	myeloid cells	NA	Western Blot	NA		
+LDH-A	C	9192621	Rat	Fibroblasts	Rat1a	RNase protection	NA	Rat1a/Vimentin	High
+LDH-A	C	9192621	Rat	Fibroblasts	Rat1a	Nuclear Run-on	NA	Rat1a/Vimentin	High/6.7
+LDH-A	C	9192621	Rat	Fibroblasts	Rat1a	Northern Blot	NA	Rat1a/Vimentin	High/-2.5
+HSP 90β	C	12145275	Rat	embryonic fibroblasts	TGR-1,  HO15.19	Northern Blot	NA	HO15.19, HO15.19-GFP,	High
+Lamp-2	C	12145275	Rat	embryonic fibroblasts	TGR-1,  HO15.19	Northern Blot	NA	HO15.19, HO15.19-GFP,	High
+KIAA0664	C	12145275	Rat	embryonic fibroblasts	Rat1	Northern Blot	NA	EF-GFP, Rat1-MycER-OH-T	High
+MCM6	C	12145275	Rat	embryonic fibroblasts	Rat1	Northern Blot	NA	EF-GFP, Rat1-MycER-OH-T	High
+DANCE	C	12145275	Rat	embryonic fibroblasts	EF	Northern Blot	NA	EF-GFP	High
+APEX	C	12145275	Rat	embryonic fibroblasts	  TGR-1	Northern Blot	NA	HO15.19,	High
+36B4	C	12145275	Rat	embryonic fibroblasts	TGR-1	Northern Blot	NA	HO15.19,	High
+PBK,TOPK	C	23237560	Human	Daudi cells	NA	Reporter Gene Assay	NA	pPBK-luc-wt	
+PBK,TOPK	C	23237560	Human	Daudi cells	NA	Reporter Gene Assay	NA	pPBK-luc-wt	

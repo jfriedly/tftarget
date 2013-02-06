@@ -1,0 +1,365 @@
+Gene	Family Member	PMID	Species	Experimental Tissue(s)	Cell line	Experiment	# Replicates	Control	Quality/Fold Change	Extra Information
+Aip	E2f2	20573986	Mouse	T-Lymphocytes 	NA	ChIP	3	Beta-actin		NA
+Ahr	E2f2	20573986	Mouse	T-Lymphocytes	NA	ChIP	3	Beta-actin		NA
+Arnt	E2f2	20573986	Mouse	T-Lymphocytes	NA	ChIP	3	Beta-actin		NA
+Ahrr	E2f2	20573986	Mouse	T-Lymphocytes	NA	ChIP	3	Beta-actin		NA
+Ahr	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Western Blot	3	WT	Low	NA
+Arnt	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Western Blot	3	WT	High	NA
+Ahr	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Real-Time PCR	2	WT	High/2	NA
+Ahrr	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Real-Time PCR	2	WT	High/-2	NA
+Ahr	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Western Blot	2	WT	High	In cytosol
+Arnt	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Western Blot	2	WT	High	In cytosol
+Cyp1a1	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Real-Time PCR	NA	WT	Medium/1.8 	TCDD activated cells: at 12 hours only; decreased after 24 hours
+Bax	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Real-Time PCR	NA	WT	Medium/1.7	TCDD activated cells: at 6 and 12 hours only; decreased after 24 hours
+FasL	E2f2	20573986	Mouse	T-Lymphocytes E2f2 -/-	NA	Real-Time PCR	NA	WT	High/2.6	TCDD activated cells: at 6 and 24 hours only; decreased at 12 hours
+Apaf1	E2f1	18951482	Mouse	Retina	661W	ChIP	NA	No treatment with TSA	High/2	NA
+APAfF1	E2f1	11159908	Human	Bone	U2OS	Northern Blot	NA	NA	NA	See Figure 3 and Table 3
+CCNE1	E2f1	11159908	Human	Fibroblast	WI-38 ER-E2f1	Northern Blot	NA	NA	High	
+APAF1	E2f1	11159908	Human	Fibroblast	WI-38 ER-E2f1	Northern Blot	NA	NA	High	
+BCL3	E2f1	11159908	Human	Fibroblast	WI-38 ER-E2f1	Northern Blot	NA	NA	High	
+CASP3	E2f1	11159908	Human	Fibroblast	WI-38 ER-E2f1	Northern Blot	NA	NA	High	
+CASP7	E2f1	11159908	Human	Fibroblast	WI-38 ER-E2f1	Northern Blot	NA	NA	Medium 	
+Map3k5	E2f1	11159908	Human	Fibroblast	WI-38 ER-E2f1	Northern Blot	NA	NA	Medium	
+APAF1	E2f1	11159908	Human	Bone	U2OS	Microarray	NA	NA	NA	See Table 1
+ARGLU1	E2f7	22180533	Human	Cervix	HeLa transfected with Mouse E2f7 cDNA	ChIP-seq	NA	E2f7 antibody or non-immune IgG	NA	GSE32673
+ARGLU1	E2f7	22180533	Human	Cervix	HeLa transfected with Mouse E2f7 cDNA	Microarray	NA	NA	NA	GSE33448
+ASF1b	E2f6	17328667	Human	Cervix	HeLa cells	ChIP	NA	GAPDH 	High/2.6	NA
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	EMSA	NA	NA	NA	NA
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts 	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	Low/-1.2	Refer to Figure 5 to see deletion mutant construct: pAK-3
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	Low/-1	Refer to Figure 5 to see deletion mutant construct: pAK-5
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	Low/-1.3	Refer to Figure 5 to see deletion mutant construct: D-1
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	Low/-1.1	Refer to Figure 5 to see deletion mutant construct: D-2
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	High/-2.3	Refer to Figure 5 to see deletion mutant construct: D-3
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	Low/-0.97	Refer to Figure 5 to see deletion mutant construct: D-4
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	High/-2.8	Refer to Figure 5 to see deletion mutant construct: pAK-6
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	High/-4.2	Refer to Figure 5 to see deletion mutant construct: pGL2
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	Low/-0.76	Refer to Figure 5 to see deletion mutant construct: pAK-3 / pAK-1 with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	High/-2.4	Refer to Figure 5 to see deletion mutant construct: pAK-5 / pAK-1 with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	High/-4.4	Refer to Figure 5 to see deletion mutant construct: D-2 / pAK-1 with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	High/-31	Refer to Figure 5 to see deletion mutant construct: D-3 / pAK-1 with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	High/-22	Refer to Figure 5 to see deletion mutant construct: pAK-6 / pAK-1 with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1	High/-44	Refer to Figure 5 to see deletion mutant construct: pGL2 / pAK-1 with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1 (WT)	Low/-0.92	Refer to Figure 6 to see deletion mutant construct: Mall
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1 (WT)	Low/-1.2	Refer to Figure 6 to see deletion mutant construct: pAK-3 (WT)
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	pAK-1 (WT)	Medium/-1.5	Refer to Figure 6 to see deletion mutant construct: M1,2
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	pAK-1 (WT)	Medium/-1.5	Refer to Figure 6 to see deletion mutant construct: Mall / pAK-1 with pcDNA1
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	MP (WT)	Medium/-1.7	Refer to Figure 8 to see deletion mutant construct: MPM-1
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	MP (WT)	Low/-1	Refer to Figure 8 to see deletion mutant construct: MPM-2
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	MP (WT)	Medium/-1.5	Refer to Figure 8 to see deletion mutant construct: MPM-3
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	MP (WT)	Medium/-1.8	Refer to Figure 8 to see deletion mutant construct: MPM-4
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	MP (WT)	Medium/-1.5	Refer to Figure 8 to see deletion mutant construct: MPM-5
+Ask	E2f1	12015319	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	MP (WT)	Medium/-1.6	Refer to Figure 8 to see deletion mutant construct: MPM-6
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	MP	Medium/-1.5	Refer to Figure 8 to see deletion mutant construct: MPM-1 / MP with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	MP	Medium/-1.7	Refer to Figure 8 to see deletion mutant construct: MPM-2 / MP with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	MP	High/-6	Refer to Figure 8 to see deletion mutant construct: MPM-3 / MP with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	MP	High/-3	Refer to Figure 8 to see deletion mutant construct: MPM-4 / MP with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	MP	High/-4.5	Refer to Figure 8 to see deletion mutant construct: MPM-5 / MP with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Reporter Gene Assay with Mutagenesis	NA	MP	High/-1	Refer to Figure 8 to see deletion mutant construct: MPM-6 / MP with pcDNA1
+Ask	E2f1	12015319	Mouse	Bone Marrow	BaF3	Northern Blot	NA	Adenovirus-E2f1 vs Adenovirus-Con	High	NA
+TopoII	E2f4	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	High/2	NA
+Mad2	E2f4	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	High/3.5	NA
+Mad2	E2f1	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	Medium/2	NA
+Rad54	E2f4	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	High/3.5	NA
+Rad54	E2f1	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	Medium/1.8	NA
+Bard1	E2f4	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	High/2.5	NA
+Bard1	E2f1	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	Medium/1.5	NA
+Chk1	E2f4	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	High/2.5	NA
+Mlh1	E2f4	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	Medium/1.5	NA
+Msh2	E2f4	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	High/1.8	NA
+Msh2	E2f1	11799067	Human	Fibroblast	WI-38 	ChIP	NA	Input	Low/1.2	NA
+Ask	E2f4	11799067	Human	Genomic DNA	NA	Microarray	NA	NA	NA	Refer to Figure 3
+Rad52	E2f1	11937641	Human	Foreskin fibroblasts	 Saos-2 ER E2f1	Microarray	NA	NA	NA	Refer to Figure 1
+Atm	E2f1	12527885	Mouse	Embyronic Fibroblasts 	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	WT E2f1	High/-5	Used trancriptionally inactive E2f1deltaTA
+Atm	E2f1	12527885	Mouse	Embyronic Fibroblasts	NIH3T3	Reporter Gene Assay with Mutagenesis	NA	 WT ATM-Luc	High/-3.5	-392 ATM Luciferase deletion construct
+UNG	E2f1	11821956	Rat	Fibroblast	Rat1a	Microarray	NA	NA	NA	Refer to Table 2
+UNG	E2f1	11821956	Rat	Fibroblast	Rat1a	Microarray	NA	NA	NA	Refer to Table 1
+Bub1	E2f3	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/3	Specific Cell line: Rat-1-MT-HA-E2F-3 (E2F-3)
+Krp2	E2f1	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/3.5	Specific Cell line: Rat-1-MT-E2F-1 (E2F-1)
+Sak-a	E2f3	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/3	Specific Cell line: Rat-1-MT-HA-E2F-3 (E2F-3)
+Sak-a	E2f1	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/2	Specific Cell line: Rat-1-MT-E2F-1 (E2F-1)
+Eb-1	E2f1	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/2.5	Specific Cell line: Rat-1-MT-E2F-1 (E2F-1)
+Eb-1	E2f3	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/4	Specific Cell line: Rat-1-MT-HA-E2F-3 (E2F-3)
+Msh2	E2f1	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/3	Specific Cell line: Rat-1-MT-E2F-1 (E2F-1)
+Msh2	E2f3	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/3	Specific Cell line: Rat-1-MT-HA-E2F-3 (E2F-3)
+Msh6	E2f1	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/2	Specific Cell line: Rat-1-MT-E2F-1 (E2F-1)
+Msh6	E2f3	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/2	Specific Cell line: Rat-1-MT-HA-E2F-3 (E2F-3)
+UNG	E2f1	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/2	Specific Cell line: Rat-1-MT-E2F-1 (E2F-1)
+UNG	E2f3	11821956	Rat	Fibroblast	Rat1a	Western Blot	NA	Rat1a Empty Vector	High/3	Specific Cell line: Rat-1-MT-HA-E2F-3 (E2F-3)
+NA	E2f	11416145	Mouse	Embryo fibroblast	2r15	Microarray	NA	NA	NA	Refer to Figure 2
+Tyms	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.5	http://www.ncbi.nlm.nih.gov/nuccore/M13352
+Tk1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	5.3	http://www.ncbi.nlm.nih.gov/nuccore/M19438
+Dut	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	15.2	http://www.ncbi.nlm.nih.gov/nucest/AA023099
+Rrm1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.5	http://www.ncbi.nlm.nih.gov/nuccore/K02927
+Rrm2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	4.3	http://www.ncbi.nlm.nih.gov/nuccore/M14223
+Rrm2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	19.6	http://www.ncbi.nlm.nih.gov/nuccore/X15666
+Cdk2alpha	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	1.9	http://www.ncbi.nlm.nih.gov/nuccore/U63337
+Ccne1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	14.4	http://www.ncbi.nlm.nih.gov/nuccore/X75888
+P1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/X62154
+Mcm7	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	1.9	http://www.ncbi.nlm.nih.gov/nuccore/D26091
+Dbf4	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2	http://www.ncbi.nlm.nih.gov/nucest/AA690055
+Dbf4	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	5.3	http://www.ncbi.nlm.nih.gov/nucest/AA692716
+Pcna	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/X53068
+Prim1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.1	http://www.ncbi.nlm.nih.gov/nuccore/D13544
+Top2a	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.1	http://www.ncbi.nlm.nih.gov/nuccore/D12513
+Top2a	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.5	http://www.ncbi.nlm.nih.gov/nuccore/D12513
+Lig1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/U04674
+Fen1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.8	http://www.ncbi.nlm.nih.gov/nuccore/L26320
+Rad51	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.6	http://www.ncbi.nlm.nih.gov/nuccore/D13473
+Cdc2a	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	1.9	http://www.ncbi.nlm.nih.gov/nuccore/U58633
+Cdc20	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.3	http://www.ncbi.nlm.nih.gov/nucest/AA008043
+Ccna2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/Z26580
+Ccnb1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.9	http://www.ncbi.nlm.nih.gov/nuccore/X58708
+Ccnb2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	1.9	http://www.ncbi.nlm.nih.gov/nuccore/X66032
+Mki67	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/X82786
+Kifc1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	5.3	http://www.ncbi.nlm.nih.gov/nuccore/D49544
+Fin16	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.9	http://www.ncbi.nlm.nih.gov/nuccore/U42385
+Stmn1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.1	http://www.ncbi.nlm.nih.gov/nucest/Z31235
+Bub1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/AF002823
+Kpna2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3	http://www.ncbi.nlm.nih.gov/nuccore/D55720
+Hmgb2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	6.2	http://www.ncbi.nlm.nih.gov/nuccore/Z46757
+Ezh2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nuccore/U52951
+Aurkb	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	6.1	http://www.ncbi.nlm.nih.gov/nuccore/D21099
+Pttg1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nucest/AA711028
+Slbp	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nuccore/U75680
+Rb1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/M26391
+Cdkn2c	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/U19596
+Nsg1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.5	http://www.ncbi.nlm.nih.gov/nucest/AA059527
+G7e	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.5	http://www.ncbi.nlm.nih.gov/nuccore/U69488
+Anxa8	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	6.8	http://www.ncbi.nlm.nih.gov/nuccore/AJ002390
+Cdca7	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	5.3	http://www.ncbi.nlm.nih.gov/nucest/AA002925
+Asf1b	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.7	http://www.ncbi.nlm.nih.gov/nucest/AA051276
+Stmn1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	1.9	http://www.ncbi.nlm.nih.gov/nucest/AA117100
+Rpa1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nucest/AA154451
+Sgol1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nucest/AA184798
+E2f8	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.2	http://www.ncbi.nlm.nih.gov/nucest/AA189300
+Ube2t	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3	http://www.ncbi.nlm.nih.gov/nucest/AA189313
+Hmgb3	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nucest/AA200970
+Nusap1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.4	http://www.ncbi.nlm.nih.gov/nucest/AA266783
+Lbr	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.9	http://www.ncbi.nlm.nih.gov/nucest/AA285553
+Dna2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	7.6	http://www.ncbi.nlm.nih.gov/nucest/AA407737
+Ccnb1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.6	http://www.ncbi.nlm.nih.gov/nucest/AA426917
+Dctpp1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	11.5	http://www.ncbi.nlm.nih.gov/nucest/AA516966
+Trip13	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.1	http://www.ncbi.nlm.nih.gov/nucest/AA561108
+Ncaph	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.6	http://www.ncbi.nlm.nih.gov/nucest/AA590750
+Ncaph	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.4	http://www.ncbi.nlm.nih.gov/nucest/AA590750
+Prc1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	8.5	http://www.ncbi.nlm.nih.gov/nucest/AA592163
+Hmgb3	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.3	http://www.ncbi.nlm.nih.gov/nucest/AA673176
+Anln	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2	http://www.ncbi.nlm.nih.gov/nucest/AA673431
+Cdt1	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	1.8	http://www.ncbi.nlm.nih.gov/nucest/C76791
+Kif2c	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.8	http://www.ncbi.nlm.nih.gov/nucest/C77497
+Rrm2	E2f1	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.2	http://www.ncbi.nlm.nih.gov/nucest/C81593
+Tyms	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.3	http://www.ncbi.nlm.nih.gov/nuccore/M13352
+Tk1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	5.9	http://www.ncbi.nlm.nih.gov/nuccore/M19438
+Dut	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	13.7	http://www.ncbi.nlm.nih.gov/nucest/AA023099
+Rrm1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.9	http://www.ncbi.nlm.nih.gov/nuccore/K02927
+Rrm2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	4.4	http://www.ncbi.nlm.nih.gov/nuccore/M14223
+Rrm2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	20.7	http://www.ncbi.nlm.nih.gov/nuccore/X15666
+Cdk2alpha	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.3	http://www.ncbi.nlm.nih.gov/nuccore/U63337
+Ccne1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	22.3	http://www.ncbi.nlm.nih.gov/nuccore/X75888
+P1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.1	http://www.ncbi.nlm.nih.gov/nuccore/X62154
+Mcm7	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.4	http://www.ncbi.nlm.nih.gov/nuccore/D26091
+Dbf4	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2	http://www.ncbi.nlm.nih.gov/nucest/AA690055
+Dbf4	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	4.8	http://www.ncbi.nlm.nih.gov/nucest/AA692716
+Pcna	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.6	http://www.ncbi.nlm.nih.gov/nuccore/X53068
+Prim1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.3	http://www.ncbi.nlm.nih.gov/nuccore/D13544
+Top2a	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.9	http://www.ncbi.nlm.nih.gov/nuccore/D12513
+Top2a	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	6.5	http://www.ncbi.nlm.nih.gov/nuccore/D12513
+Lig1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.1	http://www.ncbi.nlm.nih.gov/nuccore/U04674
+Fen1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3	http://www.ncbi.nlm.nih.gov/nuccore/L26320
+Rad51	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.6	http://www.ncbi.nlm.nih.gov/nuccore/D13473
+Cdc2a	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nuccore/U58633
+Cdc20	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	4.5	http://www.ncbi.nlm.nih.gov/nucest/AA008043
+Ccna2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nuccore/Z26580
+Ccnb1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	4.5	http://www.ncbi.nlm.nih.gov/nuccore/X58708
+Ccnb2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.5	http://www.ncbi.nlm.nih.gov/nuccore/X66032
+Mki67	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nuccore/X82786
+Kifc1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	10.7	http://www.ncbi.nlm.nih.gov/nuccore/D49544
+Fin16	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	4.5	http://www.ncbi.nlm.nih.gov/nuccore/U42385
+Stmn1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.9	http://www.ncbi.nlm.nih.gov/nucest/Z31235
+Bub1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.3	http://www.ncbi.nlm.nih.gov/nuccore/AF002823
+Kpna2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.7	http://www.ncbi.nlm.nih.gov/nuccore/D55720
+Hmgb2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	7.7	http://www.ncbi.nlm.nih.gov/nuccore/Z46757
+Ezh2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.1	http://www.ncbi.nlm.nih.gov/nuccore/U52951
+Aurkb	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	8.1	http://www.ncbi.nlm.nih.gov/nuccore/D21099
+Pttg1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.6	http://www.ncbi.nlm.nih.gov/nucest/AA711028
+Slbp	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.4	http://www.ncbi.nlm.nih.gov/nuccore/U75680
+Rb1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nuccore/M26391
+Cdkn2c	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2	http://www.ncbi.nlm.nih.gov/nuccore/U19596
+Nsg1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.9	http://www.ncbi.nlm.nih.gov/nucest/AA059527
+G7e	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.8	http://www.ncbi.nlm.nih.gov/nuccore/U69488
+Anxa8	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	9.9	http://www.ncbi.nlm.nih.gov/nuccore/AJ002390
+Cdca7	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	7.2	http://www.ncbi.nlm.nih.gov/nucest/AA002925
+Asf1b	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	6	http://www.ncbi.nlm.nih.gov/nucest/AA051276
+Stmn1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.2	http://www.ncbi.nlm.nih.gov/nucest/AA117100
+Rpa1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.5	http://www.ncbi.nlm.nih.gov/nucest/AA154451
+Sgol1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.9	http://www.ncbi.nlm.nih.gov/nucest/AA184798
+E2f8	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.4	http://www.ncbi.nlm.nih.gov/nucest/AA189300
+Ube2t	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.8	http://www.ncbi.nlm.nih.gov/nucest/AA189313
+Hmgb3	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.4	http://www.ncbi.nlm.nih.gov/nucest/AA200970
+Nusap1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.1	http://www.ncbi.nlm.nih.gov/nucest/AA266783
+Lbr	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	6.3	http://www.ncbi.nlm.nih.gov/nucest/AA285553
+Dna2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	4.6	http://www.ncbi.nlm.nih.gov/nucest/AA407737
+Ccnb1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nucest/AA426917
+Dctpp1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	11.2	http://www.ncbi.nlm.nih.gov/nucest/AA516966
+Trip13	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nucest/AA561108
+Ncaph	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.1	http://www.ncbi.nlm.nih.gov/nucest/AA590750
+Ncaph	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.6	http://www.ncbi.nlm.nih.gov/nucest/AA590750
+Prc1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	9.3	http://www.ncbi.nlm.nih.gov/nucest/AA592163
+Hmgb3	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.4	http://www.ncbi.nlm.nih.gov/nucest/AA673176
+Anln	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.6	http://www.ncbi.nlm.nih.gov/nucest/AA673431
+Cdt1	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	2.7	http://www.ncbi.nlm.nih.gov/nucest/C76791
+Kif2c	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.3	http://www.ncbi.nlm.nih.gov/nucest/C77497
+Rrm2	E2f2	11416145	Mouse	Embryo fibroblast	2r15	Northern Blot	NA	NA	3.3	http://www.ncbi.nlm.nih.gov/nucest/C81593
+ASK	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+Cdc6	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+Cdc45l	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+Mcm4	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+PCNA	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+RFC	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+Bapx1	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+CSX	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Medium	Specific cell line: EEE25 (E2F1-ER)
+Cdx2	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Medium	Specific cell line: EEE25 (E2F1-ER)
+Hoxa5	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Medium	Specific cell line: EEE25 (E2F1-ER)
+Hoxa9	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+Msx-2	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+Six-1	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: EEE25 (E2F1-ER)
+Relb	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Medium	Specific cell line: EEE25 (E2F1-ER)
+Traf2	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Medium	Specific cell line: EEE25 (E2F1-ER)
+Traf6	E2f1	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Medium	Specific cell line: EEE25 (E2F1-ER)
+Bapx1	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: , EdbE14 (E2FdbER)
+Csx	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: , EdbE14 (E2FdbER)
+Cdx2	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Low	Specific cell line: , EdbE14 (E2FdbER)
+Hoxa5	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Low	Specific cell line: , EdbE14 (E2FdbER)
+Hoxa9	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	Low	Specific cell line: , EdbE14 (E2FdbER)
+Msx-2	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: , EdbE14 (E2FdbER)
+Six-1	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: , EdbE14 (E2FdbER)
+Relb	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: , EdbE14 (E2FdbER)
+Traf2	E2f	14562049	Human	Bone	EH1	Northern Blot	NA	WT (EH1)	High	Specific cell line: , EdbE14 (E2FdbER)
+NA	E2f	14562049	Human	Bone	EH1	Microarray	7	NA	NA	See Supplementary Tables
+Cdc25a	E2f	14562049	Human	Bone	EH1	Microarray	3	NA	NA	See Table 2
+Bard1	E2f1	21283628	Human	Bone	U2OS 	Western Blot	NA			
+Bid		15240700								
+bid		14562049								
+Blm	E2f4	18215118								
+Bnip3	E2f1	17576813	Mouse		U2OS cells pGL2-Bnip3-E2F Mutant	Luciferase Assay with Mutagenesis		pGL2 Control	High/4.3	
+Apaf1	E2f	17576813	Mouse	E13.5 (embryo)		Real-Time PCR			Low/1.1	
+CycleE2	E2f	17576813	Mouse	E13.5 (embryo)		Real-Time PCR			Low/1	
+Bnip3	E2f	17576813	Mouse		U2OS 	EMSA			Very Low	
+Bnip3	E2f1	18096822	Rat	Ventricular monocytes		Luciferase Assay with Mutagenesis		CNTL	Medium/-1.8	
+Bnip3	E2f1	18096822	Rat	Ventricular monocytes		Real-Time PCR		CNTL	High/6	
+Bnip3	E2f1	18096822	Rat	Ventricular monocytes		ChIP	2	No Ab/CNTL	High/3 only in hypoxia	
+Bnip3	E2f1	19088195	Rat	Post-natal cardiac monocytes from heart		ChIP		No Ab/CNTL	Medium/1.5	
+Bnip3	E2f1	19088195	Rat	Post-natal cardiac monocytes from heart		ChIP		No Ab/CNTL	High/2	
+Bok	E2f	16772296	129SV Mouse	Fibroblasts	NIH 3T3	Northern Blot		GAPDH	Low/1	
+Bok	E2f	16772296	129SV Mouse	Fibroblasts	NIH 3T3	Luciferase Assay with Mutagenesis		0.5% calf serum starved	High/4.7	
+Bok	E2f1	16772296	129SV Mouse	Fibroblasts	NIH 3T3	ChIP		IgG Ab/ Input/No DNA	Low/.3	
+Bok	E2f3	16772296	129SV Mouse	Fibroblasts	NIH 3T3	ChIP		IgG Ab/ Input/No DNA	Low/.2	
+Brca1	E2f1	20068145	Human	Lymphocyte	Jurkat	ChIP-qPCR		alpha-Gal4	High	
+art27	E2f6	12909625	Human	Kidney	293	ChIP		IgG	Medium	
+art27	E2f	12909625	Human	Kidney	293 and HEK 	Luciferase Assay with Mutagenesis	3	Renilla luciferase vector	High/5	
+HP1alpha	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+CtIP	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+Brca1	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+Chek2	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+Znf83	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+RbAp48	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+Trpf	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+HTF6	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+TSGA	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+NEK11	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+PIR51	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+Mcm3	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+DDX11	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+TA WDRP	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+EFNA5	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+DHPS	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+SFRS1	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+RYR2	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+METL	E2f6	12909625	Human	Kidney	293 and HEK	ChIP-chip				
+Coaster	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium 	
+Coaster	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+Coaster	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+OIP-2	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+OIP-02	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+OIP-02	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+TA-WDRP	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+HP1-alpha	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium 	
+HP1-alpha	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+HP1-alpha	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+ZNF83	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+ZNF83	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+Brca1	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+Brca1	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+Brca1	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+DDX11	E2f1	12909625	Human	Kidney	293 and HEK	ChIP	2	IgG	Medium	
+DDX11	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+DDX11	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+Spag7	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+Spag7	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+Spag7	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+Mcm3	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+Mcm3	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+Mcm3	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+CtIP	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+CtIP	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+CtIP	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+PIR51	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+PIR51	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+PIR51	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+Htf6	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+Chek2	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	High	
+Chek2	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low 	
+Chek2	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+Hp1alpha	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium	
+Hp1alpha	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+Hp1alpha	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+Rbap48	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+Rbap48	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+Rbap48	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+TA-WDRP	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+CtIP	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Medium 	
+CtIP	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Low	
+CtIP	E2f6	12909625	Human	Kidney	293 and HEK	ChIP	2	IgG	Medium 	
+Htf6	E2f1	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Very Low	
+Htf6	E2f4	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Very Low	
+Htf6	E2f6	12909625	Human	Kidney	293 and HEK	ChIP		IgG	Very Low	
+Brca2	E2f	10557089	Human	Breast	MCF-7 	EMSA		pGL3 basic and promdelta2	Poor/-1.35	
+Brd2	E2f1	17111193								
+Brip1	E2f1	18345034	Human	Breast	MC3T3-E1 	Luciferase Assay with Mutagenesis	3	WT	High/-3.8	
+Brip1	E2f2	18345034	Human	Breast	MC3T3-E1	Luciferase Assay with Mutagenesis	3	WT	High/-2.5	
+Brip1	E2f3	18345034	Human	Breast	MC3T3-E1	Luciferase Assay with Mutagenesis	3	WT	Medium/2	
+Brip1	E2f4	18345034	Human	Breast	MC3T3-E1	Luciferase Assay with Mutagenesis	3	WT	No change	
+Brip1	E2f5	18345034	Human	Breast	MC3T3-E1	Luciferase Assay with Mutagenesis	3	WT	Poor	
+Brip1	E2f1	18345034	Human	Breast	MCF-7 	Luciferase Assay with Mutagenesis	3	WT	Poor/-1.3	
+Brip1	E2f2	18345034	Human	Breast	MCF-7 	Luciferase Assay with Mutagenesis	3	WT	Medium/-1.83	
+Brip1	E2f3	18345034	Human	Breast	MCF-7 	Luciferase Assay with Mutagenesis	3	WT	Poor/-1.6	
+Brip1	E2f4	18345034	Human	Breast	MCF-7 	Luciferase Assay with Mutagenesis	3	WT	No change	
+Brip1	E2f5	18345034	Human	Breast	MCF-7 	Luciferase Assay with Mutagenesis	3	WT	Poor/-1.2	
+Brip1	E2f	18345034	Human	Breast	MC3T3-E1	ChIP	3	IgG and Control Cdc6 promoter	Medium	
+Bub3	E2f4	17043659	Human	Prostate	LNCaP C4-2 	Microarray	See Table 1			
+Bub3	E2f4	17043659	Human	Prostate	LNCaP C4-2 	RT-PCR after irradiation	See Figure 7			
+Bub3	E2f4	17043659	Human	Prostate		ChIP		B-actin		
+Casp3	E2f1	21869593	Can't find article							
+Casp7										
+YY1	E2f1	16918502	Human	Breast	MCF-7 	CAT Assay with Mutagenesis	2	YY1 full promoter+CAT+E2F	High/40	
+YY1	E2f1	16918502	Human	Breast	MCF-7 	CAT Assay with Mutagenesis	2	YY1 full promoter+CAT+E2F without prohibitin	High/-2	Prohibitin regulates YY1 promoter by repressing E2f/ Mutants lacking Rb binding site could not repress e2f-mediated -YY1 promoter activity 
+YY1	E2f1	16918502	Human	Breast	MCF-7 	EMSA		No YY1 cold probe	High	
+YY1	E2f1	16918502	Human	Breast	MCF-7 	Western Blot 		Actin	High	siE2f1 induced knockdown
+YY1	E2f1	16918502	Human	Breast	MCF-7 	ChIP	3	Tetracycline, Phb, IrAb, c-fos	High	
+YY1	E2f2	16918502	Human	Breast	MCF-7 	ChIP	1	Tetracycline, Phb, IrAb, c-fos	High	
+YY1	E2f3	16918502	Human	Breast	MCF-7 	ChIP	1	Tetracycline, Phb, IrAb, c-fos	High	
+YY1	E2f4	16918502	Human	Breast	MCF-7 	ChIP	1	Tetracycline, Phb, IrAb, c-fos	Medium	
+YY1	E2f5	16918502	Human	Breast	MCF-7 	ChIP	1	Tetracycline, Phb, IrAb, c-fos	Low	
+Cav1	E2f3a	16909110	Human	Bladder	5637	Microarray	NA	NA	NA	See Table 1
+Cbx5		21374739	Human	Breast	MDA-MB-231 	Real-Time PCR	NA	GAPDH		See Figure 6
+Ccna1	E2f1	10022926	Human	Bone	MG63 cells	In vitro binding assay		GST	Low	
+Ccna1	E2f1	10022926	Human		NB4 cells	Western Blot		preimmune sera or anti-A1C16 antibody	Low	
+Ccna1	E2f1	10022926	Human		NB4 cells	Western Blot			Medium 	
+CDK2	E2f1	10022926	Human		NB4 cells	Western Blot			High	
+Ccna2	E2f4	16153703								
+Ccnb1	E2f4	22508987		Stroma	PShTert and PShTertAR	ChIP		Beta-actin	Medium	Only in the presence of androgen
+Ccnb1	E2f1	22508987		Stroma	PShTert and PShTertAR	ChIP		Beta-actin	Medium	Only in the presence of androgen in the ARE region
+Ccnb1	E2f4	22508987		Stroma	PShTert and PShTertAR	ChIP		Beta-actin	Low	Only in the presence of androgen
+Ccnb1	E2f1	22508987		Stroma	PShTert and PShTertAR	ChIP		Beta-actin	Medium	
+Ccnb1	E2f4	22508987		Stroma	PShTert and PShTertAR	ChIP		IgG	Low	E2F4 was exclusively recruited to this region in the presence of androgen to E2f sites.
+Ccnb1	E2f1	22508987		Stroma	PShTert and PShTertAR	Western Blot 		Control siRNA, Beta-actin	High	siE2f1 induced knockdown
