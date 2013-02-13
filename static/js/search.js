@@ -14,10 +14,10 @@
 var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
                      ["gene", "Gene"],
                      ["pmid", "PMID"],
-                     ["species", "Experimental Species"],
-                     ["expt_tissues", "Experimental Tissues"],
+                     ["species", "Experiment Species"],
+                     ["expt_tissues", "Experiment Tissues"],
                      ["cell_line", "Cell Line"],
-                     ["expt_type", "Experimental Type"]];
+                     ["expt_type", "Experiment Type"]];
 
 
 var INPUT_NAME = [["id_transcription_family", "Transcription Family"],
@@ -101,6 +101,7 @@ function searchPreview() {
 function ajaxSearch () {
     $.post('/', $('#tft-search-form').serialize(), function (data) {
         console.log("Called ajaxSearch");
+        console.log(data)
         //clear the search result for ready for next search result
         $('#search-results').children().remove()
         //create a table here

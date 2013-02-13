@@ -36,7 +36,8 @@ def search(request):
         if value:
             these_results = Experiment.objects.filter(**{key: value})
             results = _intersect_unless_empty(results, these_results)
-    return HttpResponse(str(list(results)))
+    json_results = _serialize_results(results)
+    return HttpResponse(json_results)
 
 
 def _intersect_unless_empty(results, these_results):
@@ -47,3 +48,18 @@ def _intersect_unless_empty(results, these_results):
     if results and these_results:
         return results.intersection(set(these_results))
     return set(these_results)
+
+
+def _serialize_results(results):
+    """Takes the results set and serializes it to JSON, adding transcription
+    factors and experiment types.
+    """
+    full_results = []
+    for expt in list(results):
+        tfs = [v['tf'] for v in expt.transcription_factor.values()]
+        ets = [v['type_name'] for v in expt.expt_type.values()]
+        expt = expt.serialize()
+        expt['transcription_factor'] = tfs
+        expt['expt_type'] = ets
+        full_results.append(expt)
+    return json.dumps(full_results)

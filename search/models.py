@@ -1,20 +1,9 @@
 import json
-import copy
 
 from django.db import models
 
 
-class BaseModel():
-    """Base model that other models inherit methods from."""
-
-    def __repr__(self):
-        d = copy.deepcopy(self.__dict__)
-        if '_state' in d:
-            d.pop('_state')
-        return json.dumps(d)
-
-
-class ExperimentType(BaseModel, models.Model):
+class ExperimentType(models.Model):
     """Stores the experiment types as a many to many relation because an
     experiment can have multiple types.
     """
@@ -65,7 +54,7 @@ class ExperimentType(BaseModel, models.Model):
         return "<ExperimentType: %s>" % self.type_name
 
 
-class TranscriptionFactor(BaseModel, models.Model):
+class TranscriptionFactor(models.Model):
     """Stores the transcription factors as a many to many relation because an
     experiment can investigate multiple different factors.
     """
@@ -110,7 +99,7 @@ class TranscriptionFactor(BaseModel, models.Model):
         return "<TranscriptionFactor: %s>" % self.tf
 
 
-class Experiment(BaseModel, models.Model):
+class Experiment(models.Model):
     """Stores data about each known experiment."""
     #TODO(jfriedly): We need to inspect the DB to figure out the options
     # for these
@@ -147,3 +136,12 @@ class Experiment(BaseModel, models.Model):
     replicates = models.CharField(max_length=50, default='', null=True)
     control = models.CharField(max_length=255, default='', null=True)
     quality = models.CharField(max_length=255, default='', null=True)
+
+    def serialize(self):
+        d = self.__dict__.copy()
+        if '_state' in d:
+            d.pop('_state')
+        return d
+
+    def __repr__(self):
+        return json.dumps(self.serialize())
