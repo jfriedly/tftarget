@@ -4,22 +4,63 @@
 
 <div class="container">
   <br>
-  <div class="hero-unit tftarget-welcome-banner">
-    <h1>Transcription Factor Target</h1>
-    <p>A large database compiled by The Ohio State University Molecular Biologists to find potential transcription factor targets. Type in your search criteria below and hit search. </p>
-    <p><a class="btn btn-primary btn-medium">Learn more &raquo;</a></p>
+  <div class="row span12 tft-welcome-banner">
+    <div class="row span12">
+      <div class="span2">
+        <h4>Transcription Factor Target</h4>
+      </div>
+      <div class="span9">
+        <p></p>
+      </div>
+    </div> <!-- row -->
   </div>
 
   <h2>Create your search below</h2>
   <br>
-  <br>
-  <form id="tft-search-form" class="form-horizontal">
-    {% csrf_token %}
-    {{ form }}
-  </form>
-  <a id="tft-search-button" class="btn btn-primary btn-medium">Search!</a>
-
-  <div id="search-results">
+  <div class="row span12 tft-search-container">
+    <p class="offset2">Build your search below </p> 
+    <br>
+    <form id="tft-search-form" class="form-horizontal row">
+      <label>Transcription Factor</label>
+      <div class="control-group">
+        <div id="#tft-transcription-factor-input" class="input">
+          <div class="dropdown">
+            <a data-target="#" class="btn dropdown-toggle span2" role="button" data-toggle="dropdown">
+              Multiple Selection
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <div id="family-container">
+              </div>
+              <a id="#tft-clo" class="tft-close btn">Close</a>
+            </ul>
+          </div> <!-- dropdown -->
+        </div>
+      </div>
+      {% csrf_token %}
+      {{ form }}
+    </form>
+    <a id="tft-search-btn-1" class="btn btn-primary btn-medium">Search!</a>
+  </div>
+<!--
+  <div id="tft-search-preview" class="row span12">
+    <button type="submit" id="#tft-submit-btn-2" class="btn">Search</button>
+    <div id="tft-dialog-form" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">[close]</button>
+        <h3 id="tft-modal-label">Advanced Search</h3>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <a id="tft-search-btn-1" class="btn btn-primary btn-medium">Search!</a>
+      </div>
+    </div>
+  </div>
+-->
+  <div id="search-results" class="row span12">
   </div>
 </div>
 

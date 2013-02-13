@@ -2,3 +2,9 @@
     height:140px;
     background-color:green;
 }
+.tft-search-container {
+    padding:10px;
+    background-color:#f8f8f8;
+    border:red solid 1px;
+    border-top:0px;
+}

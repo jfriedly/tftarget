@@ -6,7 +6,7 @@ from search.models import Experiment
 class SearchForm(forms.Form):
     """Search form to be submitted by a user."""
     transcription_factor = forms.CharField(label="Transcription Factor",
-        widget=forms.TextInput(attrs={'class': 'input input-text'}),
+        widget=forms.HiddenInput(attrs={'class': 'tft-hidden input input-text'}),
         required=False)
     gene = forms.CharField(label="Gene",
         widget=forms.TextInput(attrs={'class': 'input input-text'}),
