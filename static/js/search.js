@@ -15,7 +15,7 @@ var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
                      ["gene", "Gene"],
                      ["pmid", "PMID"],
                      ["species", "Experimental Species"],
-                     ["experimental_tissues", "Experimental Tissues"],
+                     ["expt_tissues", "Experimental Tissues"],
                      ["cell_line", "Cell Line"],
                      ["expt_type", "Experimental Type"]];
 

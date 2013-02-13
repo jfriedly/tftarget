@@ -31,7 +31,7 @@ CREATE TABLE `search_experiment` (
   `replicates` varchar(50),
   `control` varchar(255),
   `quality` varchar(255),
-  `experimental_tissues` varchar(255),
+  `expt_tissues` varchar(255),
   `cell_line` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=584 DEFAULT CHARSET=utf8;

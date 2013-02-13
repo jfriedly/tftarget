@@ -141,7 +141,7 @@ class Experiment(BaseModel, models.Model):
     transcription_family = models.CharField(max_length=50, choices=TF_FAMILIES)
     transcription_factor = models.ManyToManyField(TranscriptionFactor)
     species = models.CharField(max_length=255, choices=SPECIES)
-    experimental_tissues = models.CharField(max_length=255, null=True)
+    expt_tissues = models.CharField(max_length=255, null=True)
     cell_line = models.CharField(max_length=255)
     expt_type = models.ManyToManyField(ExperimentType)
     replicates = models.CharField(max_length=50, default='', null=True)

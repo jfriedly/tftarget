@@ -32,11 +32,6 @@ def search(request):
                 experiments = experiments.union(set(Experiment.objects.filter(transcription_factor__tf=tf)))
         results = _intersect_unless_empty(results, experiments)
 
-    if form.cleaned_data['tissue_name']:
-        tissue = form.cleaned_data.pop('tissue_name')
-        experiments = Experiment.objects.filter(experimental_tissues=tissue)
-        results = _intersect_unless_empty(results, experiments)
-
     for key, value in form.cleaned_data.iteritems():
         if value:
             these_results = Experiment.objects.filter(**{key: value})
