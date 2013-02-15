@@ -228,6 +228,7 @@ function addEventHandlers() {
         e.preventDefault();
         $(this).tab('show');
     })
+  //  $('#tft-home-tab a[href="#download-database"]').click();
         /* $('.family-member').click(function() {
        // console.log('im a clicked member');
        // console.log( $('.'+$(this).attr('my-parent')).length);
