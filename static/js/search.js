@@ -1,6 +1,6 @@
 /**
    This is a collection of JavaScript functions. 
-   @author - Djenome Team - Tremayne Mushayahama, Joel Friedly, Grant Michalski, Edward Powell
+   @authors - Djenome Team - Tremayne Mushayahama, Joel Friedly, Grant Michalski, Edward Powell
    @primary author - Tremayne Mushayahama
    @date 2/7/2013
 */
@@ -22,11 +22,9 @@ var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
 var INPUT_NAME = [["id_transcription_family", "Transcription Family"],
                   ["id_transcription_factor", "Transcription Factor"],
                   ["id_gene", "Gene"],
-                  ["id_species", "Experiment Species"],
-                  ["id_tissue_name", "Experiment Tissues"],
+                  ["id_species", "Experimental Species"],
+                  ["id_tissue_name", "Experimental Tissues"],
                   ["id_expt_type", "Experiment Type"]];
-
-
 /**
    Prints the headings of the table from a json object. The result is appended to the table
    @param thead - the thead element of the table
@@ -60,29 +58,36 @@ function printTBody (tbody, object) {
     row += '</tr>'; //end the row, ready to append
     tbody.append(row);
 }
-
+function addToggleEvents() {
+    $(".tft-family-toggle").each(function () {
+        $(this).click (function() {
+            $($(this).attr('data-target')).collapse("toggle");
+        });
+    });
+}
 function fillFamily(trans) {
-    var $familyContainer = $('#family-container');
-    var $familyAccordion = $('<div></div>').addClass('accordion');
-    $familyAccordion.attr('id', 'family-accordion');
+    var $familyAccordion = $('#family-accordion');
     for (var i =0; i<trans.length; i++) {
-        var $familyGroup = $('<div />').addClass('accordion-group');
-        var $familyHeading = $('<div />').addClass('accordion-heading');
-        var $familyName = $('<a><label class="checkbox"><input id="'+trans[i][0]+'"type="checkbox" class="family-select">'
-                            +trans[i][0]
-                            +'</label></a>').addClass('accordion-toggle');
-        // var $familyName = $('<a>'+trans[i][0]+'</a>');
-        var $collapse = $('<div />').addClass('accordion-body collapse-in ');
-        var $inner = $('<div />').addClass('accordion-body collapse-in ');
-        
-        // $family.attr('id', trans[i][0]);
-        $familyName.attr('data-toggle', 'collapse');
-        $familyName.attr('data-parent', '#family-accordion');
-        $familyName.attr('href', '#collapse-'+trans[i][0]);
+        var $familyGroup = $('<div></div>').addClass('accordion-group');
+        var $familyHeading = $('<div></div>').addClass('accordion-heading tft-family-heading');
+        var $familyToggle = $('<a></a>').addClass ('btn accordion-toggle tft-family-toggle ');
+       // var $familyName = $('<label></label>');//.addClass('checkbox');
+        var $familyNameCheckBox = $('<input id="'+trans[i][0]+'"type="checkbox" />').addClass('tft-family-select');
+        var $collapse = $('<div></div>').addClass('accordion-body collapse');
+        var $inner = $('<div></div>').addClass('accordion-inner');
+        $familyToggle.attr('data-toggle', 'collapse');
+        $familyToggle.attr('data-parent', '#family-accordion');
+        $familyToggle.attr('data-target', '#collapse'+trans[i][0]);
+        $familyToggle.text(trans[i][0]);
+
         $collapse.attr('id', 'collapse'+trans[i][0]);
-        
+        $familyNameCheckBox.attr('tft-parent-id', '#collapse'+trans[i][0]);
+
         //appending
-        $familyHeading.append($familyName);
+        $familyToggle.prepend("&nbsp;&nbsp;&nbsp;");
+        $familyToggle.prepend($familyNameCheckBox);
+        $familyHeading.append($familyToggle);
+        
         $collapse.append($inner);
         $familyGroup.append($familyHeading);
         $familyGroup.append($collapse);
@@ -96,17 +101,14 @@ function fillFamily(trans) {
         }
         $familyAccordion.append($familyGroup);
     }
-    $familyContainer.append($familyAccordion);
-    $('.dropdown-menu input').click(function (e) {
+    $('.tft-family-dropdown-menu').click(function (e) {
         e.stopPropagation();
-        //$(".collapse").collapse();
-        //$('.dropdown-menu').toggle();
-    });
+    }); 
+    addToggleEvents(trans);
 }
 
 //initSearchForm require that values are in pairs label and a bunch of ctrols.
 function initSearchForm () {
-    // $('.tft-hidden').css('display', 'none');
     var $searchForm = $('#tft-search-form').children(':not(:hidden)');
     /*add the class control-label to all labels in the 
       input form
@@ -197,7 +199,6 @@ function populateTranscriptionInput() {
     } else {
         return ''; // so that it does not return [
     }
-   // console.log(factors);
 }
 //I will comment later
 function addEventHandlers() {
@@ -205,16 +206,15 @@ function addEventHandlers() {
         $('#tft-dialog-form').modal('hide');
         searchPreview();
     });
-    $('.tft-close').click(function() {
+    $('#tft-search-btn-1').click(function() {
         $('#id_transcription_factor').val(populateTranscriptionInput());
         alert($('#id_transcription_factor').val());
-        $('#tft-search-btn-1').click();
+        ajaxSearch();
     });
-    $('.family-select').click(function() {
-        console.log('im clicked family');
-        //console.log( $(this).is(':checked'));
+   
+    $('.tft-family-select').click(function() {
+        $($(this).attr('tft-parent-id')).collapse('show');
         if($(this).is(':checked')==true){
-            console.log( $(this).attr('id'));
             $('.'+$(this).attr('id')).each(function(){ 
                 this.checked = true;
             });
@@ -224,21 +224,21 @@ function addEventHandlers() {
             });
         }
     });
-    $('.family-member').click(function() {
-        console.log('im a clicked member');
-        // console.log( $(this).attr('my-parent'));
-        console.log( $('.'+$(this).attr('my-parent')).length);
-        //var checkedBoxes = 0;
+    $('#tft-home-tabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+        /* $('.family-member').click(function() {
+       // console.log('im a clicked member');
+       // console.log( $('.'+$(this).attr('my-parent')).length);
          $('.'+$(this).attr('my-parent')).each(function(){ 
              if($(this).is(':checked')==false) {
-                 //$('#MYC').attr("checked", "true");
                  $('#'+$(this).attr('my-parent')).attr("checked", "false");
-                 console.log($('#'+$(this).attr('my-parent')).is(':checked'));
              }
          });
-    });
-    //  $('.dropdown-toggle').dropdown();
-    //$(".collapse").collapse();*/
+    });*/
+    $('.dropdown-toggle').dropdown();
+  //  $(".collapse").collapse("toggle");
 }
 $(function() {
     

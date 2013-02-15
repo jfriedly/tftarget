@@ -1,10 +1,26 @@
-.hero-unit {
-    height:140px;
-    background-color:green;
+.tft-welcome-banner {
+    background-color: lightgrey;
+    height: 100px;
 }
 .tft-search-container {
     padding:10px;
     background-color:#f8f8f8;
     border:red solid 1px;
     border-top:0px;
+}
+.tft-dropdown-container {
+    height:300px;
+    overflow:auto;
+}
+
+.tft-family-heading {
+}
+
+.tft-family-toggle {
+   text-align:left;
+   height:10px;
+}
+.tft-family-select {
+    float:left;
+    margin-left:5px;
 }

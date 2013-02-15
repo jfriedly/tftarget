@@ -34,7 +34,6 @@ def search(request):
     json_results = _serialize_results(results)
     return HttpResponse(json_results)
 
-
 def _intersect_unless_empty(results, these_results):
     """Takes the final results set and a set of results matching one parameter
     and returns the intersection of them if the final results set is non-empty,
