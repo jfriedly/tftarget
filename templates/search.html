@@ -3,15 +3,39 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
 <link href="{{ STATIC_URL }}css/search.css" type="text/css" rel="stylesheet"/>
 <div class="tab-pane " id="direct-targets">
+  <div class="offset1 row">
+    <div class="span5">
+      <h3>Direct Targets</h3>
+    </div>
+    <div class="span9">
+      <p>We don't beat around the bush, find your targets directly. Filter the results below.</p>
+    </div>
+  </div>
   <div class="row offset1 tft-search-container">
   </div>
 </div>
 <div class="tab-pane " id="enrichment-analysis">
+  <div class="offset1 row">
+    <div class="span5">
+      <h3>Enrichment Analysis</h3>
+    </div>
+    <div class="span9">
+      <p>It's more than just a gene.</p>
+    </div>
+  </div>
   <div class="row offset1 tft-search-container">
     <textarea rows="3"></textarea>
   </div>
 </div>
 <div class="tab-pane active" id="download-database">
+  <div class="offset1 row">
+    <div class="span5">
+      <h3>Database Download</h3>
+    </div>
+    <div class="span9">
+      <p>Download the Transcription Factor Database. Filter the results below.</p>
+    </div>
+  </div>
   <div class="row offset1 tft-search-container">
     <p>Build your search below </p> 
     <br>
@@ -35,7 +59,7 @@
       {% csrf_token %}
       {{ form }}
     </form>
-    <a id="tft-search-btn-1" class="btn btn-primary btn-medium">Search!</a>
+    <a id="tft-search-btn-1" class="offset1 btn btn-info btn-medium">Search!</a>
   </div>
   <!--
       <div id="tft-search-preview" class="row span12">
@@ -56,7 +80,15 @@
         </div>
       </div>
       -->
-  <div id="search-results" class="row span12">
+  <div class="row ">
+    <br>
+    <div class="row ">
+      <a id="tft-download-db" class="span1 offset1 ">Download!</a>
+      <div class="span2" id="tft-results-number">
+      </div>
+    </div>
+    <div id="search-results" class="row offset1">
+    </div>
   </div>
 </div>
 

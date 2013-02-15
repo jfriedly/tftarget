@@ -71,10 +71,10 @@ function fillFamily(trans) {
         var $familyGroup = $('<div></div>').addClass('accordion-group');
         var $familyHeading = $('<div></div>').addClass('accordion-heading tft-family-heading');
         var $familyToggle = $('<a></a>').addClass ('btn accordion-toggle tft-family-toggle ');
-       // var $familyName = $('<label></label>');//.addClass('checkbox');
         var $familyNameCheckBox = $('<input id="'+trans[i][0]+'"type="checkbox" />').addClass('tft-family-select');
         var $collapse = $('<div></div>').addClass('accordion-body collapse');
         var $inner = $('<div></div>').addClass('accordion-inner');
+
         $familyToggle.attr('data-toggle', 'collapse');
         $familyToggle.attr('data-parent', '#family-accordion');
         $familyToggle.attr('data-target', '#collapse'+trans[i][0]);
@@ -101,29 +101,26 @@ function fillFamily(trans) {
         }
         $familyAccordion.append($familyGroup);
     }
+    /* This is to stop the drop down to hide when you click it
+     */
     $('.tft-family-dropdown-menu').click(function (e) {
         e.stopPropagation();
     }); 
-    addToggleEvents(trans);
+    addToggleEvents(); 
 }
 
 //initSearchForm require that values are in pairs label and a bunch of ctrols.
 function initSearchForm () {
     var $searchForm = $('#tft-search-form').children(':not(:hidden)');
-    /*add the class control-label to all labels in the 
-      input form
-    */
     
     $('#tft-search-form > label').addClass('control-label ');
     //alert($searchForm.length);
     //$searchForm.prepend($('#tft-transcription-factor-input'));
     //$('.tft-hidden').replaceWith($('#tft-transcription-factor-input'));
     for(var i=0, j=$searchForm.length; i<j; i+=2) {
-        //alert($searchForm[i]);
         $searchForm.slice(i, i+2).wrapAll('<div class="control-group span5"/>')
     }
     $(':input:not(:hidden)').wrap('<div class="controls " />');//wraps every input which is not hidden
-    console.log('Beuatifying your search Form!');
 }
 
 
@@ -136,7 +133,6 @@ function searchPreview() {
     $dl.addClass('dl-horizontal');
     for (var i=0; i < INPUT_NAME.length; i++) {
         var inputVal = $('#'+INPUT_NAME[i][0]).val();
-        // console.log(inputVal);
         if($.trim(inputVal)!='') {
             $dl.append('<dt>'+INPUT_NAME[i][1]+': </dt>');
             $dl.append('<dd>'+inputVal+'</dd>');
@@ -148,7 +144,6 @@ function searchPreview() {
 
 function ajaxSearch () {
     $.post('/', $('#tft-search-form').serialize(), function (data) {
-        
         //clear the search result for ready for next search result
         $('#search-results').children().remove()
         //create a table here
@@ -156,7 +151,9 @@ function ajaxSearch () {
         var thead = $('<thead></thead>');
         var tbody = $('<tbody></tbody>');
         //Make sure we print the heading when the results returns values
+        $('#tft-results-number').text(data.length + " results");
         if (data.length > 0){
+            $('#tft-download-db').show();
             printTHead(thead);
             for (var i = 0; i < data.length; i++) {
                 printTBody(tbody, data[i]);
@@ -172,8 +169,9 @@ function ajaxSearch () {
 $(document).ready(function () {
     console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
     $.ajaxSetup({traditional: true});
+    initSearchForm ();
     $('#tft-search-btn-1').click(ajaxSearch);
-    //an ecample of the transcription family
+    //an example of the transcription family
     var trans = [['E2F', 'E2F1', 'E2F2', 'E2F3', 'E2F3A', 'E2F4', 'E2F5', 'E2F6', 'E2F7'], 
                  ['MYC','c-Myc','n-Myc']];
     
@@ -186,9 +184,11 @@ $(document).ready(function () {
         }
     });
     $('.input-select').change(ajaxSearch);
-    initSearchForm ();
     addEventHandlers();
 });
+/**This is a messed up function although it works
+It is a temporary way to write json 
+*/
 function populateTranscriptionInput() {
     var factors = '[';
     $('.family-member:checked').each(function() {
@@ -200,7 +200,11 @@ function populateTranscriptionInput() {
         return ''; // so that it does not return [
     }
 }
-//I will comment later
+/*
+All the event handlers that need to be loaded at ready are in this funtions.
+
+/I will comment later
+*/
 function addEventHandlers() {
     $('#tft-search-btn-2').click(function (){
         $('#tft-dialog-form').modal('hide');
@@ -208,7 +212,7 @@ function addEventHandlers() {
     });
     $('#tft-search-btn-1').click(function() {
         $('#id_transcription_factor').val(populateTranscriptionInput());
-        alert($('#id_transcription_factor').val());
+       // alert($('#id_transcription_factor').val());
         ajaxSearch();
     });
    
@@ -228,6 +232,7 @@ function addEventHandlers() {
         e.preventDefault();
         $(this).tab('show');
     })
+    $('#tft-download-db').hide();
   //  $('#tft-home-tab a[href="#download-database"]').click();
         /* $('.family-member').click(function() {
        // console.log('im a clicked member');
@@ -239,7 +244,6 @@ function addEventHandlers() {
          });
     });*/
     $('.dropdown-toggle').dropdown();
-  //  $(".collapse").collapse("toggle");
 }
 $(function() {
     
