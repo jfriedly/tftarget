@@ -39,27 +39,39 @@ class Command(BaseCommand):
             # Skip the first row (column names)
             r = reader.next()
             for line, row in enumerate(reader, start=1):
-                row = self._validate_row(row, line)
                 # Sometimes the data has an extra column.  Ignore it.
                 if row.has_key(None):
                     row.pop(None)
-                e = Experiment(**row)
-                e.save()
+                self.validate_and_add(row, line)
 
 
-    def _validate_row(self, row, line):
+    def split_row(self, row, name, depth, line):
+        r = DELIMITER.split(row)
+        if len(r) != 1:
+            if (depth != 1 and len(r) != depth):
+                raise DBImportError(
+                    "Error on line %d: Number of row sub-values does not match in"
+                    "each column. %s has %d values, while previous columns had %d"
+                    "values." % (line, name, len(r), depth))
+            depth = len(r)
+        return r, depth
+
+
+    def validate_and_add(self, row, line):
         """
         Perform basic validation of the data in the row.
         """
         # The number of delimited values in the row. Supposedly, for each column
         # this will be n where n == 1 or n is the same for all columns in row
-        row_depth = 1
+        depth = 1
+        row_singles = {}
+        row_multis = []
+        #NOTE only trans. fac, expt, cell line/organ can have multi-value
 
-        # Check for valid gene
         if not len(row['gene']) <= 255:
-            raise DBImportError("Genes must be <= 255 characters. Got: '%s'" %
-                                row['gene'])
-
+            raise DBImportError("Genes must be <= 255 characters. Got: '%s'"
+                                % row['gene'])
+    
         # Make sure pmid can be made an int, but pass on empty strings.
         if row['pmid'] != '':
             try:
@@ -69,19 +81,42 @@ class Command(BaseCommand):
                                     row['pmid'])
         else:
             row['pmid'] = None
+    
+        # Split up the row, and check that the depth is valid
+        expts, depth = self.split_row(row['expt_type'], 'Experiment type', depth, line)
+        # If our list of multis is too short, grow it
+        while len(row_multis) < depth:
+            row_multis.append({})
+        # Then, put each item in the row into the appropriate place
+        for n, expt in enumerate(expts):
+            if len(expts) == 1:
+                row_singles['expt_type'] = expt
+            else:
+                row_multis[n]['expt_type'] = expt
+        
+        cell_lines, depth = self.split_row(row['cell_line'], 'Cell line', depth, line)
+        while len(row_multis) < depth:
+            row_multis.append({})
+        for n, cell_line in enumerate(cell_lines):
+            if len(cell_lines) == 1:
+                row_singles['cell_line'] = cell_line
+            else:
+                row_multis[n]['cell_line'] = cell_line
+        
+        transcription_factors, depth = self.split_row(row['transcription_factor'], 'Transcription factor', depth, line)
+        while len(row_multis) < depth:
+            row_multis.append({})
+        for n, transcription_factor in enumerate(transcription_factors):
+            if len(transcription_factors) == 1:
+                row_singles['transcription_factor'] = transcription_factor
+            else:
+                row_multis[n]['transcription_factor'] = transcription_factor
 
-        # Check Experiment types
-        expt_types = DELIMITER.split(row['expt_type'])
-        if len(expt_types) != 1 and (row_depth != 1 and len(expt_types) != row_depth):
-            raise DBImportError(
-                "Number of row sub-values does not match in each column."
-                "Experiment type has %d values, while previous columns had %d"
-                "values." % (len(expt_types), row_depth))
-        self.check_experiment_types(expt_types)
-        row['expt_type'] = ', '.join(expt_types)
-        
-        
-        return row
+        # Now we can finally add rows
+        for values in row_multis:
+            values.update(row_singles)
+            e = Experiment(**values)
+            e.save()
 
     def check_experiment_types(self, expt_types):
         """
