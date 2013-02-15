@@ -3,10 +3,12 @@ import json
 from django.db import models
 
 
-class ExperimentType(models.Model):
-    """Stores the experiment types as a many to many relation because an
-    experiment can have multiple types.
-    """
+class Experiment(models.Model):
+    """Stores data about each known experiment."""
+    # ---
+    # --- Valid experiment types
+    # ---
+
     EMPTY_STRING = ''
     CHIP = 'ChIP'
     CHIP_QPCR = 'ChIP-qPCR'
@@ -47,17 +49,9 @@ class ExperimentType(models.Model):
                              NUCLEAR_RUN_ON, NUCLEAR_RUN_OFF]
     ALL_EXPTS = BINDING_EXPTS + GENE_EXPRESSION_EXPTS
 
-    type_name = models.CharField(max_length=255, default='', null=True,
-                                 choices=EXPERIMENT_TYPES)
-
-    def __repr__(self):
-        return "<ExperimentType: %s>" % self.type_name
-
-
-class TranscriptionFactor(models.Model):
-    """Stores the transcription factors as a many to many relation because an
-    experiment can investigate multiple different factors.
-    """
+    # ---
+    # --- Valid options for Transcription Factors
+    # ---
     NF_KB1 = 'NF-kB1'
     NF_KB2 = 'NF-kB2'
     NFKB_TFS = [NF_KB1, NF_KB2]
@@ -92,15 +86,10 @@ class TranscriptionFactor(models.Model):
     FOX_TFS = [FOXA, FOXM, FOXO]
 
     ALL_TFS = NFKB_TFS + STAT_TFS + MYC_TFS + E2F_TFS + FOX_TFS
-
-    tf = models.CharField(max_length=255, null=True)
-
-    def __repr__(self):
-        return "<TranscriptionFactor: %s>" % self.tf
-
-
-class Experiment(models.Model):
-    """Stores data about each known experiment."""
+    
+    # --
+    # --- Valid options for TF Families
+    # ---
     #TODO(jfriedly): We need to inspect the DB to figure out the options
     # for these
     EMPTY_STRING = ''
@@ -125,17 +114,22 @@ class Experiment(models.Model):
                (RAT, RAT),
                (ARABIDOPSIS, ARABIDOPSIS))
 
+    # Actual columns are waaay down here
     gene = models.CharField(max_length=255, default='', null=True)
     pmid = models.IntegerField(null=True)
-    transcription_family = models.CharField(max_length=50, choices=TF_FAMILIES)
-    transcription_factor = models.ManyToManyField(TranscriptionFactor)
+    #TODO choices need to be changed to 2 tuples so we can add them here
+    transcription_factor = models.CharField(max_length=255, null=True)
     species = models.CharField(max_length=255, choices=SPECIES)
     expt_tissues = models.CharField(max_length=255, null=True)
     cell_line = models.CharField(max_length=255)
-    expt_type = models.ManyToManyField(ExperimentType)
+    expt_type = models.CharField(max_length=255, default='', null=True,
+                                 choices=EXPERIMENT_TYPES)
     replicates = models.CharField(max_length=50, default='', null=True)
     control = models.CharField(max_length=255, default='', null=True)
     quality = models.CharField(max_length=255, default='', null=True)
+    active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    modified = models.DateTimeField(auto_now=True, null=True)
 
     def serialize(self):
         d = self.__dict__.copy()
