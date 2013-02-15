@@ -2,8 +2,10 @@ from django.core.management.base import BaseCommand, CommandError
 import csv
 import re
 
-from search.models import Experiment, ExperimentType, TranscriptionFactor
+from search.models import Experiment
 
+# We use this a lot, so we should only compile it once.
+DELIMITER = re.compile('\s*[/;,+&]+\s*')
 
 class DBImportError(Exception):
     message = ''
@@ -24,19 +26,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # This is the expected order of columns. It can easily be re-arranged.
         columns = ['gene', 'transcription_factor', 'pmid', 'species',
-                   'experimental_tissues', 'cell_line',
-                   'expt_type', 'replicates', 'control', 'quality']
+                   'expt_tissues', 'cell_line', 'expt_type', 'replicates',
+                   'control', 'quality']
         if len(args) != 1:
             raise CommandError("Please give one and only one filename.")
-
-        transcription_family = args[0].split('.')[0]
-        families = {f[0].lower(): f[0] for f in Experiment.TF_FAMILIES}
-        if not transcription_family.lower() in families:
-            print ("Please make the name of your file the same as the"
-                   "transcription family of the factors in it. This will "
-                   "likely be the name of the worksheet you are exporting "
-                   "from.")
-            return
 
         #(jfriedly) I considered putting this in a try: except IOError, but I
         # think it's better to just let that bubble up.
@@ -45,94 +38,23 @@ class Command(BaseCommand):
                                     delimiter='\t')
             # Skip the first row (column names)
             r = reader.next()
-            for row in reader:
-                row = self._validate_row(row)
-                row['transcription_family'] = families[transcription_family]
-                expt_types = row.pop('expt_type')
-                tf_names = row.pop('transcription_factor')
+            for line, row in enumerate(reader, start=1):
+                row = self._validate_row(row, line)
                 # Sometimes the data has an extra column.  Ignore it.
                 if row.has_key(None):
                     row.pop(None)
                 e = Experiment(**row)
                 e.save()
-                self.add_experiment_types(e, expt_types)
-                self.add_transcription_factors(e, tf_names)
 
-    def add_experiment_types(self, experiment, expt_types):
-        """
-        Takes string of experiment types, splits them, and ensures that they
-        are valid and extant. Asks user to confirm addition of new type if not.
-        """
-        # Matches one or more slash, semicolon, comma, plus sign, ampersand,
-        # possibly with whitespace on either side.
-        delimiter = re.compile('\s*[/;,+&]+\s*')
-        names = delimiter.split(expt_types)
-        for name in names:
-            name = self._custom_experiment_type_regexes(experiment, name)
-            name = name.lower().strip()
-            type_results = ExperimentType.objects.filter(type_name__iexact=name)
-            # We don't see it in the db, so ask the user
-            if not type_results:
-                response = ''
-                while not response or response not in "AaIi":
-                    response = raw_input("Experiment type '%s' is not known by"
-                                         " the database.  Would you like to "
-                                         "[A]dd the type or [I]gnore it? " %
-                                         name)
 
-                if response in "Aa":
-                    exp_type = ExperimentType(type_name=name)
-                    exp_type.save()
-                else:
-                    continue
-            elif len(type_results) > 1:
-                print ("Warning: More than one match for experiment type "
-                       "'%s':\n%s\nUsing first result." % (name, type_results))
-                exp_type = type_results[0]
-            else:
-                exp_type = type_results[0]
-            experiment.expt_type.add(exp_type)
-            experiment.save()
-
-    def add_transcription_factors(self, experiment, tf_names):
-        """
-        Takes string of transcription factors, splits them, and ensures that
-        the are valid and extant. Asks user to confirm addition of new type if
-        not.  This is a lot of duplicated code from add_experiment_types, but
-        it had a few too many differences to easily abstract them out.
-        """
-        delimiter = re.compile('\s*[/;,+&]+\s*')
-        names = delimiter.split(tf_names)
-        for name in names:
-            name = self._custom_transcription_factor_regexes(experiment, name)
-            name = name.lower().strip()
-            tf_results = TranscriptionFactor.objects.filter(tf__iexact=name)
-            if not tf_results:
-                response = ''
-                while not response or response not in "AaIi":
-                    response = raw_input("Transcription factor '%s' is not"
-                                         " known by the database.  Would you "
-                                         "like to [A]dd the type or [I]gnore "
-                                         "it? " % name)
-
-                if response in "Aa":
-                    tf = TranscriptionFactor(tf=name)
-                    tf.save()
-                else:
-                    continue
-            elif len(tf_results) > 1:
-                print ("Warning: More than one match for transcription factor "
-                       "'%s':\n%s\nUsing first result." % (name, type_results))
-                tf = tf_results[0]
-            else:
-                tf = tf_results[0]
-            experiment.transcription_factor.add(tf)
-            experiment.save()
-
-    def _validate_row(self, row):
+    def _validate_row(self, row, line):
         """
         Perform basic validation of the data in the row.
         """
+        # The number of delimited values in the row. Supposedly, for each column
+        # this will be n where n == 1 or n is the same for all columns in row
+        row_depth = 1
+
         # Check for valid gene
         if not len(row['gene']) <= 255:
             raise DBImportError("Genes must be <= 255 characters. Got: '%s'" %
@@ -147,19 +69,35 @@ class Command(BaseCommand):
                                     row['pmid'])
         else:
             row['pmid'] = None
+
+        # Check Experiment types
+        expt_types = DELIMITER.split(row['expt_type'])
+        if len(expt_types) != 1 and (row_depth != 1 and len(expt_types) != row_depth):
+            raise DBImportError(
+                "Number of row sub-values does not match in each column."
+                "Experiment type has %d values, while previous columns had %d"
+                "values." % (len(expt_types), row_depth))
+        self.check_experiment_types(expt_types)
+        row['expt_type'] = ', '.join(expt_types)
+        
+        
         return row
 
-    def _custom_experiment_type_regexes(self, experiment, expt_type):
+    def check_experiment_types(self, expt_types):
         """
-        Fix mistakes that we've seen in the data so far.
+        Takes a list of experiment types and ensures that they are valid and
+        extant.
         """
-        # Sometimes they forget the dash in experiment names
-        expt_type = re.sub('qPCR', 'q-PCR', expt_type, flags=re.I)
-        expt_type = re.sub('Run on', 'run-on', expt_type, flags=re.I)
-        expt_type = re.sub('run off', 'run-off', expt_type, flags=re.I)
-        # Found this typo in the data.  We can fix it for them.
-        expt_type = re.sub('Westernn', 'Western', expt_type, flags=re.I)
-        return expt_type
+        # Matches one or more slash, semicolon, comma, plus sign, ampersand,
+        # possibly with whitespace on either side.
+        for expt_type in expt_types:
+            expt_type = expt_type.strip().lower()
+            # Sometimes they forget the dash in experiment names
+            #expt_type = re.sub('qPCR', 'q-PCR', expt_type, flags=re.I)
+            #expt_type = re.sub('Run on', 'run-on', expt_type, flags=re.I)
+            #expt_type = re.sub('run off', 'run-off', expt_type, flags=re.I)
+            # Found this typo in the data.  We can fix it for them.
+            #expt_type = re.sub('Westernn', 'Western', expt_type, flags=re.I)
 
     def _custom_transcription_factor_regexes(self, experiment, tf):
         # This one isn't supposed to have a dash
