@@ -64,6 +64,9 @@ function addToggleEvents() {
             $($(this).attr('data-target')).collapse("toggle");
         });
     });
+   // $('#tft-close').click(function() {
+     //   $('#tft-family-dropdown-toggle').click();
+    //});
 }
 function fillFamily(trans) {
     var $familyAccordion = $('#family-accordion');
@@ -148,7 +151,7 @@ function ajaxSearch () {
         $('#search-results').children().remove()
         //create a table here
         var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
-        var thead = $('<thead></thead>');
+        var thead = $('<thead></thead>').addClass('tft-thead');
         var tbody = $('<tbody></tbody>');
         //Make sure we print the heading when the results returns values
         $('#tft-results-number').text(data.length + " results");

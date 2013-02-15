@@ -43,7 +43,7 @@
       <label>Transcription Factor</label>
       <div class="controls">
         <div class="dropdown span2">
-          <a data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
+          <a id="tft-family-dropdown-toggle" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
             Multiple Selection
             <b class="caret"></b>
           </a>
@@ -52,14 +52,14 @@
               <div id="family-accordion" class ="accordion tft-dropdown-container">
               </div>
             </li>
-            <a id="#tft-clo" class="tft-close btn">Close</a>
+            <!--<a id="#tft-close" class="tft-close btn">Close</a>-->
           </ul>
         </div> <!-- dropdown -->
       </div>
       {% csrf_token %}
       {{ form }}
     </form>
-    <a id="tft-search-btn-1" class="offset1 btn btn-info btn-medium">Search!</a>
+    <a href="#tft-result-container" id="tft-search-btn-1" class="offset1 btn btn-info btn-medium">Search!</a>
   </div>
   <!--
       <div id="tft-search-preview" class="row span12">
@@ -80,13 +80,14 @@
         </div>
       </div>
       -->
-  <div class="row ">
+  <div class="row" id="tft-result-container">
     <br>
     <div class="row ">
       <a id="tft-download-db" class="span1 offset1 ">Download!</a>
       <div class="span2" id="tft-results-number">
       </div>
     </div>
+    <br>
     <div id="search-results" class="row offset1">
     </div>
   </div>
