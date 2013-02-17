@@ -1,0 +1,28 @@
+Gene	Family Member	PMID	Species	Organ	Tissues/Cell line	Experiment	# Replicates	Control	Quality/Fold Change
+FOXA1	foxa	22590586	human	Bladder	RT4	PCR		HepG2	
+FOXA1	foxa	22590586	human	Bladder	RT4	Western blot		HepG2	
+UPK1B	foxa	22590586	human	Bladder	RT4	PCR		HepG2	
+UPK1B	foxa	22590586	human	Bladder	RT4	Western blot		HepG2	
+ UPK2	Foxa	22590586	human	Bladder	RT4	PCR		HepG2	
+ UPK2	Foxa	22590586	human	Bladder	RT4	Western blot		HepG2	
+UPK3A 	Foxa	22590586	human	Bladder	RT4	PCR		HepG2	
+UPK3A 	Foxa	22590586	human	Bladder	RT4	Western blot		HepG2	
+UPK3B	Foxa	22590586	human	Bladder	RT4	PCR		HepG2	
+UPK3B	Foxa	22590586	human	Bladder	RT4	Western blot		HepG2	
+CDH1	Foxa	22590586	human	Bladder	RT4	PCR		HepG2	
+CDH1	Foxa	22590586	human	Bladder	RT4	Western blot		HepG2	
+FOXA1	foxa	22238690	human	Liver	hepatocyte	EMSA			
+FOXA1	foxa	22238690	human	Liver	hepatocyte	EMSA			
+hDIO1	foxa1	22067325	human	Liver	hepG2	Reporter gene assay			negative
+hDIO1	foxa1	22067325	human	Liver	hepG2	Rt-pcr			negative
+hDIO1	foxa1	22067325	human	Liver	hepG2	qpcr			negative
+hDIO1	foxa2	22067325	human	Liver	hepG2	Reporter gene assay			negative
+hDIO1	foxa2	22067325	human	Liver	hepG2	Rt-pcr			negative
+hDIO1	foxa2	22067325	human	Liver	hepG2	qpcr			negative
+SHH	foxa1	21093585	mice	Brain	brain	Chip			
+SHH	foxa2	21093585	mice	Brain	brain	Chip			
+GRG3	foxa1	20108349	drosophila	Small intestine	foregut	Rt-pcr			
+GRG3	foxa1	20108349	drosophila	Small intestine	foregut	Western blot			
+GRG3	foxa2	20108349	drosophila	Small intestine	foregut	Rt-pcr			
+GRG3	foxa2	20108349	drosophila	Small intestine	foregut	Western blot			
+ NKX2-1	foxa1	23322301	human	Lung	lung	chip			
