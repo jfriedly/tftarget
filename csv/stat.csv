@@ -1,98 +1,146 @@
-Gene	Family Member	PMID	Species	Experimental Tissue(s)	Cell line	Experiment	# Replicates	Control	Quality/Fold Change
-HSP90beta	STAT3	9461509	human	hepatocyte carcinoma	HuH7	EMSA	1	wt  vs mutant competitors	high
-HSP90beta	STAT3	9461509	human	hepatocyte carcinoma	HuH7	reporter gene  expression vector for both	NA	wt vs expressed STAT3/ unexpressed STAT3/expressed STAT3 (expressed through il6)	8/na/na
-sIL-1ra	STAT6	8757327	mouse	macrophage	RAW264.7	EMSA	NA	wt SBE1(of sIL-1ra) vs. expressed STAT6(through IL-4)	high
-OSM	STAT5b	10556323	human	histiocytic lymphoma	U937 	EMSA	1	wt OSM vs expressed stat5b 	high
-OSM 	STAT5b	10556323	human	histiocytic lymphoma	U937 	reporter gene (luciferase)	1	wt OSM vs expressed stat5b (expressed through gm-csf)	3
-IL-2Ralpha	stat5a	8943338	human	T cells	Kit225	emsa	1	wt (deprived il-2) vs. expressed stat5a/b (il-2 stimulation)	medium
-IL-2Ralpha	stat5b	8943338	human	T cells	Kit225	emsa	1	wt (deprived il-2) vs. expressed stat5a/b (il-2 stimulation)	medium
-IL-2Ralpha	stat5	8943338	human	T cells	Kit225	western blot	1	wildtype probe	high
-IL-2Ralpha	stat4	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-IL-2Ralpha	stat3	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-IL-2Ralpha	stat1	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-PIM1	stat1	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-PIM1	stat3	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-PIM1	stat4	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-IRF1	stat1	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-IRF1	stat3	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-IRF1	stat4	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-IFP53	stat5	10068671	human	T cells	na	emsa	1	wt vs expressed stat(cytokine stimulation)	high
-IL-2Ralpha	stat5	11278301	mouse	CTLL	T cells	semi qPCR	1	wt vs. expressed STAT (IL-2)	high
-ISG15	stat1	12660229	human	THP-1 cells	na	northern blot	1	wt vs. expressed stat1 (IFNbeta and IFN-gamma)	high
-CEL	stat5a/stat5b 	9841868	mouse	mammary gland	HC11	emsa	1	wt vs. mutant competitors	table 2
-CCND1	stat5a/stat5b 	14645506	human	CD34+ cells	UT7-mpl	emsa	1	wt vs. expressed stat (TPO stimulation)	high
-CCND1	stat1	14645506	human	CD34+ cells	UT7-mpl	emsa	1	wt vs. expressed stat (TPO stimulation)	high
-CCND1	stat5a/stat5b 	14645506	human	CD34+ cells	UT7-mpl	western blot	1	wt vs. expressed stat (TPO stimulation)	high
-CCND1	stat5a 	14645506	human	CD34+ cells	UT7-mpl	western blot	1	wt vs. expressed stat (TPO stimulation)	high
-CCND1	stat5a	14645506	human	embryonic kidney	293T	western blot	1	wt vs. expressed stat (PRL stimulation)	high
-c-fos	stat3	8874187	mouse	NIH-GMR/TF-1	na	emsa	2	wt vs. expresssed stat (gm-csf)	high
-c-fos	stat1	8874187	mouse	NIH-GMR/TF-1	na	emsa	2	wt vs. expresssed stat (gm-csf)	high
-Pax5	stat5	12811842	mouse	B cells	PreBR1	emsa	1	wt vs expressed stat(IL-7)	low
-Pax5	stat5	12811842	mouse	B cells	PreBR1	chIP-PCR/western blot	2	absence of antibody	high
-IL-12R beta2	stat1	14657353	mouse	splenocyte	CD4+ cell	RT-PCR	1	wt vs. stat expression (IL-27)	not shown/ 6.1
-IFN-gamma	stat5	15528362	human	PBMC	na	emsa	2	wt vs. mutant	low
-IFN-gamma	stat1	15528362	human	PBMC	na	emsa	1	wt vs. mutant	low
-TLR2	stat5b	15143169	human	adenocarcinomic alveolar basal epithelial	A549	chIP	3	wt vs mutantbinding site vs expressed stat (Dex and TNF)	9.5
-SELE	stat6	9092569	human	HUVEC	na	emsa	1	excess unlabeled FCgammaRI and nonspecific antibody	medium
-FCgammaRI	stat6	9092569	human	HUVEC	na	emsa	1	nonspecific antibody	medium
-ERalpha	stat5a	11731618	rat	ovary	CHO, COS	western blot	3,7	PRL-RL (control) vs PRL-RCA	high/10 
-ERalpha	stat5b	11731618	rat	ovary	CHO, COS	western blot	3,7	PRL-RL (control) vs PRL-RCA	high/10 
-ERbeta	stat5b	11731618	rat	ovary	CHO, COS	western blot	3,7	PRL-RL (control) vs PRL-RCA	high/5
-ERalpha	stat5a	11731618	rat	Primary luteinized granulosa cells	na	western blot	6	wt vs. mutants	high/4
-ERalpha	stat5b	11731618	rat	Primary luteinized granulosa cells	na	western blot	6	wt vs. mutants	high/2
-ERbeta	stat5b	11731618	rat	Primary luteinized granulosa cells	na	western blot	6	wt vs. mutants	high/2
-ERalpha	stat5a	11731618	rat	kidney fibroblast	COS	western blot	4	wt vs mutant vs mutant binding site	high/2
-ERbeta	stat5a	11731618	rat	kidney fibroblast	COS	western blot	4	wt vs mutant vs mutant binding site	high/2
-ERalpha	stat5a	11731618	rat	kidney fibroblast	COS	western blot	6	wt vs. expressed stat (PLR-RCA)	2.1
-Eralpha	stat5b	11731618	rat	kidney fibroblast	COS	western blot	6	wt vs. expressed stat (PLR-RCA)	2
-ERbeta	stat5a	11731618	rat	kidney fibroblast	COS	western blot	6	wt vs. expressed stat (PLR-RCA)	1
-ERbeta	stat5b	11731618	rat	kidney fibroblast	COS	western blot	6	wt vs. expressed stat (PLR-RCA)	2
-Caspase-11	stat1	12198138	mouse	kidney fibroblast	Mf4/4	emsa	1	wt vs. mutant binding sites	medium
-CD64	stat1	8647290	human	neutrophil	na	emsa	3	wt vs. expressed stat (g-csf)	medium
-CD64	stat3	8647290	human	neutrophil	na	emsa	3	wt vs. expressed stat (g-csf)	medium
-c-fos	stat3	15528381	human	eosinophils	na	emsa	7	wt vs. expressed stat (gm-csf/IL-5)	high
-c-fos	stat5a	15528381	human	eosinophils	na	emsa	2	wt vs. expressed stat (gm-csf/IL-5)	high
-c-fos	stat5b	15528381	human	eosinophils	na	emsa	2	wt vs. expressed stat (gm-csf/IL-5)	high
-MUC1	stat1	11084045	human	breast/promyelocytic leukemia	T47D/ HL-60	EMSA	na	wt vs. expressed stat (IL-6)/ (IFN-gamma)	high
-MUC1	stat3	11084045	human	breast 	T47D	EMSA	na	wt vs. expressed stat (IL-6)	high
-CRP	stat3	8621622	human	liver	HepG2/Hep3B	emsa	na	wt vs. expressed stat (IL-6)	high
-PRF1	stat5a/stat5b/stat1a	10072525	human	PBMC	NK	emsa	na	competition with mutated probes	high
-PRF1	stat3	10072525	human	Natural killer leukemic	YT	emsa	na	competition with mutated probes	high
-PRF1	stat1/stat3/stat4/stat5	12372421	human	kidney fibroblast	COS7	emsa	na	expression of stat (JAK2)	high
-PRF1	stat3/4/5	12372421	human	Natural killer preipheral blood	NKL	emsa	na	wt vs. expressed stat(IL-2)	high
-HGF	stat3	14647442	human	kidney	HEK293	emsa	na	wt vs expressed stat (LIF)	high
-Tap1,LMP2	STAT1	15240699	Mouse	Bonemarrow macrophage	NA	Northern Blot	1		Good
-Tap1,LMP2	STAT1	15240699	Mouse	Bonemarrow macrophage	NA	Q-RT PCR	1	WT vs Mutant	Good
-Tap1,LMP2	STAT1	15240699	Mouse	Macrophage	RAW264.7	Reporter gene assay	1	WT vs Mutant	Good
-Tap1,LMP2	STAT1	15240699	Mouse	Bonemarrow macrophage	NA	Gel electrophoresis DNA binding assay	1	WT vs Mutant/Competitior	Good
-SOCS1	STAT6	15199062	Human	Keratinocyte	HaCaT	ChIP	1		High
-SOCS1	STAT6	15199062	Human	Keratinocyte	HaCaT	Immunoprecipitation , Westernn Blot	3	WT vs Mutant vs Variant	High
-SOCS1	STAT6	15199062	Human	Keratinocyte	HaCaT	RT-PCR	3	WT vs Mutant vs Variant	High/3 fold increase
-SOCS1	STAT6	15199062	Human	Keratinocyte	HaCaT	Reporter gene assay	1	WT vs Mutant vs Variant	High/18 fold increaase
-SOCS1	STAT6	15199062	Human	Keratinocyte	HaCaT	EMSA	1	WT vs Mutant vs Variant	High
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2,COS	ChIP	1		High
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2	Pull down assay	1	Tagged/Tagged shortened	Good
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2	Southern Blot	1		Good
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2	ChIP	1		High
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2	Reporter gene assay	1	WT vs inhibitor of cdk9	Good/8 fold increase in WT
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2	ChIP	1		High
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2	Kinetic experiments	1		Good
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2	ChIP	1		High
-p21WAF1	STAT3	15286705	Human	liver carcinoma	HepG2	Pull down assay	1		Good
-Eotaxin/CCL11	STAT6	10586089	Human	Airway epithelium	BEAS-2B	Reporter gene assay (Luciferase)	1		High/1.5fold increase
-Eotaxin/CCL11	STAT6	10586089	Human	Airway epithelium	BEAS-2B	EMSA (Whole cell extract)	1		High
-Eotaxin/CCL11	STAT6	10586089	Human	Airway epithelium	BEAS-2B	Western Blot (Nuclear extract)	1		High
-Eotaxin/CCL11	STAT6	10586089	Human	Airway epithelium	BEAS-2B	Reporter gene assay (Luciferase)	1	WT vs Mutant	High
-HO-1	STAT3	15240748	Mouse (Male)	Murine monocyte/macrphage	J774.1,RAW264.7	Western Blot (Whole cell lysate)	3		High
-HO-1	STAT3	15240748	Human	Primary human monocyte/Human IVD macrophage 	NA	Western Blot (Whole cell lysate)	3		High
-HO-1	STAT3	15240748	Human/Mouse(Male)	Murine,Human macrophage	J774.1,RAW264.7	Western Blot (Whole cell lysate)	3		High
-HO-1	STAT3	15240748	Human	Human IVD macrophage 	NA	Western Blot	3	WT vs Mutant	High
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	ELISA	3		High
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	Promoter-Reporter assay	5	IL-4/TNFalpha/IL-4-TNFalpha/IL-4 pre-treatment	High/50%reduction of E-selectin expression in IL-4 pretreated cells 
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	Immunoblot/WB (nuclear extracts)	1	Quiscent/TNFalpha/IL-4 treatment	High
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	Immunoflourescence	1	Quiscent/TNFalpha/IL-4 /TNFalpha-IL-4 treatment	High
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	EMSA (nuclear extracts)	1	Control/Competitor/IL-4	High
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	EMSA (nuclear extracts)	1		High
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	ELISA	2		High
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	EMSA (nuclear extracts)	1		High
-E -selectin	STAT6	9092569	Human	Human Endothelium	HUVECs	Site directed mutagenesis/promoter-reporter assay	3	STAT6 point mutants/Control	High
+Gene	Family Member	PMID	Species	Organ	Tissues/Cell line	Experiment	# Replicates	Control	Quality/Fold Change
+HSP90 beta	STAT3	9461509	human	Liver	HuH7 hepatoma	EMSA	1	wt  vs mutant competitors	high
+HSP90 beta	STAT3	9461509	human	Liver	HuH7 hepatoma	reporter gene  assay	3	wt vs dominant negative STAT	medium
+sIL-1ra	STAT6	8757327	mouse	NA	RAW264.7	EMSA	3	wt vs IL-4 induced STAT	high
+OSM	STAT5b	10556323	human	Blood	U937 	EMSA	na	wt OSM vs expressed STAT5b 	high
+OSM	STAT1	10556323	human	Blood	U937 	EMSA	na	wt OSM vs expressed STAT5b 	high
+OSM	STAT3	10556323	human	Blood	U937 	EMSA	na	wt OSM vs expressed STAT5b 	high
+OSM 	STAT5b	10556323	human	Blood	U937 	reporter gene  assay	na	wt OSM vs expressed STAT5b (expressed through gm-csf)	3
+IL-2Ralpha	STAT4	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+IL-2Ralpha	STAT3	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+IL-2Ralpha	STAT1	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+PIM1	STAT1	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+PIM1	STAT3	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+PIM1	STAT4	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+IRF1	STAT1	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+IRF1	STAT3	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+IRF1	STAT4	10068671	human	Blood	T cells	emsa	3	wt vs expressed STAT(cytokine stimulation)	high
+IFP53	STAT5	10068671	human	Blood	T cells	emsa	1	wt vs expressed STAT(cytokine stimulation)	high
+IL-2Ralpha	STAT5	11278301	mouse	Blood	CTLL	emsa	3	wt vs. expressed STAT (IL-2)	high
+CCND1	STAT5a,STAT5b 	14645506	human	Bone marrow	UT7-mpl	emsa	na	wt vs. expressed STAT (TPO stimulation)	high
+CCND1	STAT1	14645506	human	Bone marrow	UT7-mpl	emsa	na	wt vs. expressed STAT (TPO stimulation)	high
+CCND1	STAT5a,STAT5b 	14645506	human	Bone marrow	UT7-mpl	western blot	na	wt vs. expressed STAT (TPO stimulation)	high
+CCND1	STAT5a	14645506	human	Embryo	293T	western blot	na	wt vs. expressed STAT (PRL/TPO stimulation)	high
+CCND1	STAT5a	14645506	human	Bone marrow	UT7-mpl	western blot	na	wt vs. expressed STAT (PRL/TPO stimulation)	high
+c-Fos	STAT3	8874187	mouse	Blood	TF-1	emsa	2	wt vs. expresssed STAT (gm-csf)	high
+c-Fos	STAT1	8874187	mouse	Blood	TF-1	emsa	2	wt vs. expresssed STAT (gm-csf)	high
+Pax5	STAT5	12811842	mouse	Blood	PreBR1	emsa	1	wt vs expressed STAT(IL-7)	low
+Pax5	STAT5	12811842	mouse	Blood	PreBR1	ChIP	2	absence of antibody	high
+Pax5	STAT5	12811842	mouse	Embryo	NIH3T3	reporter gene  assay	2	absence of antibody	high/4.7(STAT alone)
+IFN-gamma	STAT5	15528362	human	Blood	PBMC	emsa	2	wt vs. mutant	low
+IFN-gamma	STAT1	15528362	human	Blood	PBMC	emsa	1	wt vs. mutant	low
+TLR2	STAT5b	15143169	human	Lung	A549	reporter gene  assay	3	mutated STAT5bc cDNA (dominant negative STAT)	low
+TLR2	STAT5b	15143169	human	Lung	A549	ChIP	3	input?	high
+(PLAU)?	STAT1	9417082	human	Blood	aortic VSMC	emsa	1	anti STAT1 antibody	high
+SELE	STAT6	9092569	human	Blood	HUVEC	emsa	1	excess unlabeled FCgammaRI and nonspecific antibody	medium
+FCgammaRI	STAT6	9092569	human	Blood	HUVEC	emsa	na	wt vs IL-4 induced STAT	high
+E-selectin A 	STAT6	9092569	human	Blood	HUVEC	emsa	na	wt vs IL-4 induced STAT	high
+E-selectin B	STAT6	9092569	human	Blood	HUVEC	emsa	na	wt vs IL-4 induced STAT	high
+ERα	STAT5a	11731618	rat	Blood	CHO	reporter gene  assay	3	Dominant negative STAT5a/b (DN-5a and mut-5b)	high/-50
+ERα	STAT5b	11731618	rat	Blood	CHO	reporter gene  assay	3	Dominant negative STAT5a/b (DN-5a and mut-5b)	high/-10
+Erβ	STAT5a	11731618	rat	Blood	CHO	reporter gene  assay	3	Dominant negative STAT5a/b (DN-5a and mut-5b)	high/-10
+Erβ	STAT5b	11731618	rat	Blood	CHO	reporter gene  assay	3	Dominant negative STAT5a/b (DN-5a and mut-5b)	high/-10
+ERα	STAT5a	11731618	rat	Kidney	COS	reporter gene  assay	7	wt vs Stimulation of STAT through PRL-RCA	high/2.5
+ERα	STAT5b	11731618	rat	Kidney	COS	reporter gene  assay	7	wt vs Stimulation of STAT through PRL-RCA	high/2.5
+ERβ	STAT5b	11731618	rat	Kidney	COS	reporter gene  assay	7	wt vs Stimulation of STAT through PRL-RCA	high/2
+ERα	STAT5	11731618	rat	Kidney	COS	reporter gene  assay	4	Erα-luc vs mut Erα-luc (mutated STAT response element)	high/-2.2
+ERβ	STAT5	11731618	rat	Kidney	COS	reporter gene  assay	4	Erβ-luc vs mut Erβ-luc (mutated STAT response element)	high/-2.9
+ERα	STAT5a	11731618	rat	Kidney	COS	reporter gene  assay	6	Erα-luc vs Erα M1-luc (mutated STAT response element)	medium/-1.5
+ERα	STAT5b	11731618	rat	Kidney	COS	reporter gene  assay	6	Erα-luc vs Erα M1-luc (mutated STAT response element)	low/-1.4
+Erβ	STAT5a	11731618	rat	Kidney	COS	reporter gene  assay	6	Erβ-luc vs Erβ M1-luc (mutated STAT response element)	high/2.7
+Erβ	STAT5b	11731618	rat	Kidney	COS	reporter gene  assay	6	Erβ-luc vs Erβ M1-luc (mutated STAT response element)	medium/1.5
+Caspase-11	STAT1	12198138	mouse	NA	Mf4/4	emsa	na	wt vs mutant STAT binding sites	high
+Adam8	STAT6	15087305	mouse	NA	na	northern blot	na	wt (IL-4/13 induced STAT) vs STAT6 KO 	high
+CD64	STAT1	8647290	human	Blood	neutrophil	emsa	na	wt vs. expressed STAT (g-csf)	medium
+CD64	STAT3	8647290	human	Blood	neutrophil	emsa	na	wt vs. expressed STAT (g-csf)	medium
+c-Fos	STAT3	15528381	human	Blood	eosinophils	emsa	2	wt vs. expressed STAT (gm-csf/IL-5)	high
+c-Fos	STAT5a	15528381	human	Blood	eosinophils	emsa	2	wt vs. expressed STAT (gm-csf/IL-5)	high
+c-Fos	STAT5b	15528381	human	Blood	eosinophils	emsa	2	wt vs. expressed STAT (gm-csf/IL-5)	high
+MUC1	STAT1	11084045	human	Breast	T47D	EMSA	na	wt vs. expressed STAT (IL-6)/ (IFN-gamma)	high
+MUC1	STAT1	11084045	human	Blood	HL-60	EMSA	na	wt vs. expressed STAT (IL-6)/ (IFN-gamma)	high
+MUC1	STAT3	11084045	human	Breast	T47D	EMSA	na	wt vs. expressed STAT (IL-6)	high
+CRP	STAT3	8621622	human	Liver	HepG2	emsa	na	wt vs. expressed STAT (IL-6)	high
+CRP	STAT3	8621622	human	Liver	Hep3B	emsa	na	wt vs. expressed STAT (IL-6)	high
+HGF	STAT3	14647442	human	Embryo	HEK293	emsa	na	wt vs expressed STAT (LIF)	high
+IL10	STAT3	10903771	human	Bone marrow	RPMI 8226	emsa	4	wt vs mutant STATs/ LPS stimulation	high
+IL10	STAT3	12817009	human	Bone marrow	RPMI 8226	emsa	na	wt vs expressed STAT(IFN-alpha)	high
+LBP	STAT3	8668165	human	Liver	HUH-7	reporter gene  assay	na	wt vs mutated STAT3 binding site	medium/ 1.5
+LBP	STAT3	8668165	human	Liver	HUH-7	emsa	3	wt vs stimulated STAT 	high
+Mcl1	STAT3	11160159	mouse	Blood	U266	emsa	na	Mcl-1 SIE-DNA/ hSIE competition	
+Mcl1	STAT3	11160159	mouse	Blood	leukemic LGL	emsa	na	Mcl-1 SIE-DNA/ hSIE competition	
+Mcl1	STAT3	11160159	mouse	Embryo	NIH3T3	emsa	na	Mcl-1 SIE-DNA/ hSIE competition	
+MCL1	STAT5	11160159	human	Blood	leukemic LGL	emsa	na		
+BCL2	STAT1,STAT3	11160159	human	Bone marrow	U266	western blot 	3	no control?	
+BCL2	STAT1,STAT3	11160159	human	Bone marrow	U266	western blot 	3	no control?	
+MCL1	STAT1,STAT3	11160159	human	Bone marrow	U266	western blot 	3	no control?	
+p53	STAT1	14602726	mouse	Embryo	MEF	western blot	3	STAT+/+ cells vs STAT-/- cells	high
+Mdm2	STAT1	14602726	mouse	Embryo	MEF	western blot	6	STAT+/+ cells vs STAT-/- cells	high
+Bax	STAT1	14602726	mouse	Embryo	MEF	western blot	3	STAT+/+ cells vs STAT-/- cells	high/40
+Fas	STAT1	14602726	mouse	Embryo	MEF	western blot	3	STAT+/+ cells vs STAT-/- cells	high/33
+Noxa	STAT1	14602726	mouse	Embryo	MEF	western blot	3	STAT+/+ cells vs STAT-/- cells	high/9
+NOXA	STAT1	14602726	human	Bone	Saos-2	reporter gene  assay	3	control (no STAT) vs STAT1+p53	medium/27
+Noxa	STAT1	14602726	mouse	Embryo	MEF	reporter gene  assay	3	STAT+/+ cells vs STAT-/- cells	medium
+p53	STAT1	14602726	mouse	Embryo	MEF	emsa	na	control vs. transfection of STAT1	high
+HO1	STAT3	10564544	rabbit	NA	endothelial cells	emsa	na	wt vs expressed STAT (IL-6)	high
+HO1	STAT3	15240748	human	NA	IVD macrophages	western blot	3	infection with Dominant negative STAT3 (Ad-STAT-3-DN) vs. uninfected	high
+ICAM1	STAT1	9888295	human	Brain	astrocytes	emsa	2	wt vs. expressed STAT (IFN-γ)	high
+ICAM1	STAT1	10830295	rat	Thyroid gland	FRTL-5	emsa	na	wt vs. expressed STAT (IFN-γ)	high
+TRH	STAT3	11134186	human,rat	Embryo	293T	emsa	2/1/2013	wt vs expressed STAT (leptin), analogous noncanonical STAT3 element in the murine C/EBPδ promoter binds STAT3 very weakly, if at all	medium
+TRH	STAT	11134186	human	Embryo	293T	reporter gene  assay	na	wt vs. mutant STAT binding site	high/-60
+TRH	STAT1	11134186	human	Embryo	293T	reporter gene  assay	na	cells transfected with STAT1 vs untransfected cells	high/ 6
+A2M	STAT3	11466367	human	Liver	HepG2	emsa	na	wt vs inhibition of STAT binding (IL-β) 	medium
+A2M	STAT3	11466367	human	Liver	HepG2	emsa	na/na	inhibition of STAT binding (IL-β)/wt vs mutated STAT binding site	high
+A2M	STAT3	11466367	human	Liver	HepG2	emsa	na	wt vs. mutate STAT3 binding site	high
+A2M	STAT3	11438543	human	Liver	HepG2	reporter	na	STAT3 vs dominant negative STAT3DB	high/-9
+A2M	STAT3 	11438543	human	Liver	HepG2	reporter gene  assay	3	induction of endogenous STAT (IL-6)/wt STAT3 expression vector / inhibition of STAT3DB	high/ 7 / 12
+A2M	STAT3 	11438543	human	Liver	HepG2	emsa		expression of tetrameric STAT3 ( v-abl kinase domain)	high
+SOCS1	STAT6	15199062	human	Skin	HaCat	ChIP	na	input	high
+SOCS1	STAT6	15199062	human	Skin	HaCat	emsa	na	IL-4 stimulation	high
+c-Fos	STAT1,STAT3	12600988	human	Liver	HepG2	emsa	na	IL-6 stimulation of STAT1/3	high
+c-Fos	STAT3	12600988	human	Liver	HepG2	ChIP	na	IL-6 stimulation of STAT3	high
+IRF1	STAT3	12600988	human	Liver	HepG2	ChIP	na	IL-6 stimulation of STAT3	high
+IRF1	STAT1	12600988	human	Liver	HepG2	ChIP	na	IFN-gamma stimulation of STAT1	medium
+c-Fos	STAT1,STAT3	12600988	Human	Liver	HepG2	emsa	na	stimulation of STAT1(IFNgamma) / simulation of STAT3 (IL-6)	high
+c-Fos	STAT1,STAT3	7588632	mouse	Embryo	NIH3T3	emsa	na	stimulation of STAT1(IFNgamma) / simulation of STAT3 (IFNgamma)	high
+CCND1	STAT3	12244095	rat	NA	Rat-2 fibroblasts	western blot	na	stimulation of STAT3 (Hck-YF) vs. cells lacking STAT activator	high
+PPARγ3	STAT5B	12588773	mouse	NA	3T3-L1	reporter gene  assay	5	stimulatation of STAT 3 (hGH) vs no stimulation	high/ 2.6
+PPARγ3	STAT5B	12588773	grivet (monkey)	Kidney	COS7	emsa	na	stimulatation of STAT5B (hGH) vs no stimulation	high
+CSN2	STAT5B	12588773	grivet (monkey)	Kidney	COS7	emsa	na	stimulatation of STAT5B (hGH) vs no stimulation	high
+CSN2	STAT5A	12588773	grivet (monkey)	Kidney	COS7	emsa	na	stimulatation of STAT5B (hGH) vs no stimulation	high
+hSP-B 	STAT3	15044588	human	Lung	H441	reporter gene  assay	3	transfection of STAT3 	high/5.6
+hSP-B 	STAT3	15044588	human	Lung	H441	reporter gene  assay	3	transfection of STAT3 	high/3
+hSP-B	STAT3	15044588	human	Lung	H441	reporter gene  assay	3	transfection of STAT3 	high/3
+15-LOX-1	STAT6	11509556	human	Lung	A549	western blot	na	stimulation of STAT6 (IL-4)	high
+15-LOX-1	STAT6	11509556	human	Lung	A549	ChIP	na	input	high
+15-LOX-1	STAT6	11509556	human	Lung	A549	emsa	na	wtE1A plasmid	high
+Tap1	STAT1	15240699	mouse	Bone marrow	bone marrow	northern blot	2	wt STAT1 vs. KO STAT1	high
+Lmp2	STAT1	15240699	mouse	Bone marrow	bone marrow	northern blot	2	wt STAT1 vs. KO STAT1	high
+Tap1	STAT1	15240699	mouse	Bone marrow	bone marrow	emsa	na	stimulation of STAT1 (LPS)	high
+Lmp2	STAT1	15240699	mouse	Bone marrow	bone marrow	emsa	na	stimulation of STAT1 (LPS)	high
+CD40	STAT6	11086058	human	Brain	EOC13	emsa	6	stimulation of STAT6 (IL-4/IFNgamma)	high
+CD40	STAT6	11086058	human	Brain	EOC13	flow cytometry	2	STAT6 deficient microglia vs. STAT6 containing microglia	high
+CD40	STAT1	11086058	human	Brain	EOC13	western blot	3	polyclonal antisera to STAT1alpha	high
+LTalpha	STAT6	9541585	human	Blood	Ramos B cells	emsa	3	stimulated STAT6(IL-4) vs unstimulated	medium
+LTalpha	STAT6	9541585	human	Blood	Ramos B cells	reporter gene  assay	3	mutated STAT6 binding site vs wt	medium/1.7
+Cd40	STAT1	10823830	mouse	Brain	Primary microglia,CD1	flow cytometry	3	STAT1alpha deficient mice vs. wt	medium
+Cd40	STAT1,STAT3,STAT6	10823830	mouse	NA	RAW264.7	emsa	3	stimulation of STAT (IFNgamma) 	high
+CD40	STAT1	10823830	human	Brain	EOC13	emsa	3	stimulation of STAT (IFNgamma) 	high
+CD40	STAT1	10823830	human,mouse	NA	RAW264.7	emsa	3	stimulation of STAT (IFNgamma) 	high(RAW264.7/EOC13) Medium (HeLa/U251-MG) Low (NIH 3T3/A20)
+CD40	STAT1	10823830	human,mouse	Uterus	HeLa	emsa	3	stimulation of STAT (IFNgamma) 	high(RAW264.7/EOC13) Medium (HeLa/U251-MG) Low (NIH 3T3/A20)
+CD40	STAT1	10823830	human,mouse	Brain	EOC13	emsa	3	stimulation of STAT (IFNgamma) 	high(RAW264.7/EOC13) Medium (HeLa/U251-MG) Low (NIH 3T3/A20)
+CD40	STAT1	10823830	human,mouse	Brain	U251-MG	emsa	3	stimulation of STAT (IFNgamma) 	high(RAW264.7/EOC13) Medium (HeLa/U251-MG) Low (NIH 3T3/A20)
+CD40	STAT1	10823830	human,mouse	Embryo	NIH 3T3	emsa	3	stimulation of STAT (IFNgamma) 	high(RAW264.7/EOC13) Medium (HeLa/U251-MG) Low (NIH 3T3/A20)
+CD40	STAT1	10823830	human,mouse	Blood	A20	emsa	3	stimulation of STAT (IFNgamma) 	high(RAW264.7/EOC13) Medium (HeLa/U251-MG) Low (NIH 3T3/A20)
+p21	STAT3	15286705	human	Liver	HepG2	ChIP	na	stimulation of STAT3 (IL-6)	high
+p21	STAT3	9694869	human	Bone	MG63	reporter gene  assay	3	Dominant negative STAT3	high/2.4
+p21	STAT3	9694869	human	Bone	MG63	reporter gene  assay	2	presence vs. absence of STAT3	low/1.3
+p21	STAT1	9694869	mouse	Bone	MG63	northern blot	na	STAT1 (-/-) vs STAT1 (+/+)	high
+Nos2	STAT1	10882409	mouse	NA	RAW264.7	emsa	na	Stimulation of STAT1 (Ifngamma)	high
+Irf1	STAT1	10882409	mouse	NA	RAW264.7	emsa	2	stimulation of STAT1 (IFN gamma	high
+Irf1	STAT6	10882409	mouse	NA	RAW264.7	emsa	2	stimulation of STAT6 (IL-4 gamma)	high
+Irf1	STAT1	10882409	mouse	NA	RAW264.7	emsa	na	stimulation of STAT1 (IFN gamma)	high
+Nos2	STAT1	12902503	mouse	NA	RAW264.7	emsa	4	Stimulation of STAT1 (Ifngamma)	high
+Irf1	STAT1	8168491	human	Blood	T47D	emsa	na	stimulation off STAT91 (IFN gamma)	high
+IRF1	STAT1	9373245	grivet (monkey)	Kidney	COS7	emsa	na	no antibody	high
+IRF1	STAT1	9373245	grivet (monkey)	Kidney	COS7	reporter gene  assay	3	mutant STAT binding site	medium/1.8
+IRF1	STAT1	9373245	grivet (monkey)	Kidney	COS7	emsa	na	Inhibition of STAT binding (PKCdelta)	high

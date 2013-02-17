@@ -1,18 +1,63 @@
-Gene	Family Member	PMID	Species	Experimental Tissue(s)	Cell line	Experiment	# Replicates	Control	Quality/Fold Change
-Bcl-xL	NF-kB1	22970906	Mouse	hepatic macrophages	C57BL/6	ChIP	2 strains	NF-kB-/- mice liver cells 	2 fold increase in TNFa mRNA
-IkB	NF-kB1	7982908	Mouse	Jurkat T-lymphocytes	NA	western blot	2 strains	reticulocyte lysate	High 
-Bcl-2	NF-kB2	12835724	human	colon carcinoma	HCT116	EMSA	NA	cells not treated with TNF-alpha (unstimulated)	good
-Bcl-2	NF-kB2	12835724	human	breast cancer	MCF7AZ	western blot	NA	untransfected cells	good
-Bcl-xL	NF-kB2	15079071	human	T cells	NA	ChIP	NA	cells not treated with NF-kB inhibitors or stimulated with Dap3/B7 cells	poor
-IL-8	NF-kB2	15079071	human	T cells	NA	ChIP	NA	cells not treated with NF-kB inhibitors or stimulated with Dap3/B7 cells	poor 
-SELP	NF-kB2	7559449	human	megakaryocytic cells	CHRF-288	EMSA	NA	plasmid without insert	-1.4 fold
-STAT2	NF-kB2	22198284	human	lung cancer	H1299	ChIP	3	transfected with vector HC5 instead of mutant vector	poor
-DAPK1	NF-kB2	22096027	human	leukemic cells	MV-4-11	ChIP	at least 3	nonspecific IgG	10-100 fold
-CRH	NF-kB2	22734038	human	placenta	NA	ChIP	NA	rabbit IgG	5 fold
-CRH	NF-kB2	22734038	human	placenta	NA	reporter gene assay	NA	mutant version of promoter	2.5 fold
-CCND1	NF-kB2	20420878	human	bronchial epithelium	BEAS-2B	ChIP	at least 3	cells not exposed to arsenite	poor
-CD21	NF-kB2	17140663	mouse	splenic B cells	NA	ChIP	NA	mouse IgG	poor
-CD23	NF-kB2	17140663	mouse	splenic B cells	NA	ChIP	NA	mouse IgG	poor
-CCL5	NF-kB2	15994789	human	pulmonary epithelium	A549	reporter gene assay	6	empty eukaryotic expression vector	fair
-IL2Ralpha	NF-kB2	10773315	human	T cells 	Jurkat	EMSA	NA	mutant NF-kB promoter sequence	poor
-IL-8	NF-kB2	8413215	human	T cells 	Jurkat	EMSA	3	probe contains Ig/HIV kB element	poor
+Gene	Family Member	PMID	Species	Organ	Tissues/Cell line	Experiment	# Replicates	Control	Quality/Fold Change
+IkB	NF-kB1	7982908	Mouse	Blood	Jurkat T-lymphocytes	western blot	2 strains	reticulocyte lysate	high
+p50	NF-kB1	23159890	Rat	Brain	(DRG) sensory neurons	ChIP	1 strain	 age matched rats	
+p105	NF-kB1	22733995	Mouse	NA	RAW264.7	western blot	NA		
+IL-33	NF-kB1	23299617	Mouse	Bone marrow	bone marrow	western blot	NA	The mice treated with 5 μl PBS alone	
+Il-12 p40	NF-kB1	9497375	Human	Blood	EBV+	EMSA	NA	competitor DNAs 	high
+Il-12 p40	NF-kB1	9497375	Human	Blood	RPMI-8866	EMSA	NA	competitor DNAs 	high
+Il-12 p40	NF-kB1	9497375	Human	Blood	PA682BM-2	EMSA	NA	competitor DNAs 	high
+Il-12 p40	NF-kB1	9497375	Human	Blood	AS283A	EMSA	NA	competitor DNAs 	high
+IL-13	NF-kB1	22927641	Mouse 	Bone marow	differentiated mast cells from bone marrow	western blot	NA	Mice lacking p50 (p50ko)	high
+p105	NF-kB1	22733995	Mouse	Bone marrow	bone marrow-derived macrophages	ChIP	NA	Mouse IgG	high
+NFKBIA	NF-kB1	22509384	Human	Mouth	oral cancer	ChIP	NA	non-cancerous subjects	high/Smokers:4.67-5.91 fold
+IL-6 and IL-10 	NF-kB1	21902578	Human	Blood	peripheral blood leukocytes	reporter gene assay	NA	Healthy individuals w/o CD20 + diffuse large B-cell non-Hodgkin lymphoma	high
+BCL-2	NF-kB2	12835724	human	Large intestine	HCT116	EMSA	NA	cells not treated with TNF-alpha (unstimulated)	high
+BCL-2	NF-kB2	12835724	human	Breast	MCF7/AZ	western blot	NA	untransfected cells	high
+BCL-XL	NF-kB2	15079071	human	Blood	T cells	ChIP	NA	cells not treated with NF-kB inhibitors or stimulated with Dap3/B7 cells	low
+IL-8	NF-kB2	15079071	human	Blood	T cells	ChIP	NA	cells not treated with NF-kB inhibitors or stimulated with Dap3/B7 cells	low
+SELP	NF-kB2	7559449	human	Bone marrow	CHRF-288	EMSA	NA	plasmid without insert	low/-1.4 fold
+STAT2	NF-kB2	22198284	human	Lung	H1299	ChIP	3	transfected with vector HC5 instead of mutant vector	low
+DAPK1	NF-kB2	22096027	human	Blood	MV4-11	ChIP	at least 3	nonspecific IgG	high/10-100 fold
+CRH	NF-kB2	22734038	human	Placenta	placenta	ChIP	NA	rabbit IgG	high/5 fold
+CRH	NF-kB2	22734038	human	Placenta	placenta	reporter gene assay	NA	mutant version of promoter	high/2.5 fold
+CCND1	NF-kB2	20420878	human	Lung	BEAS-2B	ChIP	at least 3	cells not exposed to arsenite	low
+CD21	NF-kB2	17140663	mouse	Blood	splenic B cells	ChIP	NA	mouse IgG	low
+CD23	NF-kB2	17140663	mouse	Blood	splenic B cells	ChIP	NA	mouse IgG	low
+CCL5	NF-kB2	15994789	human	Lung	A549	reporter gene assay	6	empty eukaryotic expression vector	medium
+IL2Ralpha	NF-kB2	10773315	human	Blood	Jurkat	EMSA	NA	mutant NF-kB promoter sequence	low
+IL-8	NF-kB2	8413215	human	Blood	Jurkat	EMSA	3	probe contains Ig/HIV kB element	low
+NF-kB2	NF-kB2	7969113	human	Blood	Jurkat	EMSA	NA	HIV kB probe	high/15 fold
+Enpp2	NF-kB2	22880094	mouse	Embryo	embryonic fibroblasts	ChIP	NA	unrelated target site	high
+Enpp2	RelB	22880094	mouse	Embryo	embryonic fibroblasts	ChIP	NA	unrelated target site	high
+IDO	RelB	22879398	human	Brain	plasmacytoid dendritic cells	ChIP	NA	non-NIK siRNA-transfected cells	high
+DBP	RelB	22894897	human	Embryo	HEK-293	ChIP	NA	IgG	high
+p53	RelB	22777360	mouse	Embryo	NIH-3T3	ChIP	NA	transducted with lentivirus with empty vector	high/10 fold
+CRH	RelB	22734038	human	Small intestine	cytotrophoblasts	ChIP	NA	unconjugated rabbit polyclonal antibody	high/5 fold
+BCL10	RelB	22579587	human	Large intestine	NCM460	ELISA	NA	mutated NF-kB sequence in promotor	medium
+BCL10	RelB	22579587	human	Large intestine	NCM460	ChIP	NA	IgG	medium
+TNFalpha	RelB	21562054	human	Blood	THP-1	ChIP	4	IgG antibody	medium
+IL-8	RelB	21640702	human 	Breast	MCF10AT1	EMSA	NA	scrambled siRNA	high/3 fold
+BCL2A1	RelB	22553204	human	Large intestine	E12	EMSA	NA	isotype	low
+BCL2A1	RelB	22553204	human	Blood	C8166-45	EMSA	NA	isotype	low
+IL-17	RelB	21419662	human	Blood	gamma delta T cells	qt-PCR	NA	wild type mice	low
+CD44	RelB	21411116	human	Uterus	HeLa	ChIP	NA	rabbit IgG; promoter sequence for Bcl-xL	high
+CD44	RelB	21411116	human	Blood	Jurkat	ChIP	NA	rabbit IgG; promoter sequence for Bcl-xL	high
+IL-1beta	RelB	21078560	human	Blood	THP-1	ChIP	NA	cells not LPS-reprogrammed	medium
+FANCD2	RelB	19934314	human 	Blood	RPMI8226	ChIP	3	rabbit IgG	low/0.4 fold
+ITGB1	RelB	19903458	human	Lung	H69	RT-qPCR	NA	empty vector	high/3 fold
+IL1B	RelB	19690169	human	Blood	THP-1	ChIP	NA	IgG 	medium
+IL-6	RelB	19687301	human	Breast	MDA-MB-231	qPCR	3	cells transfected with mock siRNA	high
+PRDM1	RelB	19433448	human	Breast	ZR-75	immunoblot	3	empty vector	low
+PRDM1	RelB	19433448	human	Breast	MCF-7	immunoblot	3	empty vector	low
+Blimp1	RelB	19433448	mouse	Breast	NF639	immunoblot	3	empty vector	low
+PTGS2	RelB	19284764	human	Lung	A549	ChIP	NA	cells not treated with TNFalpha or PBT-1	medium
+Il-6	RelB	18688039	mouse	Lung	lung 	ChIP	NA	IgG	high/18 fold
+Cxcl14	RelB	18688039	mouse	Lung	lung	ChIP	NA	IgG	high/3 fold
+CASP14	RelB	18424262	human	Skin	epidermal keratinocytes	EMSA	NA	incubated with IgG instead of NF-kB subunit antibody	medium
+BIRC3	RelB	18226221	human	NA	T98G	ChIP	3	beta-globin	high/9.3 fold
+CCL2	RelB	18226221	human	NA	T98G	ChIP	3	beta-globin	high/2 fold
+CCND1	RelB	18226221	human	NA	T98G	ChIP	3	beta-globin	medium/1.8 fold
+GABPB2	RelB	18226221	human	NA	T98G	ChIP	3	beta-globin	medium/1.7 fold
+MAT2A	RelB	18226221	human	NA	T98G	ChIP	3	beta-globin	medium/1.8 fold
+PLAU	RelB	18226221	human	NA	T98G	ChIP	3	beta-globin	high/2.3 fold
+PTX3	RelB	18226221	human	NA	T98G	ChIP	3	beta-globin	high/7 fold
