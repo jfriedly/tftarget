@@ -3,10 +3,13 @@ import csv
 import re
 import sys
 
+
 from search.models import Experiment
+
 
 # We use this a lot, so we should only compile it once.
 DELIMITER = re.compile('\s*[/;,+&]+\s*')
+
 
 class DBImportError(Exception):
     message = ''
@@ -25,13 +28,16 @@ class Command(BaseCommand):
             "selecting .csv or by using 'Export'.\n")
 
     def handle(self, *args, **options):
+        """Main function of the management command.  When the management
+        command is called from a shell, this function 'handles' it.
+        """
         # This is the expected order of columns. It can easily be re-arranged.
         columns = ['gene', 'transcription_factor', 'pmid', 'species',
                    'expt_tissues', 'cell_line', 'expt_type', 'replicates',
                    'control', 'quality']
         if len(args) != 1:
             raise CommandError("Please give one and only one filename.")
-        
+
         #(jfriedly) I considered putting this in a try: except IOError, but I
         # think it's better to just let that bubble up.
         with open(args[0], 'r') as csvfile:
@@ -50,9 +56,10 @@ class Command(BaseCommand):
                 if row.has_key(None):
                     row.pop(None)
                 try:
-                   added, dupe = self.validate_and_add(row, line)
-                   adds += added
-                   dupes += dupe
+                    row = self._validate(row, line)
+                    added, dupe = self._add(row, line)
+                    adds += added
+                    dupes += dupe
                 except DBImportError as e:
                     #TODO make a file of these errors.
                     errors += 1
@@ -60,34 +67,36 @@ class Command(BaseCommand):
             print ('\nAdded %d/%d entries. Ignored %d errors and %d duplicates.'
                     % (adds, adds+dupes+errors, errors, dupes))
 
-    def split_row(self, row, name, depth, line):
-        r = DELIMITER.split(row)
-        if len(r) != 1:
-            if (depth != 1 and len(r) != depth):
+    def _split_cell(self, row, name, depth, line):
+        """
+        Split a cell into multiple values if they can be found and return them
+        as well as the 'depth'.  The 'depth' is the index for which value we're
+        currently parsing.
+
+        If depth comes in as 1 and the number of values parsed is > 1, then
+        return the total depth.  If depth comes in as something other than 1,
+        return whatever it was before.
+        """
+        cell_values = DELIMITER.split(row)
+        if len(cell_values) > 1:
+            if (depth > 1 and len(cell_values) != depth):
                 raise DBImportError(
-                    "Error on line %d: Number of row sub-values does not match in"
-                    "each column. %s has %d values, while previous columns had %d"
-                    "values." % (line, name, len(r), depth))
-            depth = len(r)
-        return r, depth
+                    "Error on line %d: Number of row sub-values does not "
+                    "match in each column. %s has %d values, while previous "
+                    "columns had %d values." % (line, name, len(r), depth))
+            depth = len(cell_values)
+        return cell_values, depth
 
-
-    def validate_and_add(self, row, line):
+    def _validate(self, row, line):
         """
-        Perform basic validation of the data in the row.
+        Preform basic row validation before adding the row in.
         """
-        # The number of delimited values in the row. Supposedly, for each column
-        # this will be n where n == 1 or n is the same for all columns in row
-        depth = 1
-        row_multis = []
-        #NOTE only trans. fac, expt, cell line/organ can have multi-value
-
         if not len(row['gene']) <= 255:
             raise DBImportError("Genes must be <= 255 characters. Got: '%s'"
                                 % row['gene'])
-    
+
         # Make sure pmid can be made an int, but pass on empty strings.
-        if row['pmid'] and row['pmid'].lower() not in ['na', 'n/a']:
+        if row['pmid'] and row['pmid'].lower() not in ('na', 'n/a'):
             try:
                 int(row['pmid'])
             except ValueError:
@@ -95,37 +104,40 @@ class Command(BaseCommand):
                                     "integer. Got '%s'" % (line, row['pmid']))
         else:
             row['pmid'] = None
-        
-        if not row['expt_type']:
-            raise DBImportError("Error on line %d: No experiment type." % line)
+        return row
+
+    def _get_row_multis(self, row, row_multis, key, name, depth, line):
+        """For columns that can have multiple values, create the row_multis
+        list of appropriate dicts.
+        """
+        if not row[key]:
+            raise DBImportError("Error on line %d: No %s." %
+                                (line, name.lower()))
         # Split up the row, and check that the depth is valid
-        expts, depth = self.split_row(row['expt_type'], 'Experiment type', depth, line)
+        cell_values, depth = self._split_cell(row[key], name, depth, line)
         # If our list of multis is too short, grow it
         while len(row_multis) < depth:
             row_multis.append({})
-        # Then, if there's more than one value, put them in the multi-value list
-        if len(expts) != 1:
-            row.pop('expt_type')
-            for n, expt in enumerate(expts):
-                row_multis[n]['expt_type'] = expt
-        
-        cell_lines, depth = self.split_row(row['cell_line'], 'Cell line', depth, line)
-        while len(row_multis) < depth:
-            row_multis.append({})
-        if len(cell_lines) == 1:
-            row.pop('cell_line')
-            for n, cell_line in enumerate(cell_lines):
-                row_multis[n]['cell_line'] = cell_line
-        
-        if not row['transcription_factor']:
-            raise DBImportError("Error on line %d: No transcription factor." % line)
-        transcription_factors, depth = self.split_row(row['transcription_factor'], 'Transcription factor', depth, line)
-        while len(row_multis) < depth:
-            row_multis.append({})
-        if len(transcription_factors) != 1:
-            row.pop('transcription_factor')
-            for n, transcription_factor in enumerate(transcription_factors):
-                row_multis[n]['transcription_factor'] = transcription_factor
+        # Then, add each cell value to a row_multi dictionary
+        for n, value in enumerate(cell_values):
+            row_multis[n][key] = value
+        return row_multis
+
+    def _add(self, row, line):
+        """
+        Add rows to the database intelligently, looking for delimited values.
+        """
+        # The number of delimited values in the row. Supposedly, for each column
+        # this will be n where n == 1 or n is the same for all columns in row
+        depth = 1
+        row_multis = []
+        #NOTE only trans. fac, expt, cell line/organ can have multi-value
+        for key, name in (('expt_type', 'Experiment type'),
+                          ('cell_line', 'Cell Line'),
+                          ('transcription_factor', 'Transcription factor')):
+            row_multis = self._get_row_multis(row, row_multis, key, name,
+                                              depth, line)
+            row.pop(key)
 
         # Now we can finally add rows
         added = 0
@@ -139,7 +151,8 @@ class Command(BaseCommand):
                 added += 1
         return added, duplicates
 
-    def check_experiment_types(self, expt_types):
+    #TODO(jfriedly) We need to use this function or remove it
+    def _check_experiment_types(self, expt_types):
         """
         Takes a list of experiment types and ensures that they are valid and
         extant.
@@ -155,6 +168,7 @@ class Command(BaseCommand):
             # Found this typo in the data.  We can fix it for them.
             #expt_type = re.sub('Westernn', 'Western', expt_type, flags=re.I)
 
+    #TODO(jfriedly) We need to use this function or remove it
     def _custom_transcription_factor_regexes(self, experiment, tf):
         # This one isn't supposed to have a dash
         tf = re.sub('NF-kB', 'NFkB', tf, flags=re.I)
