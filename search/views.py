@@ -15,21 +15,16 @@ def search(request):
         return render_to_response("search.html", {"form": form},
                                   context_instance=RequestContext(request))
     results = set()
-    if form.cleaned_data['expt_type']:
-        expt_type = form.cleaned_data.pop('expt_type')
-        experiments = Experiment.objects.filter(expt_type__type_name=expt_type)
-        results = _intersect_unless_empty(results, experiments)
-
     if form.cleaned_data['transcription_factor']:
         try:
             tf = json.loads('"%s"' % form.cleaned_data['transcription_factor'])
-            experiments = Experiment.objects.filter(transcription_factor__tf=tf)
+            experiments = Experiment.objects.filter(transcription_factor=tf)
             form.cleaned_data.pop('transcription_factor')
         except ValueError:
             tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
             experiments = set()
             for tf in tfs:
-                experiments = experiments.union(set(Experiment.objects.filter(transcription_factor__tf=tf)))
+                experiments = experiments.union(set(Experiment.objects.filter(transcription_factor=tf)))
         results = _intersect_unless_empty(results, experiments)
 
     for key, value in form.cleaned_data.iteritems():
@@ -56,10 +51,8 @@ def _serialize_results(results):
     """
     full_results = []
     for expt in list(results):
-        tfs = [v['tf'] for v in expt.transcription_factor.values()]
-        ets = [v['type_name'] for v in expt.expt_type.values()]
         expt = expt.serialize()
-        expt['transcription_factor'] = tfs
-        expt['expt_type'] = ets
         full_results.append(expt)
+    print str(results)
+    print json.dumps(full_results)
     return json.dumps(full_results)

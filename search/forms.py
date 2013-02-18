@@ -1,15 +1,10 @@
 from django import forms
 
-from search.models import Experiment, ExperimentType
+from search.models import Experiment
 
 
 class SearchForm(forms.Form):
     """Search form to be submitted by a user."""
-    transcription_family = forms.ChoiceField(label=("Transcription Factor "
-        "Family"),
-        choices=Experiment.TF_FAMILIES,
-        widget=forms.Select(attrs={'class': 'input input-select'}),
-        required=False)
     transcription_factor = forms.CharField(label="Transcription Factor",
         widget=forms.TextInput(attrs={'class': 'input input-text'}),
         required=False)
@@ -21,7 +16,7 @@ class SearchForm(forms.Form):
         widget=forms.Select(attrs={'class': 'input input-select'}),
         required=False)
     expt_type = forms.ChoiceField(label="Experiment Name",
-        choices=ExperimentType.EXPERIMENT_TYPES,
+        choices=Experiment.EXPERIMENT_TYPES,
         widget=forms.Select(attrs={'class': 'input input-select'}),
         required=False)
     expt_tissues = forms.CharField(label="Tissue Name",

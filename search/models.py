@@ -86,7 +86,7 @@ class Experiment(models.Model):
     FOX_TFS = [FOXA, FOXM, FOXO]
 
     ALL_TFS = NFKB_TFS + STAT_TFS + MYC_TFS + E2F_TFS + FOX_TFS
-    
+
     # --
     # --- Valid options for TF Families
     # ---
@@ -128,13 +128,15 @@ class Experiment(models.Model):
     control = models.CharField(max_length=255, default='', null=True)
     quality = models.CharField(max_length=255, default='', null=True)
     active = models.BooleanField(default=True)
-    created = models.DateTimeField(auto_now_add=True, null=True)
-    modified = models.DateTimeField(auto_now=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def serialize(self):
         d = self.__dict__.copy()
         if '_state' in d:
             d.pop('_state')
+        d['created'] = str(d['created'])
+        d['modified'] = str(d['modified'])
         return d
 
     def __repr__(self):
