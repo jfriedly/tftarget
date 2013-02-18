@@ -64,10 +64,10 @@ Put the following lines into the file and save it, making up a secret key to use
 
 Ensure that Django has access to the MySQL database by opening a Python interpreter with ``python manage.py shell`` and then running these commands::
 
-    >>> from search.models import TranscriptionFactor
-    >>> tf = TranscriptionFactor(tf='E2F1')
-    >>> tf.save()
-    >>> tf.delete()
+    >>> from search.models import Experiment
+    >>> e = Experiment(species='Human', cell_line='frankencells!')
+    >>> e.save()
+    >>> e.delete()
 
 
 Using South
@@ -83,22 +83,29 @@ Then, run this command for each app that we built, replacing $APP_NAME with the 
 
 In order to load the latest SQL dump, run these commands, giving the root user's password at the prompt each time::
 
-    $ mysql -uroot -p tftarget < search_experiment_expt_type.sql 
     $ mysql -uroot -p tftarget < search_experiment.sql
-    $ mysql -uroot -p tftarget < search_experiment_transcription_factor.sql
-    $ mysql -uroot -p tftarget < search_experimenttype.sql
-    $ mysql -uroot -p tftarget < search_transcriptionfactor.sql
+
+Currently, we have a simple shell script that will run both of the above commands for you.
+You can call it with::
+
+    $ tools/reloaddb.sh
 
 What to do if the ID's are Wrong
 ''''''''''''''''''''''''''''''''
 
 If you run into errors that rows are attempting to foreign key to other rows that don't exist when you're trying to import the data, read on.
-Simply drop the table with  ``DROP TABLE $TABLE_NAME`` and then try to import the data again using ``mysql -uroot -p tftarget < $TABLE_NAME.sql``.
+Simply drop the table with ``DROP TABLE $TABLE_NAME`` and then try to import the data again using ``mysql -uroot -p tftarget < $TABLE_NAME.sql``.
 Depending on which table it was, you may need to drop some other tables first because of foreign key constraints.
 The many-to-many lookup tables can always be dropped, and once those are gone, any of the others can be dropped.
 The tables can be restored in any order (I think).
 If this doesn't work, don't worry, we're just using fake data for now.
 Do NOT do this on a production database.
+
+How to Export the Database to a SQLdump
+'''''''''''''''''''''''''''''''''''''''
+::
+
+    $ mysqldump -uroot -p tftarget search_experiment > sqldumps/search_experiment.sql
 
 
 About Python
