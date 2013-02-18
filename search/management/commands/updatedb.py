@@ -8,7 +8,7 @@ from search.models import Experiment
 
 
 # We use this a lot, so we should only compile it once.
-DELIMITER = re.compile('\s*[/;,+&]+\s*')
+DELIMITER = re.compile('\s*[/;,&]+\s*')
 
 
 class DBImportError(Exception):
