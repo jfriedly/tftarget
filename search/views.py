@@ -12,7 +12,9 @@ def search(request):
     """Search through the experiments for a search term."""
     form = SearchForm(request.POST or None)
     if not form.is_valid():
-        return render_to_response("search.html", {"form": form},
+        return render_to_response("search.html",
+                                  {'form': form,
+                                   'tf_choices': json.dumps(Experiment.TF_CHOICES)},
                                   context_instance=RequestContext(request))
     results = set()
     if form.cleaned_data['transcription_factor']:
@@ -52,6 +54,4 @@ def _serialize_results(results):
     for expt in list(results):
         expt = expt.serialize()
         full_results.append(expt)
-    print str(results)
-    print json.dumps(full_results)
     return json.dumps(full_results)

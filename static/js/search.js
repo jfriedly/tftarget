@@ -90,7 +90,7 @@ function fillFamily(trans) {
         $familyToggle.prepend("&nbsp;&nbsp;&nbsp;");
         $familyToggle.prepend($familyNameCheckBox);
         $familyHeading.append($familyToggle);
-        
+
         $collapse.append($inner);
         $familyGroup.append($familyHeading);
         $familyGroup.append($collapse);
@@ -108,14 +108,14 @@ function fillFamily(trans) {
      */
     $('.tft-family-dropdown-menu').click(function (e) {
         e.stopPropagation();
-    }); 
-    addToggleEvents(); 
+    });
+    addToggleEvents();
 }
 
 //initSearchForm require that values are in pairs label and a bunch of ctrols.
 function initSearchForm () {
     var $searchForm = $('#tft-search-form').children(':not(:hidden)');
-    
+
     $('#tft-search-form > label').addClass('control-label ');
     //alert($searchForm.length);
     //$searchForm.prepend($('#tft-transcription-factor-input'));
@@ -146,7 +146,9 @@ function searchPreview() {
 
 
 function ajaxSearch () {
+    console.log("AJAX searching!");
     $.post('/', $('#tft-search-form').serialize(), function (data) {
+        console.log("AJAX searched");
         //clear the search result for ready for next search result
         $('#search-results').children().remove()
         //create a table here
@@ -173,12 +175,10 @@ $(document).ready(function () {
     console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
     $.ajaxSetup({traditional: true});
     initSearchForm ();
-    $('#tft-search-btn-1').click(ajaxSearch);
     //an example of the transcription family
-    var trans = [['E2F', 'E2F1', 'E2F2', 'E2F3', 'E2F3A', 'E2F4', 'E2F5', 'E2F6', 'E2F7'], 
-                 ['MYC','c-Myc','n-Myc']];
-    
-    
+    var trans = $.parseJSON($('#tf-choices').html())
+
+
     fillFamily(trans);
     $('.input-text').keypress(function (e) {
         if (e.which == 13) {
@@ -218,7 +218,7 @@ function addEventHandlers() {
        // alert($('#id_transcription_factor').val());
         ajaxSearch();
     });
-   
+
     $('.tft-family-select').click(function() {
         $($(this).attr('tft-parent-id')).collapse('show');
         if($(this).is(':checked')==true){
@@ -249,7 +249,7 @@ function addEventHandlers() {
     $('.dropdown-toggle').dropdown();
 }
 $(function() {
-    
+
     var tf = [
         "E2F",
         "MYC",
