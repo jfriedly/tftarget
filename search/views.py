@@ -16,42 +16,26 @@ def search(request):
                                   {'form': form,
                                    'tf_choices': json.dumps(Experiment.TF_CHOICES)},
                                   context_instance=RequestContext(request))
-    results = set()
+
+    results = []
     if form.cleaned_data['transcription_factor']:
-        try:
-            tf = json.loads('"%s"' % form.cleaned_data['transcription_factor'])
-            experiments = Experiment.objects.filter(transcription_factor=tf)
-            form.cleaned_data.pop('transcription_factor')
-        except ValueError:
-            tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
-            experiments = set()
-            for tf in tfs:
-                experiments = experiments.union(set(Experiment.objects.filter(transcription_factor=tf)))
-        results = _intersect_unless_empty(results, experiments)
+        tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
+        results = Experiment.objects.filter(transcription_factor__in=tfs)
 
     for key, value in form.cleaned_data.iteritems():
-        if value:
-            these_results = Experiment.objects.filter(**{key: value})
-            results = _intersect_unless_empty(results, these_results)
+        if value and not results:
+            results = Experiment.objects.filter(**{key: value})
+        elif value:
+            results = results.filter(**{key: value})
     json_results = _serialize_results(results)
     return HttpResponse(json_results)
-
-def _intersect_unless_empty(results, these_results):
-    """Takes the final results set and a set of results matching one parameter
-    and returns the intersection of them if the final results set is non-empty,
-    else returns the set matching that parameter.
-    """
-    if results and these_results:
-        return results.intersection(set(these_results))
-    return set(these_results)
 
 
 def _serialize_results(results):
     """Takes the results set and serializes it to JSON, adding transcription
     factors and experiment types.
     """
-    full_results = []
-    for expt in list(results):
-        expt = expt.serialize()
-        full_results.append(expt)
-    return json.dumps(full_results)
+    results = list(results)
+    for i, expt in enumerate(results):
+        results[i] = expt.serialize()
+    return json.dumps(results[:500])

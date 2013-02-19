@@ -19,6 +19,6 @@ class SearchForm(forms.Form):
         choices=Experiment.EXPERIMENT_TYPES,
         widget=forms.Select(attrs={'class': 'input input-select'}),
         required=False)
-    expt_tissues = forms.CharField(label="Tissue Name",
+    expt_tissues = forms.CharField(label="Organ",
         widget=forms.TextInput(attrs={'class': 'input input-text'}),
         required=False)
