@@ -44,27 +44,25 @@
         </div>
       </div>
     </div>
-    <div class="container span12">
-      <br>
-      <div class="row offset1 tft-welcome-banner">
-        <div class="row span12 ">
+    <div class="container tft-container offset1">
+      <div class="row tft-welcome-banner tft-margin1">
+        <div class="row ">
           <div class="span2">
             <h4>Transcription Factor Target</h4>
           </div>
-          <div class="span10">
+          <div class="span9">
             <p></p>
           </div>
         </div>
       </div> <!-- row -->
-      <br>
-      <div class="row offset1">
-        <ul class="nav nav-tabs" id="tft-home-tabs">
+      <div class="row tft-margin1">
+        <ul class=" nav nav-tabs" id="tft-home-tabs">
           <li><a href="#direct-targets" data-toggle="tab">Direct Targets</a></li>
           <li><a href="#enrichment-analysis" data-toggle="tab">Erichment Analysis</a></li>
           <li><a href="#download-database" data-toggle="tab">Download Database</a></li>
         </ul>
       </div>
-      <div class="tab-content">
+      <div class="row tab-content tft-margin1">
         {% block body %}
         {% endblock %}
       </div>

@@ -1,13 +1,31 @@
+body {
+    background-color:#F5F9FD;
+}
+.tft-margin1 {
+    margin:10px;
+    padding:0px;
+}
+
+.tft-tab-header {
+    padding-left: 20px;
+    background-color:#FFF;
+}
+.tft-container {
+    background-color:#738EA5;
+}
+
 .tft-welcome-banner {
     background-color: lightgrey;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F9FC', endColorstr='#000000'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#lightgrey), to(#FFF)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #f1f1f1, #d1d1d1); /* for firefox 3.6+ */
     height: 70px;
 }
 .tft-search-container {
-    padding:10px;
-    background-color:#f8f8f8;
-    border:#580000 solid 1px;
-    border-bottom:#580000 solid 3px;
-    border-top:0px;
+    background-color:#F5F9FC;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFBFD', endColorstr='#CCDEEC'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#FAFBFD), to(#CCDEEC)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #FAFBFD, #CCDEEC); /* for firefox 3.6+ */
 }
 .tft-dropdown-container {
     height:200px;
@@ -15,14 +33,19 @@
 }
 
 #tft-home-tabs {
-    background-color: #F0F0F0;
-    border-bottom:#580000 solid 3px;
-    border-top:#580000 solid 1px;
+    margin: 0px;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F9FC', endColorstr='#000000'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#lightgrey), to(#F0F0F0)); /* for webkit browsers */
+    background: -moz-linear-gradient(top, #fefefe, #e0e0e0); /* for firefox 3.6+ */
 }
 #tft-home-tabs a{
-    color:#580000;
+    color:black;
     font-weight:bold;
     font-size:1.1em;
+}
+#search-results {
+    margin-left:30px;
+    background-color:#fff;
 }
 
 .tft-family-toggle {
@@ -30,8 +53,7 @@
    height:10px;
 }
 .tft-thead {
-    border-bottom:#580000 solid 3px;
-    color:#480000;
+    border-bottom: black solid 3px;
     font-size:1.1em;
 }
 .tft-family-select {
