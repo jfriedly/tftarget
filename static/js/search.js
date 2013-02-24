@@ -7,9 +7,9 @@
 
 
 /**
-   This table orders the column of the table. The purpose of the multidimensional array is to 
+   Used to order the column of the table. The purpose of the multidimensional array is to 
    map from DB name to Human readable format
-   eg. expt_type - Experimental Type
+   e.g. expt_type - Experimental Type
 */
 var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
                      ["gene", "Gene"],
@@ -25,32 +25,38 @@ var INPUT_NAME = [["id_transcription_family", "Transcription Family"],
                   ["id_species", "Experimental Species"],
                   ["id_tissue_name", "Experimental Tissues"],
                   ["id_expt_type", "Experiment Type"]];
+
 /**
-   Prints the headings of the table from a json object. The result is appended to the table
+   Prints the headings of the table from a json object. The result is appended to the table.
    @param thead - the thead element of the table
-   @param object - the json object
 */
 function printTHead (thead) {
     var row = '<tr>';
+    //prints from heading according to the order of the TABLE_HEADING array.
     for(var i=0; i < TABLE_HEADING.length; i++) {
        row += '<th>' + TABLE_HEADING[i][1] + '</th>';
     }
-    row += '</tr>'
+    row += '</tr>' //close the table row
     thead.append(row);
 }
-
-
 /**
-   Prints the rest of the table from a json object. The result is appended to the table
+   Prints the rest of the table from a json object. The result is appended to the table.
+   Make sure the printHead fuction order correspond to this function
+   Every pmid is printed as a link to the PubMed Website. It opens in a new window
+   If a value doesn't contain anything, a hyphen is printed.
+
    @param tbody - the tbody element of the table
    @param object - the json object
 */
 function printTBody (tbody, object) {
     var row = '<tr>';
+    //prints from row according to the order of the TABLE_HEADING array.
     for (var i=0; i < TABLE_HEADING.length; i++) {
         property = TABLE_HEADING[i][0];
-        if (property == 'pmid') {
-            row += '<td><a href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
+        if (object[property]==null || object[property]=='') {
+             row += '<td> - </td>'; //prints a desh to indicate no value
+        } else if (property == 'pmid') {
+            row += '<td><a target="blank" href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
         } else {
             row += '<td>' + object[property] + '</td>';
         }
@@ -58,17 +64,31 @@ function printTBody (tbody, object) {
     row += '</tr>'; //end the row, ready to append
     tbody.append(row);
 }
-function addToggleEvents() {
-    $(".tft-family-toggle").each(function () {
-        $(this).click (function() {
-            $($(this).attr('data-target')).collapse("toggle");
-        });
-    });
-   // $('#tft-close').click(function() {
-     //   $('#tft-family-dropdown-toggle').click();
-    //});
+/*Initialize all the commponets. All the 3 main forms of the have the same format
+*/
+function initializeComponents() {
+    initializeForm('#tft-search-form');
 }
-function fillFamily(trans) {
+/*Initializes the search and put all controls. 
+@requires the form should have the format
+<form> 
+<label></label><controls>
+<label></label><controls>
+...
+</form>
+@params formId -The id of the form  
+*/
+function initializeForm (formId) {
+    //get all hidden components
+    var $searchForm = $(formId).children(':not(:hidden)');
+    $(formId+' > label').addClass('control-label ');
+    //wrap all non hidden components with a control-group class for bootstrap
+    for(var i=0, j=$searchForm.length; i<j; i+=2) {
+        $searchForm.slice(i, i+2).wrapAll('<div class="control-group span5"/>')
+    }
+    $(':input:not(:hidden)').wrap('<div class="controls " />');//wraps every input which is not hidden
+}
+function initializeTFControl( trans) {
     var $familyAccordion = $('#family-accordion');
     for (var i =0; i<trans.length; i++) {
         var $familyGroup = $('<div></div>').addClass('accordion-group');
@@ -112,19 +132,18 @@ function fillFamily(trans) {
     addToggleEvents();
 }
 
-//initSearchForm require that values are in pairs label and a bunch of ctrols.
-function initSearchForm () {
-    var $searchForm = $('#tft-search-form').children(':not(:hidden)');
-
-    $('#tft-search-form > label').addClass('control-label ');
-    //alert($searchForm.length);
-    //$searchForm.prepend($('#tft-transcription-factor-input'));
-    //$('.tft-hidden').replaceWith($('#tft-transcription-factor-input'));
-    for(var i=0, j=$searchForm.length; i<j; i+=2) {
-        $searchForm.slice(i, i+2).wrapAll('<div class="control-group span5"/>')
-    }
-    $(':input:not(:hidden)').wrap('<div class="controls " />');//wraps every input which is not hidden
+function addToggleEvents() {
+    $(".tft-family-toggle").each(function () {
+        $(this).click (function() {
+            $($(this).attr('data-target')).collapse("toggle");
+        });
+    });
+   // $('#tft-close').click(function() {
+     //   $('#tft-family-dropdown-toggle').click();
+    //});
 }
+
+
 
 
 function searchPreview() {
@@ -174,12 +193,11 @@ function ajaxSearch () {
 $(document).ready(function () {
     console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
     $.ajaxSetup({traditional: true});
-    initSearchForm ();
-    //an example of the transcription family
+    initializeComponents ();
     var trans = $.parseJSON($('#tf-choices').html())
 
 
-    fillFamily(trans);
+    initializeTFControl(trans);
     $('.input-text').keypress(function (e) {
         if (e.which == 13) {
             console.log('enter pressed');
