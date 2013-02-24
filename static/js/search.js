@@ -161,6 +161,7 @@ function searchSummary() {
     //refresh the description
     var $summary = $('#tft-summary-body');
     var factors = '';
+    var noSummary = true;
     $summary.children().remove();
     $('.family-member:checked').each(function() {
         factors += $(this).attr('value') + ', '
@@ -171,15 +172,21 @@ function searchSummary() {
     if($.trim(factors)!='') {
         $dl.append('<dt>Transcription Factor(s): </dt>');
         $dl.append('<dd>'+factors+'</dd>');
+        noSummary = false;
     }
     for (var i=0; i < INPUT_NAME.length; i++) {
         var inputVal = $('#'+INPUT_NAME[i][0]).val();
         if($.trim(inputVal)!='') {
             $dl.append('<dt>'+INPUT_NAME[i][1]+': </dt>');
             $dl.append('<dd>'+inputVal+'</dd>');
+            noSummary=false;
         }
     }
-    $summary.append($dl);
+    if(noSummary==true) {
+         $summary.append('<h5>No summary to show </h5>');
+    } else {
+        $summary.append($dl);
+    }
 }
 
 
