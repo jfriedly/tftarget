@@ -59,13 +59,12 @@
         <ul class=" nav nav-tabs" id="tft-home-tabs">
           <li><a href="#direct-targets" data-toggle="tab">Direct Targets</a></li>
           <li><a href="#enrichment-analysis" data-toggle="tab">Erichment Analysis</a></li>
-          <li><a href="#download-database" data-toggle="tab">Download Database</a></li>
+          <li class="active"><a href="#download-database" data-toggle="tab">Download Database</a></li>
         </ul>
       </div>
-      <div class="row tab-content tft-margin1">
-        {% block body %}
-        {% endblock %}
-      </div>
+      
+      {% block body %}
+      {% endblock %}
     </div>
   </body>
   <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>

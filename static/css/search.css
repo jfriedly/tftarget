@@ -1,8 +1,8 @@
 body {
-    background-color:#F5F9FD;
+    background-color:#f5F9Fe;
 }
 .tft-margin1 {
-    margin:10px;
+    margin:7px;
     padding:0px;
 }
 
@@ -19,16 +19,16 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F9FC', endColorstr='#000000'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#lightgrey), to(#FFF)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #f1f1f1, #d1d1d1); /* for firefox 3.6+ */
-    height: 70px;
+    height: 100px;
 }
-.tft-search-container {
+.tft-form-container {
     background-color:#F5F9FC;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFBFD', endColorstr='#CCDEEC'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#FAFBFD), to(#CCDEEC)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #FAFBFD, #CCDEEC); /* for firefox 3.6+ */
 }
 .tft-dropdown-container {
-    height:200px;
+    max-height:200px;
     overflow:auto;
 }
 

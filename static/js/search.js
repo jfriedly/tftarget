@@ -19,9 +19,7 @@ var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
                      ["cell_line", "Tissues/Cell Line"],
                      ["expt_type", "Experiment"]];
 
-var INPUT_NAME = [["id_transcription_family", "Transcription Family"],
-                  ["id_transcription_factor", "Transcription Factor"],
-                  ["id_gene", "Gene"],
+var INPUT_NAME = [["id_gene", "Gene"],
                   ["id_species", "Experimental Species"],
                   ["id_tissue_name", "Experimental Tissues"],
                   ["id_expt_type", "Experiment Type"]];
@@ -30,6 +28,7 @@ var INPUT_NAME = [["id_transcription_family", "Transcription Family"],
    Prints the headings of the table from a json object. The result is appended to the table.
    @param thead - the thead element of the table
 */
+var tabInitialized = [false, false, false];
 function printTHead (thead) {
     var row = '<tr>';
     //prints from heading according to the order of the TABLE_HEADING array.
@@ -66,8 +65,21 @@ function printTBody (tbody, object) {
 }
 /*Initialize all the commponets. All the 3 main forms of the have the same format
 */
+function initializeTab(tabIndex) {
+    if (tabInitialized[tabIndex]==false) {
+        initializeForm('#tft-search-form-' + tabIndex);
+        var trans = $.parseJSON($('#tf-choices').html())
+        initializeTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
+        tabInitialized[tabIndex]=true;
+    }
+    // This is to stop the drop down to hide when you click it
+   
+}
 function initializeComponents() {
-    initializeForm('#tft-search-form');
+    $('.tft-family-dropdown-menu').click(function (e) {
+        e.stopPropagation();
+    });
+    addToggleEvents();
 }
 /*Initializes the search and put all controls. 
 @requires the form should have the format
@@ -80,56 +92,55 @@ function initializeComponents() {
 */
 function initializeForm (formId) {
     //get all hidden components
-    var $searchForm = $(formId).children(':not(:hidden)');
+    var $tftForm = $(formId).children(':not(:hidden)');
     $(formId+' > label').addClass('control-label ');
     //wrap all non hidden components with a control-group class for bootstrap
-    for(var i=0, j=$searchForm.length; i<j; i+=2) {
-        $searchForm.slice(i, i+2).wrapAll('<div class="control-group span5"/>')
+    for(var i=0, j=$tftForm.length; i<j; i+=2) {
+        $tftForm.slice(i, i+2).wrapAll('<div class="control-group span5"/>')
     }
-    $(':input:not(:hidden)').wrap('<div class="controls " />');//wraps every input which is not hidden
+    $(formId+' :input:not(:hidden)').wrap('<div class="controls " />');//wraps every input which is not hidden
 }
-function initializeTFControl( trans) {
-    var $familyAccordion = $('#family-accordion');
+
+/*Initialize the transcription factor dropdown. 
+*/
+function initializeTFControl(accordionId, trans, tab) {
+    var $familyAccordion = $(accordionId);
     for (var i =0; i<trans.length; i++) {
+        var familyId = trans[i][0]+tab;
         var $familyGroup = $('<div></div>').addClass('accordion-group');
         var $familyHeading = $('<div></div>').addClass('accordion-heading tft-family-heading');
         var $familyToggle = $('<a></a>').addClass ('btn accordion-toggle tft-family-toggle ');
-        var $familyNameCheckBox = $('<input id="'+trans[i][0]+'"type="checkbox" />').addClass('tft-family-select');
+        var $familyNameCheckBox = $('<input id="'+familyId+'"type="checkbox" />').addClass('tft-family-select');
         var $collapse = $('<div></div>').addClass('accordion-body collapse');
         var $inner = $('<div></div>').addClass('accordion-inner');
 
         $familyToggle.attr('data-toggle', 'collapse');
-        $familyToggle.attr('data-parent', '#family-accordion');
-        $familyToggle.attr('data-target', '#collapse'+trans[i][0]);
+        $familyToggle.attr('data-parent', $familyAccordion);
+        $familyToggle.attr('data-target', '#collapse'+familyId);
         $familyToggle.text(trans[i][0]);
 
-        $collapse.attr('id', 'collapse'+trans[i][0]);
-        $familyNameCheckBox.attr('tft-parent-id', '#collapse'+trans[i][0]);
+        $collapse.attr('id', 'collapse'+familyId);
+        $familyNameCheckBox.attr('tft-parent-id', '#collapse'+ familyId);
 
         //appending
         $familyToggle.prepend("&nbsp;&nbsp;&nbsp;");
         $familyToggle.prepend($familyNameCheckBox);
         $familyHeading.append($familyToggle);
-
         $collapse.append($inner);
         $familyGroup.append($familyHeading);
         $familyGroup.append($collapse);
+
         for (var j= 1; j< trans[i].length; j++) {
-            $familyMember = $('<li><label class="checkbox"><input type="checkbox" my-parent="'+trans[i][0]+'" class="family-member '+trans[i][0]+'" value="'+trans[i][j]+'">'
+            $familyMember = $('<li><label class="checkbox"><input type="checkbox" my-parent="'
+                              +familyId+'" class="family-member '
+                              +familyId+'" value="'+trans[i][j]+'">'
                               +trans[i][j]
                               +'</label></li>');
-            //$familyMember.addClass('accordion-toggle');
-            //$familyName.attr('data-toggle', 'collapse');
             $inner.append($familyMember);
         }
         $familyAccordion.append($familyGroup);
     }
-    /* This is to stop the drop down to hide when you click it
-     */
-    $('.tft-family-dropdown-menu').click(function (e) {
-        e.stopPropagation();
-    });
-    addToggleEvents();
+   
 }
 
 function addToggleEvents() {
@@ -145,14 +156,22 @@ function addToggleEvents() {
 
 
 
-
-function searchPreview() {
+//will write a prettier code later
+function searchSummary() {
     //refresh the description
-    var $preview = $('#tft-search-preview');
-    $preview.children().remove();
+    var $summary = $('#tft-summary-body');
+    var factors = '';
+    $summary.children().remove();
+    $('.family-member:checked').each(function() {
+        factors += $(this).attr('value') + ', '
+    });
+    
     var $dl = $('<dl></dl>');
-    $dl.append('<h4>Preview</h4>');
     $dl.addClass('dl-horizontal');
+    if($.trim(factors)!='') {
+        $dl.append('<dt>Transcription Factor(s): </dt>');
+        $dl.append('<dd>'+factors+'</dd>');
+    }
     for (var i=0; i < INPUT_NAME.length; i++) {
         var inputVal = $('#'+INPUT_NAME[i][0]).val();
         if($.trim(inputVal)!='') {
@@ -160,13 +179,13 @@ function searchPreview() {
             $dl.append('<dd>'+inputVal+'</dd>');
         }
     }
-    $preview.append($dl);
+    $summary.append($dl);
 }
 
 
 function ajaxSearch () {
     console.log("AJAX searching!");
-    $.post('/', $('#tft-search-form').serialize(), function (data) {
+    $.post('/', $('#tft-search-form-2').serialize(), function (data) {
         console.log("AJAX searched");
         //clear the search result for ready for next search result
         $('#search-results').children().remove()
@@ -194,17 +213,7 @@ $(document).ready(function () {
     console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
     $.ajaxSetup({traditional: true});
     initializeComponents ();
-    var trans = $.parseJSON($('#tf-choices').html())
-
-
-    initializeTFControl(trans);
-    $('.input-text').keypress(function (e) {
-        if (e.which == 13) {
-            console.log('enter pressed');
-            ajaxSearch();
-        }
-    });
-    $('.input-select').change(ajaxSearch);
+    initializeTab(2);// tab 2 is first
     addEventHandlers();
 });
 /**This is a messed up function although it works
@@ -227,11 +236,18 @@ All the event handlers that need to be loaded at ready are in this funtions.
 /I will comment later
 */
 function addEventHandlers() {
-    $('#tft-search-btn-2').click(function (){
-        $('#tft-dialog-form').modal('hide');
-        searchPreview();
+    $('.input-text').keypress(function (e) {
+        if (e.which == 13) {
+            console.log('enter pressed');
+            ajaxSearch();
+        }
     });
-    $('#tft-search-btn-1').click(function() {
+    $('.input-select').change(ajaxSearch);
+    $('#tft-summary-btn-2').click(function (){
+        $('#tft-summary-form-2').modal('show');
+        searchSummary();
+    });
+    $('#tft-search-btn-2').click(function() {
         $('#id_transcription_factor').val(populateTranscriptionInput());
        // alert($('#id_transcription_factor').val());
         ajaxSearch();
@@ -252,8 +268,11 @@ function addEventHandlers() {
     $('#tft-home-tabs a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
+        //choose the selected index
+        initializeTab($('.tab-pane.active').index());
     })
     $('#tft-download-db').hide();
+  //  $('#tft-summary-form-2').modal();
   //  $('#tft-home-tab a[href="#download-database"]').click();
         /* $('.family-member').click(function() {
        // console.log('im a clicked member');
