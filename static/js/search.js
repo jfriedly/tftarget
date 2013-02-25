@@ -24,11 +24,13 @@ var INPUT_NAME = [["id_gene", "Gene"],
                   ["id_tissue_name", "Experimental Tissues"],
                   ["id_expt_type", "Experiment Type"]];
 
+/*TAt default only the tab index 3 is initialized. But when the */
+var tabInitialized = [false, false, false];
 /**
    Prints the headings of the table from a json object. The result is appended to the table.
    @param thead - the thead element of the table
 */
-var tabInitialized = [false, false, false];
+
 function printTHead (thead) {
     var row = '<tr>';
     //prints from heading according to the order of the TABLE_HEADING array.
