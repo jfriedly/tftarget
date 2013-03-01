@@ -34,8 +34,9 @@ var tabInitialized = [false, false, false];
 function printTHead (thead) {
     var row = '<tr>';
     //prints from heading according to the order of the TABLE_HEADING array.
+    row += '<th class="tft-head"></th>';
     for(var i=0; i < TABLE_HEADING.length; i++) {
-       row += '<th>' + TABLE_HEADING[i][1] + '</th>';
+       row += '<th class="tft-head">' + TABLE_HEADING[i][1] + '</th>';
     }
     row += '</tr>' //close the table row
     thead.append(row);
@@ -49,8 +50,9 @@ function printTHead (thead) {
    @param tbody - the tbody element of the table
    @param object - the json object
 */
-function printTBody (tbody, object) {
+function printTBody (tbody, object, rowNum) {
     var row = '<tr>';
+    row += '<td>' + rowNum + '</td>';
     //prints from row according to the order of the TABLE_HEADING array.
     for (var i=0; i < TABLE_HEADING.length; i++) {
         property = TABLE_HEADING[i][0];
@@ -185,7 +187,7 @@ function searchSummary() {
         }
     }
     if(noSummary==true) {
-         $summary.append('<h5>No summary to show </h5>');
+         $summary.append('<h5>no selected item(s) </h5>');
     } else {
         $summary.append($dl);
     }
@@ -208,7 +210,7 @@ function ajaxSearch () {
             $('#tft-download-db').show();
             printTHead(thead);
             for (var i = 0; i < data.length; i++) {
-                printTBody(tbody, data[i]);
+                printTBody(tbody, data[i], i+1);
             }
             table.append(thead);
             table.append(tbody);
