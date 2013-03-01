@@ -13,11 +13,11 @@ class SearchForm(forms.Form):
         required=False)
     species = forms.ChoiceField(label="Species",
         choices=Experiment.SPECIES,
-        widget=forms.Select(attrs={'class': 'input input-select'}),
+        widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
         required=False)
     expt_type = forms.ChoiceField(label="Experiment Name",
         choices=Experiment.EXPERIMENT_TYPES,
-        widget=forms.Select(attrs={'class': 'input input-select'}),
+        widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
         required=False)
     expt_tissues = forms.CharField(label="Organ",
         widget=forms.TextInput(attrs={'class': 'input input-text'}),

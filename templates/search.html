@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block body %}
 <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
+<script id="tf-choices" type="text/javascript">{% autoescape off %}{{ tf_choices }}{% endautoescape %}</script>
+<script id="tft-species" type="text/javascript">{% autoescape off %}{{ tft_species }}{% endautoescape %}</script>
 <link href="{{ STATIC_URL }}css/search.css" type="text/css" rel="stylesheet"/>
 <div class="row tab-content tft-margin1">
   <div class="tab-pane" id="direct-targets">
@@ -64,7 +66,7 @@
     </div> <!-- tab-header -->
     <div class="row tft-form-container">
       <h5 class="offset1">Build your search below </h5> 
-      <script id="tf-choices" type="text/javascript">{% autoescape off %}{{ tf_choices }}{% endautoescape %}</script>
+     
       <form id="tft-search-form-2" class="form-horizontal row">
         <label>Transcription Factor</label>
         <div class="controls">
@@ -84,6 +86,21 @@
         </div>
         {% csrf_token %}
         {{ form }}
+        <label>Species</label>
+        <div class="controls">
+          <div class="dropdown span2">
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
+              Select Species
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <div id="tft-species-aaccordion-2" class="accordion tft-dropdown-container">
+                </div>
+              </li>
+            </ul>
+          </div> <!-- dropdown -->
+        </div>
       </form>
       <div class ="row">
         <a id="tft-search-btn-2" data-loading-text="Loading..." class="offset1 btn btn-medium">Submit</a>

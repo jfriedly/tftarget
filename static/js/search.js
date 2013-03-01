@@ -54,6 +54,10 @@ $(document).ready(function () {
 function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
         initForm('#tft-search-form-' + tabIndex);
+        var species = $.parseJSON($('#tft-species').html());
+        
+      //  alert(species[1][1]);
+        
         var trans = $.parseJSON($('#tf-choices').html())
         initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
         $('.tft-family-dropdown-menu').click(function (e) {
@@ -125,7 +129,10 @@ function initTFControl(accordionId, trans, tab) {
     }
    
 }
-
+function initMultiSelect(tftList) {
+    for (var i=0; i<tftList.length; i++) {
+    }
+}
 // ________________________________________________________________
 // |-------------------------SEARCH------ -------------------------|
 // ````````````````````````````````````````````````````````````````

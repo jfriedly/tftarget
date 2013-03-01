@@ -14,7 +14,8 @@ def search(request):
     if not form.is_valid():
         return render_to_response("search.html",
                                   {'form': form,
-                                   'tf_choices': json.dumps(Experiment.TF_CHOICES)},
+                                   'tf_choices': json.dumps(Experiment.TF_CHOICES),
+                                   'tft_species':json.dumps(Experiment.SPECIES)},
                                   context_instance=RequestContext(request))
 
     results = []
