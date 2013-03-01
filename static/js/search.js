@@ -24,13 +24,12 @@ var INPUT_NAME = [["id_gene", "Gene"],
                   ["id_tissue_name", "Experimental Tissues"],
                   ["id_expt_type", "Experiment Type"]];
 
-/*TAt default only the tab index 3 is initialized. But when the */
+/*Shows which tabs are initialized */
 var tabInitialized = [false, false, false];
 /**
    Prints the headings of the table from a json object. The result is appended to the table.
    @param thead - the thead element of the table
 */
-
 function printTHead (thead) {
     var row = '<tr>';
     //prints from heading according to the order of the TABLE_HEADING array.
@@ -74,16 +73,14 @@ function initializeTab(tabIndex) {
         initializeForm('#tft-search-form-' + tabIndex);
         var trans = $.parseJSON($('#tf-choices').html())
         initializeTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
+        $('.tft-family-dropdown-menu').click(function (e) {
+            e.stopPropagation();
+        });
+        addToggleEvents();
         tabInitialized[tabIndex]=true;
     }
     // This is to stop the drop down to hide when you click it
    
-}
-function initializeComponents() {
-    $('.tft-family-dropdown-menu').click(function (e) {
-        e.stopPropagation();
-    });
-    addToggleEvents();
 }
 /*Initializes the search and put all controls. 
 @requires the form should have the format
@@ -95,8 +92,7 @@ function initializeComponents() {
 @params formId -The id of the form  
 */
 function initializeForm (formId) {
-    //get all hidden components
-    var $tftForm = $(formId).children(':not(:hidden)');
+    var $tftForm = $(formId).children(':not(:hidden)'); //get all hidden components
     $(formId+' > label').addClass('control-label ');
     //wrap all non hidden components with a control-group class for bootstrap
     for(var i=0, j=$tftForm.length; i<j; i+=2) {
@@ -153,9 +149,6 @@ function addToggleEvents() {
             $($(this).attr('data-target')).collapse("toggle");
         });
     });
-   // $('#tft-close').click(function() {
-     //   $('#tft-family-dropdown-toggle').click();
-    //});
 }
 
 
@@ -223,9 +216,9 @@ function ajaxSearch () {
 $(document).ready(function () {
     console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
     $.ajaxSetup({traditional: true});
-    initializeComponents ();
-    initializeTab(2);// tab 2 is first
     addEventHandlers();
+    initializeTab(2);// tab 2 is first
+    
 });
 /**This is a messed up function although it works
 It is a temporary way to write json 
