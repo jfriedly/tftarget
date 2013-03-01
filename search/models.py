@@ -3,6 +3,21 @@ import json
 from django.db import models
 
 
+class Gene(models.Model):
+    human = models.CharField(max_length=255, default='', null=True)
+    mouse = models.CharField(max_length=255, default='', null=True)
+    rat = models.CharField(max_length=255, default='', null=True)
+    arabidopsis = models.CharField(max_length=255, default='', null=True)
+
+    def serialize(self):
+        d = self.__dict__.copy()
+        if '_state' in d:
+            d.pop('_state')
+        return d
+
+    def __repr__(self):
+        return json.dumps(self.serialize())
+
 class Experiment(models.Model):
     """Stores data about each known experiment."""
     # ---
@@ -115,7 +130,7 @@ class Experiment(models.Model):
                (ARABIDOPSIS, ARABIDOPSIS))
 
     # Actual columns are waaay down here
-    gene = models.CharField(max_length=255, default='', null=True)
+    gene = models.ForeignKey(Gene, null=True)
     pmid = models.IntegerField(null=True)
     #TODO choices need to be changed to 2 tuples so we can add them here
     transcription_factor = models.CharField(max_length=255, null=True)

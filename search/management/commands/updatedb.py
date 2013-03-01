@@ -4,7 +4,7 @@ import re
 import sys
 
 
-from search.models import Experiment
+from search.models import Experiment, Gene
 
 
 # We use this a lot, so we should only compile it once.
@@ -91,9 +91,17 @@ class Command(BaseCommand):
         """
         Preform basic row validation before adding the row in.
         """
-        if not len(row['gene']) <= 255:
-            raise DBImportError("Genes must be <= 255 characters. Got: '%s'"
-                                % row['gene'])
+        #TODO import this from somewhere
+        ALL_SPECIES = ('human', 'mouse', 'rat', 'arabidopsis')
+        species = row['species'].lower()
+        if species not in ALL_SPECIES:
+            raise DBImportError("Error on line %d: Species %s is not valid."
+                                % (line, species))
+
+        #The values here is a bit weird. You're looking for the row where the
+        #given gene is in the column of the species, verified above.
+        gene, created = Gene.objects.get_or_create(**{species: row['gene']})
+        row['gene'] = gene
 
         # Make sure pmid can be made an int, but pass on empty strings.
         if row['pmid'] and row['pmid'].lower() not in ('na', 'n/a'):
