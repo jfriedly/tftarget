@@ -36,52 +36,7 @@ var INPUT_NAME = [["id_gene", "Gene"],
 
 /*Shows which tabs are initialized */
 var tabInitialized = [false, false, false];
-
-
-
-// ________________________________________________________________
-// |--------------------PRINTING RESULT TABLE ---------------------|
-// `````````````````````````````````````````````````````````````````
-/**
-   Prints the headings of the table from a json object. The result is appended to the table.
-   @param thead - the thead element of the table
-*/
-function printTHead (thead) {
-    var row = '<tr>';
-    //prints from heading according to the order of the TABLE_HEADING array.
-    row += '<th class="tft-head"></th>';
-    for(var i=0; i < TABLE_HEADING.length; i++) {
-       row += '<th class="tft-head">' + TABLE_HEADING[i][1] + '</th>';
-    }
-    row += '</tr>' //close the table row
-    thead.append(row);
-}
-/**
-   Prints the rest of the table from a json object. The result is appended to the table.
-   Make sure the printHead fuction order correspond to this function
-   Every pmid is printed as a link to the PubMed Website. It opens in a new window
-   If a value doesn't contain anything, a hyphen is printed.
-
-   @param tbody - the tbody element of the table
-   @param object - the json object
-*/
-function printTBody (tbody, object, rowNum) {
-    var row = '<tr>';
-    row += '<td>' + rowNum + '</td>';
-    //prints from row according to the order of the TABLE_HEADING array.
-    for (var i=0; i < TABLE_HEADING.length; i++) {
-        property = TABLE_HEADING[i][0];
-        if (object[property]==null || object[property]=='') {
-             row += '<td> - </td>'; //prints a desh to indicate no value
-        } else if (property == 'pmid') {
-            row += '<td><a target="blank" href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
-        } else {
-            row += '<td>' + object[property] + '</td>';
-        }
-    }
-    row += '</tr>'; //end the row, ready to append
-    tbody.append(row);
-}
+/*__________________________________________________________________________________________________*/
 
 // ________________________________________________________________
 // |-------------------------INITIALIZATIONS-----------------------|
@@ -171,6 +126,113 @@ function initTFControl(accordionId, trans, tab) {
    
 }
 
+// ________________________________________________________________
+// |-------------------------SEARCH------ -------------------------|
+// ````````````````````````````````````````````````````````````````
+function ajaxSearch (rowNum, resetPagination) {
+    console.log("AJAX searching!");
+    $.post('/', $('#tft-search-form-2').serialize()+ '&row_index='+rowNum +'&rows='+RESULTS_PER_PAGE, function (data) {
+        console.log("AJAX searched");
+        //clear the search result for ready for next search result
+        $('#search-results').children().remove();
+        //create a table here
+        var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
+        var thead = $('<thead></thead>').addClass('tft-thead');
+        var tbody = $('<tbody></tbody>');
+        
+        //UNCOMMENT THIS CODE IF YOU FINISH IMPLEMENTING THE BACK
+      /*  var rows = data["num_results"];
+        var results = data["results"];
+        //differantiate searching by clicking page number of submit btn.
+        //Submit btn should reset the page numbers shown starting from 1
+        if (resetPagination==true) {
+            paginate(1, rows);
+        }
+        //Make sure we print the heading when the results returns values
+        $('#tft-results-number').text(results.length + " results");
+        if (results.length > 0){
+            $('#tft-download-db').show();
+            printTHead(thead);
+            for (var i = 0; i < results.length; i++) {
+                printTBody(tbody, results[i], i+1);
+            }
+            table.append(thead);
+            table.append(tbody);
+            $('#search-results').append(table);
+        }
+        */
+        //DELETE THIS CODE BLOCK IF YOU FINISH IMPLEMENTING THE BACK
+        //START BLOCK
+        if (resetPagination==true) {
+            paginate(1, 2145);//random number
+        }
+        //Make sure we print the heading when the results returns values
+        $('#tft-results-number').text(data.length + " results");
+        if (data.length > 0){
+            $('#tft-download-db').show();
+            printTHead(thead);
+            for (var i = 0; i < data.length; i++) {
+                printTBody(tbody, data[i], i+1);
+            }
+            table.append(thead);
+            table.append(tbody);
+            $('#search-results').append(table);
+        }
+        //END BLOCK
+    }, 'json');
+}
+/*Creates the page numbers. i.e. |Prev|3|4|5|Next
+  @params start The first page index to the left.
+  @params results the total number of rows
+*/ 
+function paginate(start, results) {
+    $('#tft-page-container-2').children().remove();
+    var pages = results / RESULTS_PER_PAGE;//get the number of pages
+    var pageSpan = start + 10;
+    var $pagesContainer = $('<div></div>').addClass('pagination pagination-centered');
+    var $pageList = $('<ul></ul>'); 
+    for (var i=start; i<=pages && i<pageSpan; i++) {
+        var $pageItem = $('<li class="tft-page-btn"><a>'+i+'</a></li>');
+        $pageItem.attr('tft-page', i);
+        $pageList.append($pageItem);
+    }
+    // Determine to print "Previous" or "Next" Button
+    if (start>1) {
+        var $pageItem = $('<li class="tft-page-btn"><a>Prev</a></li>');
+        $pageItem.attr('tft-page', 'Prev');
+        $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
+        $pageItem.attr('tft-results', results);
+        $pageList.prepend($pageItem);
+    }
+    if (pages>pageSpan) {
+        var $pageItem = $('<li class="tft-page-btn"><a>Next</a></li>');
+        $pageItem.attr('tft-page', 'Next');
+        $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
+        $pageItem.attr('tft-results', results);
+        $pageList.append($pageItem);
+    }
+        
+    $pagesContainer.append($pageList);
+    $('#tft-page-container-2').append($pagesContainer);
+    addPageClickEvent();
+}
+
+
+/**This is a messed up function although it works
+It is a temporary way to write json 
+*/
+function populateTranscriptionInput() {
+    var factors = '[';
+    $('.family-member:checked').each(function() {
+        factors += '"'+$(this).attr('value') + '",'
+    });
+    if (factors.length>1) {
+        return factors.slice(0, -1)+']';
+    } else {
+        return ''; // so that it does not return [
+    }
+}
+
 //will write a prettier code later
 function searchSummary() {
     //refresh the description
@@ -203,79 +265,50 @@ function searchSummary() {
         $summary.append($dl);
     }
 }
-function paginate(start, results) {
-    $('#tft-page-container-2').children().remove();
-    var pages = results / RESULTS_PER_PAGE;//get the number of pages
-    var pageSpan = start + 10;
-    var $pagesContainer = $('<div></div>').addClass('pagination pagination-centered');
-    var $pageList = $('<ul></ul>'); 
-    for (var i=start; i<=pages && i<=pageSpan; i++) {
-        var $pageItem = $('<li class="tft-page-btn"><a>'+i+'</a></li>');
-        $pageItem.attr('tft-page', i);
-        $pageList.append($pageItem);
-    }
-    if (start>1) {
-        var $pageItem = $('<li class="tft-page-btn"><a>Prev</a></li>');
-        $pageItem.attr('tft-page', 'Prev');
-        $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
-        $pageItem.attr('tft-results', results);
-        $pageList.prepend($pageItem);
-    }
-    if (pages>start+pageSpan) {
-        var $pageItem = $('<li class="tft-page-btn"><a>Next</a></li>');
-        $pageItem.attr('tft-page', 'Next');
-        $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
-        $pageItem.attr('tft-results', results);
-        $pageList.append($pageItem);
-    }
-        
-    $pagesContainer.append($pageList);
-    $('#tft-page-container-2').append($pagesContainer);
-    addPageClickEvent();
-}
 
 
-function ajaxSearch (rowNum) {
-    console.log("AJAX searching!");
-    $.post('/', $('#tft-search-form-2').serialize()+ '&row_index='+rowNum, function (data) {
-        console.log("AJAX searched");
-        //clear the search result for ready for next search result
-        $('#search-results').children().remove();
-        //create a table here
-        var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
-        var thead = $('<thead></thead>').addClass('tft-thead');
-        var tbody = $('<tbody></tbody>');
-        paginate(1, 2000);
-        //Make sure we print the heading when the results returns values
-        $('#tft-results-number').text(data.length + " results");
-        if (data.length > 0){
-            $('#tft-download-db').show();
-            printTHead(thead);
-            for (var i = 0; i < data.length; i++) {
-                printTBody(tbody, data[i], i+1);
-            }
-            table.append(thead);
-            table.append(tbody);
-            $('#search-results').append(table);
-        }
-    }, 'json');
-}
-
-
-
-/**This is a messed up function although it works
-It is a temporary way to write json 
+// ________________________________________________________________
+// |-------------------------RESULTS-------------------------------|
+// ````````````````````````````````````````````````````````````````
+/**
+   Prints the headings of the table from a json object. The result is appended to the table.
+   @param thead - the thead element of the table
 */
-function populateTranscriptionInput() {
-    var factors = '[';
-    $('.family-member:checked').each(function() {
-        factors += '"'+$(this).attr('value') + '",'
-    });
-    if (factors.length>1) {
-        return factors.slice(0, -1)+']';
-    } else {
-        return ''; // so that it does not return [
+function printTHead (thead) {
+    var row = '<tr>';
+    //prints from heading according to the order of the TABLE_HEADING array.
+    row += '<th class="tft-head"></th>';
+    for(var i=0; i < TABLE_HEADING.length; i++) {
+       row += '<th class="tft-head">' + TABLE_HEADING[i][1] + '</th>';
     }
+    row += '</tr>' //close the table row
+    thead.append(row);
+}
+/**
+   Prints the rest of the table from a json object. The result is appended to the table.
+   Make sure the printHead fuction order correspond to this function
+   Every pmid is printed as a link to the PubMed Website. It opens in a new window
+   If a value doesn't contain anything, a hyphen is printed.
+
+   @param tbody - the tbody element of the table
+   @param object - the json object
+*/
+function printTBody (tbody, object, rowNum) {
+    var row = '<tr>';
+    row += '<td>' + rowNum + '</td>';
+    //prints from row according to the order of the TABLE_HEADING array.
+    for (var i=0; i < TABLE_HEADING.length; i++) {
+        property = TABLE_HEADING[i][0];
+        if (object[property]==null || object[property]=='') {
+             row += '<td> - </td>'; //prints a desh to indicate no value
+        } else if (property == 'pmid') {
+            row += '<td><a target="blank" href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
+        } else {
+            row += '<td>' + object[property] + '</td>';
+        }
+    }
+    row += '</tr>'; //end the row, ready to append
+    tbody.append(row);
 }
 
 // ______________________________________________________________________
@@ -302,8 +335,7 @@ function addPageClickEvent() {
             paginate(startIndex+1, results);
         } else {
             var rowNum = parseInt(pageVal) * RESULTS_PER_PAGE;
-            //alert(parseInt(val));
-            ajaxSearch(rowNum);
+            ajaxSearch(rowNum, false);
         }
     });
 }
@@ -311,7 +343,7 @@ function addEventHandlers() {
     $('.input-text').keypress(function (e) {
         if (e.which == 13) {
             console.log('enter pressed');
-            ajaxSearch(1);
+            ajaxSearch(1, true);//start at row 1
             //whenever someone presses enters, page 1 will be activated
             //resetPage(); will implement this
         }
@@ -324,7 +356,7 @@ function addEventHandlers() {
     $('#tft-search-btn-2').click(function() {
         $('#id_transcription_factor').val(populateTranscriptionInput());
        // alert($('#id_transcription_factor').val());
-       ajaxSearch(1);
+        ajaxSearch(1, true);
     });
 
     $('.tft-family-select').click(function() {
