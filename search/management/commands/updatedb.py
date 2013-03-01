@@ -92,7 +92,7 @@ class Command(BaseCommand):
         Preform basic row validation before adding the row in.
         """
         #TODO import this from somewhere
-        ALL_SPECIES = ('human', 'mouse', 'rat', 'arabidopsis')
+        ALL_SPECIES = ('human', 'mouse', 'rat', 'arabidopsis', 'hamster')
         species = row['species'].lower()
         if species not in ALL_SPECIES:
             raise DBImportError("Error on line %d: Species %s is not valid."

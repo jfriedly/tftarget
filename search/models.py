@@ -8,6 +8,7 @@ class Gene(models.Model):
     mouse = models.CharField(max_length=255, default='', null=True)
     rat = models.CharField(max_length=255, default='', null=True)
     arabidopsis = models.CharField(max_length=255, default='', null=True)
+    hamster = models.CharField(max_length=255, default='', null=True)
 
     def serialize(self):
         d = self.__dict__.copy()
