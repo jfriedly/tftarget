@@ -85,14 +85,17 @@
         {% csrf_token %}
         {{ form }}
       </form>
-      <div class ="rpw">
+      <div class ="row">
         <a id="tft-search-btn-2" data-loading-text="Loading..." class="offset1 btn btn-medium">Submit</a>
-        <a href="tft-summary-form-2" id="tft-summary-btn-2" class="btn btn-medium" data-toggle="modal">Summary</a>
+        <a id="tft-clear-form-btn-2" class="btn btn-medium">Clear</a>
         <br>
       </div>
     </div> <!-- form-container -->
     <br>
     <div class="row" id="tft-result-container">
+      <br>
+      <div id="tft-page-container-2" class="row">
+      </div>
       <br>
       <div class="row ">
         <a id="tft-download-db" class="span1 ">Download!</a>

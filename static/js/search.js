@@ -6,6 +6,16 @@
 */
 
 
+
+// ________________________________________________________________
+// |-------------------------CONSTANTS ----------------------------|
+// `````````````````````````````````````````````````````````````````
+
+/** Search results displayed on one page. The lower the number the 
+    faster the load time. Preferred results is in the 
+    range 50 <= RESULTS_PER_PAGE <= 500
+*/
+var RESULTS_PER_PAGE = 100;
 /**
    Used to order the column of the table. The purpose of the multidimensional array is to 
    map from DB name to Human readable format
@@ -26,6 +36,12 @@ var INPUT_NAME = [["id_gene", "Gene"],
 
 /*Shows which tabs are initialized */
 var tabInitialized = [false, false, false];
+
+
+
+// ________________________________________________________________
+// |--------------------PRINTING RESULT TABLE ---------------------|
+// `````````````````````````````````````````````````````````````````
 /**
    Prints the headings of the table from a json object. The result is appended to the table.
    @param thead - the thead element of the table
@@ -66,13 +82,25 @@ function printTBody (tbody, object, rowNum) {
     row += '</tr>'; //end the row, ready to append
     tbody.append(row);
 }
+
+// ________________________________________________________________
+// |-------------------------INITIALIZATIONS-----------------------|
+// `````````````````````````````````````````````````````````````````
+
+$(document).ready(function () {
+    console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
+    $.ajaxSetup({traditional: true});
+    addEventHandlers();
+    initTab(2);// tab 2 is first
+    
+});
 /*Initialize all the commponets. All the 3 main forms of the have the same format
 */
-function initializeTab(tabIndex) {
+function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
-        initializeForm('#tft-search-form-' + tabIndex);
+        initForm('#tft-search-form-' + tabIndex);
         var trans = $.parseJSON($('#tf-choices').html())
-        initializeTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
+        initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
         $('.tft-family-dropdown-menu').click(function (e) {
             e.stopPropagation();
         });
@@ -91,7 +119,7 @@ function initializeTab(tabIndex) {
 </form>
 @params formId -The id of the form  
 */
-function initializeForm (formId) {
+function initForm (formId) {
     var $tftForm = $(formId).children(':not(:hidden)'); //get all hidden components
     $(formId+' > label').addClass('control-label ');
     //wrap all non hidden components with a control-group class for bootstrap
@@ -103,7 +131,7 @@ function initializeForm (formId) {
 
 /*Initialize the transcription factor dropdown. 
 */
-function initializeTFControl(accordionId, trans, tab) {
+function initTFControl(accordionId, trans, tab) {
     var $familyAccordion = $(accordionId);
     for (var i =0; i<trans.length; i++) {
         var familyId = trans[i][0]+tab;
@@ -143,16 +171,6 @@ function initializeTFControl(accordionId, trans, tab) {
    
 }
 
-function addToggleEvents() {
-    $(".tft-family-toggle").each(function () {
-        $(this).click (function() {
-            $($(this).attr('data-target')).collapse("toggle");
-        });
-    });
-}
-
-
-
 //will write a prettier code later
 function searchSummary() {
     //refresh the description
@@ -185,18 +203,49 @@ function searchSummary() {
         $summary.append($dl);
     }
 }
+function paginate(start, results) {
+    $('#tft-page-container-2').children().remove();
+    var pages = results / RESULTS_PER_PAGE;//get the number of pages
+    var pageSpan = start + 10;
+    var $pagesContainer = $('<div></div>').addClass('pagination pagination-centered');
+    var $pageList = $('<ul></ul>'); 
+    for (var i=start; i<=pages && i<=pageSpan; i++) {
+        var $pageItem = $('<li class="tft-page-btn"><a>'+i+'</a></li>');
+        $pageItem.attr('tft-page', i);
+        $pageList.append($pageItem);
+    }
+    if (start>1) {
+        var $pageItem = $('<li class="tft-page-btn"><a>Prev</a></li>');
+        $pageItem.attr('tft-page', 'Prev');
+        $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
+        $pageItem.attr('tft-results', results);
+        $pageList.prepend($pageItem);
+    }
+    if (pages>start+pageSpan) {
+        var $pageItem = $('<li class="tft-page-btn"><a>Next</a></li>');
+        $pageItem.attr('tft-page', 'Next');
+        $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
+        $pageItem.attr('tft-results', results);
+        $pageList.append($pageItem);
+    }
+        
+    $pagesContainer.append($pageList);
+    $('#tft-page-container-2').append($pagesContainer);
+    addPageClickEvent();
+}
 
 
-function ajaxSearch () {
+function ajaxSearch (rowNum) {
     console.log("AJAX searching!");
-    $.post('/', $('#tft-search-form-2').serialize(), function (data) {
+    $.post('/', $('#tft-search-form-2').serialize()+ '&row_index='+rowNum, function (data) {
         console.log("AJAX searched");
         //clear the search result for ready for next search result
-        $('#search-results').children().remove()
+        $('#search-results').children().remove();
         //create a table here
         var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
         var thead = $('<thead></thead>').addClass('tft-thead');
         var tbody = $('<tbody></tbody>');
+        paginate(1, 2000);
         //Make sure we print the heading when the results returns values
         $('#tft-results-number').text(data.length + " results");
         if (data.length > 0){
@@ -213,13 +262,7 @@ function ajaxSearch () {
 }
 
 
-$(document).ready(function () {
-    console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
-    $.ajaxSetup({traditional: true});
-    addEventHandlers();
-    initializeTab(2);// tab 2 is first
-    
-});
+
 /**This is a messed up function although it works
 It is a temporary way to write json 
 */
@@ -234,19 +277,46 @@ function populateTranscriptionInput() {
         return ''; // so that it does not return [
     }
 }
-/*
-All the event handlers that need to be loaded at ready are in this funtions.
 
-/I will comment later
-*/
+// ______________________________________________________________________
+// |------------------------- EVENT HANDLERS ----------------------------|
+//  ``````````````````````````````````````````````````````````````````````
+/*Handles the event of the dropdown collapsible*/
+function addToggleEvents() {
+    $(".tft-family-toggle").each(function () {
+        $(this).click (function() {
+            $($(this).attr('data-target')).collapse("toggle");
+        });
+    });
+}
+function addPageClickEvent() {
+    $('.tft-page-btn').click(function () {
+        var pageVal = $(this).attr('tft-page');
+        if (pageVal=="Prev") {
+            var startIndex=parseInt($(this).attr('tft-start-index'));
+            var results=parseInt($(this).attr('tft-results'));
+            paginate(startIndex-1, results);
+        }else if (pageVal=="Next") {
+            var startIndex=parseInt($(this).attr('tft-start-index'));
+            var results=parseInt($(this).attr('tft-results'));
+            paginate(startIndex+1, results);
+        } else {
+            var rowNum = parseInt(pageVal) * RESULTS_PER_PAGE;
+            //alert(parseInt(val));
+            ajaxSearch(rowNum);
+        }
+    });
+}
 function addEventHandlers() {
     $('.input-text').keypress(function (e) {
         if (e.which == 13) {
             console.log('enter pressed');
-            ajaxSearch();
+            ajaxSearch(1);
+            //whenever someone presses enters, page 1 will be activated
+            //resetPage(); will implement this
         }
     });
-    $('.input-select').change(ajaxSearch);
+    //$('.input-select').change(ajaxSearch(1));
     $('#tft-summary-btn-2').click(function (){
         $('#tft-summary-form-2').modal('show');
         searchSummary();
@@ -254,7 +324,7 @@ function addEventHandlers() {
     $('#tft-search-btn-2').click(function() {
         $('#id_transcription_factor').val(populateTranscriptionInput());
        // alert($('#id_transcription_factor').val());
-        ajaxSearch();
+       ajaxSearch(1);
     });
 
     $('.tft-family-select').click(function() {
@@ -273,7 +343,7 @@ function addEventHandlers() {
         e.preventDefault();
         $(this).tab('show');
         //choose the selected index
-        initializeTab($('.tab-pane.active').index());
+        initTab($('.tab-pane.active').index());
     })
     $('#tft-download-db').hide();
   //  $('#tft-summary-form-2').modal();
