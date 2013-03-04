@@ -47,8 +47,8 @@ var tabInitialized = [false, false, false];
 $(document).ready(function () {
     console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
     $.ajaxSetup({traditional: true});
-    addEventHandlers();
     initTab(2);// tab 2 is first
+    addEventHandlers();
     
 });
 /*Initialize all the commponets. All the 3 main forms of the have the same format
@@ -59,10 +59,8 @@ function initTab(tabIndex) {
         var trans = $.parseJSON($('#tf-choices').html())
         var species = $.parseJSON($('#tft-species').html());
         var expt_types = $.parseJSON($('#tft-expt-types').html())
-        initMultiSelect('#tft-species-dropdown-2', species);
-        initMultiSelect('#tft-expt-types-dropdown-2', expt_types);
-      //  alert(species[1][1]);
-        
+        initMultiSelect('#tft-species-dropdown-'+tabIndex, species, 'species'+tabIndex);
+        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, expt_types, 'expt-types'+tabIndex);
        
         initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
         $('.tft-family-dropdown-menu').click(function (e) {
@@ -134,12 +132,17 @@ function initTFControl(accordionId, trans, tab) {
     }
 }
 
-function initMultiSelect(container, tftList) {
-    for (var i=0; i<tftList.length; i++) {
-        var $listItem = $('<li><label class="checkbox"><input type="checkbox" class="family-member  value="'
-                              +tftList[i][1]+'">'
-                              +tftList[i][1]
-                              +'</label></li>');
+function initMultiSelect(container, tftList, listClass) {
+    //put the select all 
+    var $selectAll = $('<li><label class="checkbox"><input type="checkbox" class="tft-search-select-all" select-target ="'
+                       +listClass+'">Select All</label></li>');
+    $(container).append($selectAll);
+    for (var i=1; i<tftList.length; i++) {
+        var $listItem = $('<li><label class="checkbox"><input type="checkbox" class="'
+                          + listClass + '" value="'
+                          +tftList[i][1]+'">'
+                          +tftList[i][1]
+                          +'</label></li>');
         $(container).append($listItem);
     }
     $(container).click(function (e) {
@@ -387,6 +390,17 @@ function addEventHandlers() {
             });
         } else {
             $('.'+$(this).attr('id')).each(function(){ 
+                this.checked = false;
+            });
+        }
+    });
+    $('.tft-search-select-all').click(function() {
+        if($(this).is(':checked')==true){
+            $('.'+$(this).attr('select-target')).each(function(){ 
+                this.checked = true;
+            });
+        } else {
+            $('.'+$(this).attr('select-target')).each(function(){ 
                 this.checked = false;
             });
         }
