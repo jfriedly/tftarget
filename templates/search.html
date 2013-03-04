@@ -3,6 +3,7 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
 <script id="tf-choices" type="text/javascript">{% autoescape off %}{{ tf_choices }}{% endautoescape %}</script>
 <script id="tft-species" type="text/javascript">{% autoescape off %}{{ tft_species }}{% endautoescape %}</script>
+<script id="tft-expt-types" type="text/javascript">{% autoescape off %}{{ tft_expt_types }}{% endautoescape %}</script>
 <link href="{{ STATIC_URL }}css/search.css" type="text/css" rel="stylesheet"/>
 <div class="row tab-content tft-margin1">
   <div class="tab-pane" id="direct-targets">
@@ -95,7 +96,22 @@
             </a>
             <ul class="dropdown-menu ">
               <li>
-                <div id="tft-species-aaccordion-2" class="accordion tft-dropdown-container">
+                <div id="tft-species-dropdown-2" class="accordion tft-dropdown-container">
+                </div>
+              </li>
+            </ul>
+          </div> <!-- dropdown -->
+        </div>
+ <label>Experiment Type</label>
+        <div class="controls">
+          <div class="dropdown span2">
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
+              Select Experiment Type
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <div id="tft-expt-types-dropdown-2" class="accordion tft-dropdown-container">
                 </div>
               </li>
             </ul>

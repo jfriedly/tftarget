@@ -15,7 +15,8 @@ def search(request):
         return render_to_response("search.html",
                                   {'form': form,
                                    'tf_choices': json.dumps(Experiment.TF_CHOICES),
-                                   'tft_species':json.dumps(Experiment.SPECIES)},
+                                   'tft_species':json.dumps(Experiment.SPECIES),
+                                   'tft_expt_types':json.dumps(Experiment.EXPERIMENT_TYPES)},
                                   context_instance=RequestContext(request))
 
     results = []

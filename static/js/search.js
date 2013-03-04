@@ -16,6 +16,8 @@
     range 50 <= RESULTS_PER_PAGE <= 500
 */
 var RESULTS_PER_PAGE = 100;
+var PAGE_NEXT = 'Next';
+var PAGE_PREV = 'Prev';
 /**
    Used to order the column of the table. The purpose of the multidimensional array is to 
    map from DB name to Human readable format
@@ -54,11 +56,14 @@ $(document).ready(function () {
 function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
         initForm('#tft-search-form-' + tabIndex);
+        var trans = $.parseJSON($('#tf-choices').html())
         var species = $.parseJSON($('#tft-species').html());
-        
+        var expt_types = $.parseJSON($('#tft-expt-types').html())
+        initMultiSelect('#tft-species-dropdown-2', species);
+        initMultiSelect('#tft-expt-types-dropdown-2', expt_types);
       //  alert(species[1][1]);
         
-        var trans = $.parseJSON($('#tf-choices').html())
+       
         initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
         $('.tft-family-dropdown-menu').click(function (e) {
             e.stopPropagation();
@@ -127,11 +132,19 @@ function initTFControl(accordionId, trans, tab) {
         }
         $familyAccordion.append($familyGroup);
     }
-   
 }
-function initMultiSelect(tftList) {
+
+function initMultiSelect(container, tftList) {
     for (var i=0; i<tftList.length; i++) {
+        var $listItem = $('<li><label class="checkbox"><input type="checkbox" class="family-member  value="'
+                              +tftList[i][1]+'">'
+                              +tftList[i][1]
+                              +'</label></li>');
+        $(container).append($listItem);
     }
+    $(container).click(function (e) {
+        e.stopPropagation();
+    });
 }
 // ________________________________________________________________
 // |-------------------------SEARCH------ -------------------------|
