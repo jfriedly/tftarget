@@ -57,7 +57,7 @@
     </div>
   </div>
   <div class=" tab-pane active"  id="download-database">
-    <div class="row tft-tab-header">
+    <div class="row tft-tab-header tft-red-bottom-1">
       <div class="span5">
         <h3>Query Database</h3>
       </div>
@@ -65,13 +65,12 @@
         <p>Download the Transcription Factor Database. Filter the results below.</p>
       </div>
     </div> <!-- tab-header -->
-    <div class="row tft-form-container">
+    <div class="row tft-form-container tft-grey-bottom-2">
       <h5 class="offset1">Build your search below </h5> 
-     
       <form id="tft-search-form-2" class="form-horizontal row">
         <label>Transcription Factor</label>
         <div class="controls">
-          <div class="dropdown span2">
+          <div class="dropdown">
             <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
               Multiple Selection
               <b class="caret"></b>
@@ -81,7 +80,6 @@
                 <div id="tft-family-accordion-2" class="accordion tft-dropdown-container">
                 </div>
               </li>
-              <!--<a id="#tft-close" class="tft-close btn">Close</a>-->
             </ul>
           </div> <!-- dropdown -->
         </div>
@@ -89,8 +87,8 @@
         {{ form }}
         <label>Species</label>
         <div class="controls">
-          <div class="dropdown span2">
-            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
+          <div class="dropdown">
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle" role="button" data-toggle="dropdown">
               Select Species
               <b class="caret"></b>
             </a>
@@ -102,11 +100,11 @@
             </ul>
           </div> <!-- dropdown -->
         </div>
- <label>Experiment Type</label>
+        <label>Experiment Type</label>
         <div class="controls">
-          <div class="dropdown span2">
+          <div class="dropdown">
             <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
-              Select Experiment Type
+              Select Experiment Type(s)
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu ">
@@ -126,13 +124,11 @@
     </div> <!-- form-container -->
     <br>
     <div class="row" id="tft-result-container">
-      <br>
-      <div id="tft-page-container-2" class="row">
-      </div>
-      <br>
       <div class="row ">
         <a id="tft-download-db" class="span1 ">Download!</a>
         <div class="span2" id="tft-results-number">
+        </div>
+        <div id="tft-page-container-2" class="span6">
         </div>
       </div>
       <br>

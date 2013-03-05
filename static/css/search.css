@@ -1,31 +1,48 @@
 body {
-    background-color:#f5F9Fe;
+    background-color:#d5d2c4;
 }
 .tft-margin1 {
-    margin:7px;
+    margin:2px;
     padding:0px;
+}
+.tft-red-bottom-1 {
+    border-bottom: #b90000 2px solid;
+}
+.tft-red-bottom-2 {
+    border-bottom: #b90000 5px solid;
+}
+.tft-red-bottom-3 {
+    border-bottom: #b90000 10px solid;
+}
+.tft-grey-bottom-1 {
+    border-bottom: #7e7e7e 2px solid;
+}
+.tft-grey-bottom-2 {
+    border-bottom: #7e7e7e 5px solid;
+}
+.tft-grey-bottom-3 {
+    border-bottom: #7e7e7e 10px solid;
+}
+.tft-red-bottom-3 a:hover {
+    color:#990000;
+    text-decoration:underline;
 }
 
 .tft-tab-header {
     padding-left: 20px;
-    background-color:#FFF;
+    background-color:#f0f0f0;
 }
 .tft-container {
-    background-color:#738EA5;
+    margin:0 auto;
+    background-color:#fff;
 }
 
 .tft-welcome-banner {
     background-color: lightgrey;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F9FC', endColorstr='#000000'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#lightgrey), to(#FFF)); /* for webkit browsers */
-    background: -moz-linear-gradient(top,  #f1f1f1, #d1d1d1); /* for firefox 3.6+ */
     height: 100px;
 }
 .tft-form-container {
-    background-color:#F5F9FC;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFBFD', endColorstr='#CCDEEC'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#FAFBFD), to(#CCDEEC)); /* for webkit browsers */
-    background: -moz-linear-gradient(top,  #FAFBFD, #CCDEEC); /* for firefox 3.6+ */
+    background-color:#fcfcfc;
 }
 .tft-dropdown-container {
     max-height:200px;
@@ -34,9 +51,7 @@ body {
 
 #tft-home-tabs {
     margin: 0px;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F9FC', endColorstr='#000000'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#lightgrey), to(#F0F0F0)); /* for webkit browsers */
-    background: -moz-linear-gradient(top, #fefefe, #e0e0e0); /* for firefox 3.6+ */
+    background-color:#d5d2c4
 }
 #tft-home-tabs a{
     color:black;

@@ -5,8 +5,6 @@
    @date 2/7/2013
 */
 
-
-
 // ________________________________________________________________
 // |-------------------------CONSTANTS ----------------------------|
 // `````````````````````````````````````````````````````````````````
@@ -45,11 +43,9 @@ var tabInitialized = [false, false, false];
 // `````````````````````````````````````````````````````````````````
 
 $(document).ready(function () {
-    console.log("Loading jQuery, jQuery UI, and our own custom js!!!");
+    console.log("Loading search.js...");
     $.ajaxSetup({traditional: true});
-    initTab(2);// tab 2 is first
-    addEventHandlers();
-    
+    initTab(2);// tab 2 is the  first
 });
 /*Initialize all the commponets. All the 3 main forms of the have the same format
 */
@@ -59,18 +55,19 @@ function initTab(tabIndex) {
         var trans = $.parseJSON($('#tf-choices').html())
         var species = $.parseJSON($('#tft-species').html());
         var expt_types = $.parseJSON($('#tft-expt-types').html())
+       
         initMultiSelect('#tft-species-dropdown-'+tabIndex, species, 'species'+tabIndex);
         initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, expt_types, 'expt-types'+tabIndex);
        
         initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
+        //Tab Event handlers
         $('.tft-family-dropdown-menu').click(function (e) {
             e.stopPropagation();
         });
         addToggleEvents();
+        addEventHandlers();
         tabInitialized[tabIndex]=true;
     }
-    // This is to stop the drop down to hide when you click it
-   
 }
 /*Initializes the search and put all controls. 
 @requires the form should have the format
@@ -121,12 +118,14 @@ function initTFControl(accordionId, trans, tab) {
         $familyGroup.append($collapse);
 
         for (var j= 1; j< trans[i].length; j++) {
-            $familyMember = $('<li><label class="checkbox"><input type="checkbox" my-parent="'
-                              +familyId+'" class="family-member '
-                              +familyId+'" value="'+trans[i][j]+'">'
-                              +trans[i][j]
-                              +'</label></li>');
-            $inner.append($familyMember);
+            $inner.append($('<li/>')
+                          .append($('<label/>')
+                                  .addClass('checkbox')
+                                  .text(trans[i][j])
+                                  .append($('<input type="checkbox">')
+                                          .addClass('family-member '+familyId) 
+                                          .attr('my-parent', familyId)
+                                          .attr('value', trans[i][j]))));
         }
         $familyAccordion.append($familyGroup);
     }
@@ -134,16 +133,23 @@ function initTFControl(accordionId, trans, tab) {
 
 function initMultiSelect(container, tftList, listClass) {
     //put the select all 
-    var $selectAll = $('<li><label class="checkbox"><input type="checkbox" class="tft-search-select-all" select-target ="'
-                       +listClass+'">Select All</label></li>');
-    $(container).append($selectAll);
+    $(container)
+        .append($('<li/>')
+                .append($('<label/>')
+                        .text('Select All')
+                        .addClass('checkbox')
+                        .append($('<input type="checkbox">')
+                                .addClass('tft-search-select-all')
+                                .attr('select-target', listClass))));
+
     for (var i=1; i<tftList.length; i++) {
-        var $listItem = $('<li><label class="checkbox"><input type="checkbox" class="'
-                          + listClass + '" value="'
-                          +tftList[i][1]+'">'
-                          +tftList[i][1]
-                          +'</label></li>');
-        $(container).append($listItem);
+        $(container)
+            .append($('<label/>')
+                    .text(tftList[i][1])
+                    .addClass('checkbox')
+                    .append($('<input type="checkbox">')
+                            .addClass(listClass)
+                            .attr('value', tftList[i][1])));
     }
     $(container).click(function (e) {
         e.stopPropagation();
@@ -212,7 +218,7 @@ function paginate(start, results) {
     $('#tft-page-container-2').children().remove();
     var pages = results / RESULTS_PER_PAGE;//get the number of pages
     var pageSpan = start + 10;
-    var $pagesContainer = $('<div></div>').addClass('pagination pagination-centered');
+    var $pagesContainer = $('<div></div>').addClass('pagination pagination-right');
     var $pageList = $('<ul></ul>'); 
     for (var i=start; i<=pages && i<pageSpan; i++) {
         var $pageItem = $('<li class="tft-page-btn"><a>'+i+'</a></li>');
