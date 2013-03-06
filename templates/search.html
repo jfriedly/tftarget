@@ -43,7 +43,7 @@
       </form>
     </div>
   </div>
-  <div class="tab-pane " id="enrichment-analysis">
+  <div class="tab-pane tft-margin1" id="enrichment-analysis">
     <div class="row tft-tab-header">
       <div class="span5">
         <h3>Enrichment Analysis</h3>
@@ -52,11 +52,11 @@
         <p>It's more than just a gene.</p>
       </div>
     </div> <!-- tab-header -->
-    <div class="row tft-form-container">
+    <div class="row tft-form-container tft-margin1">
       <textarea rows="3"></textarea>
     </div>
   </div>
-  <div class=" tab-pane active"  id="download-database">
+  <div class=" tab-pane active tft-margin1"  id="download-database">
     <div class="row tft-tab-header tft-red-bottom-1">
       <div class="span5">
         <h3>Query Database</h3>
@@ -65,7 +65,7 @@
         <p>Download the Transcription Factor Database. Filter the results below.</p>
       </div>
     </div> <!-- tab-header -->
-    <div class="row tft-form-container tft-grey-bottom-2">
+    <div class="row tft-form-container">
       <h5 class="offset1">Build your search below </h5> 
       <form id="tft-search-form-2" class="form-horizontal row">
         <label>Transcription Factor</label>
@@ -118,15 +118,13 @@
           </div> <!-- dropdown -->
         </div>
       </form>
-      <div class ="row">
-        <a id="tft-search-btn-2" data-loading-text="Loading..." class="offset1 btn btn-medium">Submit</a>
-        <a id="tft-clear-form-btn-2" class="btn btn-medium">Clear</a>
-        <br>
+      <div class ="form-actions tft-red-bottom-1">
+        <button type="submit" id="tft-search-btn-2" data-loading-text="Loading..." class="btn">Submit</button>
+        <button type="button" id="tft-clear-form-btn-2" class="btn">Clear</button>
       </div>
     </div> <!-- form-container -->
-    <br>
     <div id="tft-result-container-2" class="row tft-result-container">
-      <div class="navbar navbar-top tft-red-bottom-1">
+      <div class="navbar navbar-top tft-grey-bottom-1">
         <div class="navbar-inner">
           <div class="container">
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -150,12 +148,10 @@
             </div><!--/.nav-collapse -->
             <div id="tft-page-container-2" class="pull-right">
             </div>
-            <label id="tft-results-number" class="tft-label-result label pull-right"></label>
+            <label id="tft-results-number" class="tft-label-result pull-right"></label>
           </div>
         </div>
       </div>
-      
-      <br>
       <div id="search-results" class="row ">
       </div> 
     </div>

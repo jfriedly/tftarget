@@ -172,7 +172,7 @@ function ajaxSearch (rowNum, resetPagination) {
         $('#search-results').children().remove();
         //create a table here
         var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
-        var thead = $('<thead></thead>').addClass('tft-thead');
+        var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
         var tbody = $('<tbody></tbody>');
 
         //UNCOMMENT THIS CODE IF YOU FINISH IMPLEMENTING THE BACK
@@ -293,9 +293,9 @@ function searchSummary() {
 function printTHead (thead) {
     var row = '<tr>';
     //prints from heading according to the order of the TABLE_HEADING array.
-    row += '<th class="tft-head"></th>';
+    row += '<th class="tft-head tft-grey-bottom-1"></th>';
     for(var i=0; i < TABLE_HEADING.length; i++) {
-       row += '<th class="tft-head">' + TABLE_HEADING[i][1] + '</th>';
+       row += '<th class="tft-head tft-head tft-grey-bottom-1">' + TABLE_HEADING[i][1] + '</th>';
     }
     row += '</tr>' //close the table row
     thead.append(row);
