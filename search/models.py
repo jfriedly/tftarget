@@ -153,6 +153,7 @@ class Experiment(models.Model):
             d.pop('_state')
         d['created'] = str(d['created'])
         d['modified'] = str(d['modified'])
+        d['gene'] = Gene.objects.get(id=d.pop('gene_id')).serialize()
         return d
 
     def __repr__(self):
