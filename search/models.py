@@ -120,6 +120,8 @@ class Experiment(models.Model):
                    (NFKB, NFKB),
                    (FOX, FOX),
                    (STAT, STAT))
+    TF_CHOICES = [[E2F] + E2F_TFS, [MYC] + MYC_TFS, [NFKB] + NFKB_TFS,
+                  [FOX] + FOX_TFS, [STAT] + STAT_TFS]
     HUMAN = 'Human'
     MOUSE = 'Mouse'
     RAT = 'Rat'

@@ -1,4 +1,92 @@
-.hero-unit {
-    height:140px;
-    background-color:green;
+body {
+    background-color:#d5d2c4;
 }
+.tft-margin1 {
+    margin:2px;
+    padding:1px;
+}
+.tft-red-bottom-1 {
+    border-bottom: #b90000 2px solid;
+}
+.tft-red-bottom-2 {
+    border-bottom: #b90000 5px solid;
+}
+.tft-red-bottom-3 {
+    border-bottom: #b90000 10px solid;
+}
+.tft-grey-bottom-1 {
+    border-bottom: #7e7e7e 2px solid;
+}
+.tft-grey-bottom-2 {
+    border-bottom: #7e7e7e 5px solid;
+}
+.tft-grey-bottom-3 {
+    border-bottom: #7e7e7e 10px solid;
+}
+.tft-red-link a:hover {
+    color:#990000;
+    text-decoration:underline;
+}
+.tft-container {
+    margin:0 auto;
+    background-color:#fff;
+}
+.tft-welcome-banner {
+    background-color: #c0c0c0;
+    height: 100px;
+}
+#tft-home-tabs {
+    margin: 0px;
+    background-color:#d5d2c4
+}
+#tft-home-tabs a{
+    color:black;
+    font-weight:bold;
+    font-size:1.1em;
+}
+
+.tft-head {
+    border-right: 1px solid #a5a294;
+    border-bottom: 3px solid #a5a294;
+    background-color:#ededed;
+    font-size:1.1em
+}
+.tft-tab-header {
+    padding-left: 20px;
+    background-color:#f0f0f0;
+}
+.tft-form-container {
+    margin:0px;
+    padding-left:0px;
+    background-color:#fcfcfc;
+}
+.tft-dropdown-container {
+    max-height:200px;
+    overflow:auto;
+}
+
+.tft-family-toggle {
+   text-align:left;
+   height:10px;
+}
+.tft-family-select {
+    float:left;
+    margin-left:5px;
+}
+#search-results {
+    margin-left:30px;
+    background-color:#fff;
+}
+.tft-label-result {
+    margin-top:10px;
+    margin-right:20px;
+}
+.tft-page-container {
+    margin-top:2px;
+    margin-bottom:2px;
+}
+
+.tft-result-container {
+    padding:10px;
+}
+

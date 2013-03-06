@@ -1,26 +1,170 @@
 {% extends "base.html" %}
 {% block body %}
 <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
-
-<div class="container">
-  <br>
-  <div class="hero-unit tftarget-welcome-banner">
-    <h1>Transcription Factor Target</h1>
-    <p>A large database compiled by The Ohio State University Molecular Biologists to find potential transcription factor targets. Type in your search criteria below and hit search. </p>
-    <p><a class="btn btn-primary btn-medium">Learn more &raquo;</a></p>
+<script id="tf-choices" type="text/javascript">{% autoescape off %}{{ tf_choices }}{% endautoescape %}</script>
+<script id="tft-species" type="text/javascript">{% autoescape off %}{{ tft_species }}{% endautoescape %}</script>
+<script id="tft-expt-types" type="text/javascript">{% autoescape off %}{{ tft_expt_types }}{% endautoescape %}</script>
+<link href="{{ STATIC_URL }}css/search.css" type="text/css" rel="stylesheet"/>
+<div class="row tab-content tft-margin1">
+  <div class="tab-pane" id="direct-targets">
+    <div class="row tft-tab-header">
+      <div class="span5">
+        <h3>Direct Targets</h3>
+      </div>
+      <div class="span9">
+        <p>We don't beat around the bush, find your targets directly. Filter the results below.</p>
+      </div>
+    </div> <!-- tab-header -->
+    <div class="row tft-form-container">
+      <h5 class="offset1">Build your search below </h5> 
+      <form id="tft-search-form-0" class="form-horizontal row">
+        <label>Transcription Factor</label>
+        <div class="controls">
+          <div class="dropdown span2">
+            <a id="tft-family-dropdown-toggle-0" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
+              Select Transcription Factors
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu tft-family-dropdown-menu ">
+              <li>
+                <div id="tft-family-accordion-0" class="accordion tft-dropdown-container">
+                </div>
+              </li>
+              <!--<a id="#tft-close" class="tft-close btn">Close</a>-->
+            </ul>
+          </div> <!-- dropdown -->
+        </div> <!-- control -->
+        <!--Put form here replace the following with direct target form-->
+        <label>Species</label>
+        <input class="input input-text" type="text" >
+        <label>Organ</label>
+        <input class="input input-text" type="text">
+        <a class="offset1 btn btn-info btn-medium">Submit</a>
+      </form>
+    </div>
   </div>
-
-  <h2>Create your search below</h2>
-  <br>
-  <br>
-  <form id="tft-search-form" class="form-horizontal">
-    {% csrf_token %}
-    {{ form }}
-  </form>
-  <a id="tft-search-button" class="btn btn-primary btn-medium">Search!</a>
-
-  <div id="search-results">
+  <div class="tab-pane tft-margin1" id="enrichment-analysis">
+    <div class="row tft-tab-header">
+      <div class="span5">
+        <h3>Enrichment Analysis</h3>
+      </div>
+      <div class="span9">
+        <p>It's more than just a gene.</p>
+      </div>
+    </div> <!-- tab-header -->
+    <div class="row tft-form-container tft-margin1">
+      <textarea rows="3"></textarea>
+    </div>
+  </div>
+  <div class=" tab-pane active tft-margin1"  id="download-database">
+    <div class="row tft-tab-header tft-red-bottom-1">
+      <div class="span5">
+        <h3>Query Database</h3>
+      </div>
+      <div class="span9">
+        <p>Download the Transcription Factor Database. Filter the results below.</p>
+      </div>
+    </div> <!-- tab-header -->
+    <div class="row tft-form-container">
+      <h5 class="offset1">Build your search below </h5> 
+      <form id="tft-search-form-2" class="form-horizontal row">
+        <label>Transcription Factor</label>
+        <div class="controls">
+         <div class "row">
+          <div class="dropdown">
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
+              Select Transcription Factors
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu tft-family-dropdown-menu ">
+              <li>
+                <div id="tft-family-accordion-2" class="accordion tft-dropdown-container">
+                </div>
+              </li>
+            </ul>
+          </div> <!-- dropdown -->
+         </div>
+        </div>
+        {% csrf_token %}
+        {{ form }}
+        <label>Species</label>
+        <div class="controls">
+          <div class="dropdown">
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle" role="button" data-toggle="dropdown">
+              Select Species
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <div id="tft-species-dropdown-2" class="accordion tft-dropdown-container">
+                </div>
+              </li>
+            </ul>
+          </div> <!-- dropdown -->
+        </div>
+        <label>Experiment Type</label>
+        <div class="controls">
+          <div class="dropdown">
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
+              Select Experiment Type(s)
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <div id="tft-expt-types-dropdown-2" class="accordion tft-dropdown-container">
+                </div>
+              </li>
+            </ul>
+          </div> <!-- dropdown -->
+        </div>
+      </form>
+      <div class ="form-actions tft-red-bottom-1">
+        <button type="submit" id="tft-search-btn-2" data-loading-text="Loading..." class="btn">Submit</button>
+        <button type="button" id="tft-clear-form-btn-2" class="btn">Clear</button>
+      </div>
+    </div> <!-- form-container -->
+    <div id="tft-result-container-2" class="row tft-result-container">
+      <div class="navbar navbar-top tft-grey-bottom-1">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <div class="brand">
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Table<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-header">All Pages</li>
+                  <li><a href="#">as a csv file</a></li>
+                  <li><a href="#">as an html file</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">This Page</li>
+                  <li><a href="#">as a csv file</a></li>
+                  <li><a href="#">as an html file</a></li>
+                </ul>
+              </div>
+            </div><!--/.nav-collapse -->
+            <div id="tft-page-container-2" class="pull-right">
+            </div>
+            <label id="tft-results-number" class="tft-label-result pull-right"></label>
+          </div>
+        </div>
+      </div>
+      <div id="search-results" class="row ">
+      </div> 
+    </div>
   </div>
 </div>
-
+<div id="tft-summary-form-2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">[X]</button>
+    <h3 id="tft-modal-label">Selected Item(s)</h3> 
+  </div>
+  <div id="tft-summary-body" class="modal-body">
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+</div>
 {% endblock %}
