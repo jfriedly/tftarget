@@ -160,9 +160,14 @@ function initMultiSelect(container, tftList, listClass) {
 // ````````````````````````````````````````````````````````````````
 function ajaxSearch (rowNum, resetPagination) {
     console.log("AJAX searching!");
+    $('#id_transcription_factor').val(writeJSON('family-member'));
+    $('#id_expt_type').val(writeJSON('expt-types2'));
+    $('#id_species').val(writeJSON('species2'));
+    $('#id_row_index').val(rowNum);
     console.log($('#tft-search-form-2').serialize())
-    $.post('/', $('#tft-search-form-2').serialize()+ '&row_index='+rowNum +'&rows='+RESULTS_PER_PAGE, function (data) {
+    $.post('/', $('#tft-search-form-2').serialize(), function (data) {
         console.log("AJAX searched");
+        console.log(data);
         //clear the search result for ready for next search result
         $('#search-results').children().remove();
         //create a table here
@@ -171,7 +176,7 @@ function ajaxSearch (rowNum, resetPagination) {
         var tbody = $('<tbody></tbody>');
 
         //UNCOMMENT THIS CODE IF YOU FINISH IMPLEMENTING THE BACK
-      /*  var rows = data["num_results"];
+        var rows = data["num_results"];
         var results = data["results"];
         //differantiate searching by clicking page number of submit btn.
         //Submit btn should reset the page numbers shown starting from 1
@@ -190,27 +195,6 @@ function ajaxSearch (rowNum, resetPagination) {
             table.append(tbody);
             $('#search-results').append(table);
         }
-        */
-        //DELETE THIS CODE BLOCK IF YOU FINISH IMPLEMENTING THE BACK
-        //START BLOCK
-        if (resetPagination==true) {
-            paginate(1, 2145);//random number
-        }
-        //Make sure we print the heading when the results returns values
-        $('#tft-results-number').text(data.length + " results");
-        if (data.length > 0){
-            $('#tft-result-container-2').show();
-            printTHead(thead);
-            for (var i = 0; i < data.length; i++) {
-                printTBody(tbody, data[i], i+1);
-            }
-            table.append(thead);
-            table.append(tbody);
-            $('#search-results').append(table);
-        } else {
-            $('#tft-result-container-2').hide();
-        }
-        //END BLOCK
     }, 'json');
 }
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
@@ -366,7 +350,7 @@ function addPageClickEvent() {
             var results=parseInt($(this).attr('tft-results'));
             paginate(startIndex+1, results);
         } else {
-            var rowNum = parseInt(pageVal) * RESULTS_PER_PAGE;
+            var rowNum = (parseInt(pageVal) - 1) * RESULTS_PER_PAGE;
             ajaxSearch(rowNum, false);
         }
     });
@@ -375,7 +359,7 @@ function addEventHandlers() {
     $('.input-text').keypress(function (e) {
         if (e.which == 13) {
             console.log('enter pressed');
-            ajaxSearch(1, true);//start at row 1
+            ajaxSearch(0, true);//start at row 1
             //whenever someone presses enters, page 1 will be activated
             //resetPage(); will implement this
         }
@@ -386,10 +370,7 @@ function addEventHandlers() {
         searchSummary();
     });
     $('#tft-search-btn-2').click(function() {
-        $('#id_transcription_factor').val(writeJSON('family-member'));
-        $('#id_expt_type').val(writeJSON('expt-types2'));
-        $('#id_species').val(writeJSON('species2'));
-        ajaxSearch(1, true);
+        ajaxSearch(0, true);
     });
 
     $('.tft-family-select').click(function() {

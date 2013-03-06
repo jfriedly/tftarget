@@ -21,6 +21,7 @@ def search(request):
 
     print form.cleaned_data
     results = Experiment.objects.all()
+    row_index = int(form.cleaned_data.pop('row_index'))
     if form.cleaned_data['transcription_factor']:
         tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
         results = results.filter(transcription_factor__in=tfs)
@@ -34,15 +35,17 @@ def search(request):
     for key, value in form.cleaned_data.iteritems():
         if value:
             results = results.filter(**{key: value})
-    json_results = _serialize_results(results)
+    count = results.count()
+    json_results = _serialize_results(results, row_index, count)
     return HttpResponse(json_results)
 
 
-def _serialize_results(results):
+def _serialize_results(results, row_index, count):
     """Takes the results set and serializes it to JSON, adding transcription
     factors and experiment types.
     """
     results = list(results)
     for i, expt in enumerate(results):
         results[i] = expt.serialize()
-    return json.dumps(results[:500])
+    return json.dumps({'results': results[row_index:row_index+100],
+                       'num_results': count})
