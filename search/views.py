@@ -19,15 +19,20 @@ def search(request):
                                    'tft_expt_types':json.dumps(Experiment.EXPERIMENT_TYPES)},
                                   context_instance=RequestContext(request))
 
-    results = []
+    print form.cleaned_data
+    results = Experiment.objects.all()
     if form.cleaned_data['transcription_factor']:
         tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
-        results = Experiment.objects.filter(transcription_factor__in=tfs)
+        results = results.filter(transcription_factor__in=tfs)
+    if form.cleaned_data['expt_type']:
+        expts = json.loads(form.cleaned_data.pop('expt_type'))
+        results = results.filter(expt_type__in=expts)
+    if form.cleaned_data['species']:
+        species = json.loads(form.cleaned_data.pop('species'))
+        results = results.filter(species__in=species)
 
     for key, value in form.cleaned_data.iteritems():
-        if value and not results:
-            results = Experiment.objects.filter(**{key: value})
-        elif value:
+        if value:
             results = results.filter(**{key: value})
     json_results = _serialize_results(results)
     return HttpResponse(json_results)

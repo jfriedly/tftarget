@@ -11,12 +11,10 @@ class SearchForm(forms.Form):
     gene = forms.CharField(label="Gene",
         widget=forms.TextInput(attrs={'class': 'input input-text'}),
         required=False)
-    species = forms.ChoiceField(label="Species",
-        choices=Experiment.SPECIES,
+    species = forms.CharField(label="Species",
         widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
         required=False)
-    expt_type = forms.ChoiceField(label="Experiment Name",
-        choices=Experiment.EXPERIMENT_TYPES,
+    expt_type = forms.CharField(label="Experiment Name",
         widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
         required=False)
     expt_tissues = forms.CharField(label="Organ",

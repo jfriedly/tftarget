@@ -1,5 +1,5 @@
 /**
-   This is a collection of JavaScript functions. 
+   This is a collection of JavaScript functions.
    @authors - Djenome Team - Tremayne Mushayahama, Joel Friedly, Grant Michalski, Edward Powell
    @primary author - Tremayne Mushayahama
    @date 2/7/2013
@@ -9,15 +9,15 @@
 // |-------------------------CONSTANTS ----------------------------|
 // `````````````````````````````````````````````````````````````````
 
-/** Search results displayed on one page. The lower the number the 
-    faster the load time. Preferred results is in the 
+/** Search results displayed on one page. The lower the number the
+    faster the load time. Preferred results is in the
     range 50 <= RESULTS_PER_PAGE <= 500
 */
 var RESULTS_PER_PAGE = 100;
 var PAGE_NEXT = 'Next';
 var PAGE_PREV = 'Prev';
 /**
-   Used to order the column of the table. The purpose of the multidimensional array is to 
+   Used to order the column of the table. The purpose of the multidimensional array is to
    map from DB name to Human readable format
    e.g. expt_type - Experimental Type
 */
@@ -55,10 +55,10 @@ function initTab(tabIndex) {
         var trans = $.parseJSON($('#tf-choices').html())
         var species = $.parseJSON($('#tft-species').html());
         var expt_types = $.parseJSON($('#tft-expt-types').html())
-       
+
         initMultiSelect('#tft-species-dropdown-'+tabIndex, species, 'species'+tabIndex);
         initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, expt_types, 'expt-types'+tabIndex);
-       
+
         initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
         //Tab Event handlers
         $('.tft-family-dropdown-menu').click(function (e) {
@@ -69,14 +69,14 @@ function initTab(tabIndex) {
         tabInitialized[tabIndex]=true;
     }
 }
-/*Initializes the search and put all controls. 
+/*Initializes the search and put all controls.
 @requires the form should have the format
-<form> 
+<form>
 <label></label><controls>
 <label></label><controls>
 ...
 </form>
-@params formId -The id of the form  
+@params formId -The id of the form
 */
 function initForm (formId) {
     var $tftForm = $(formId).children(':not(:hidden)'); //get all hidden components
@@ -88,11 +88,11 @@ function initForm (formId) {
     $(formId+' :input:not(:hidden)').wrap('<div class="controls " />');//wraps every input which is not hidden
 }
 
-/*Initialize the transcription factor dropdown. 
+/*Initialize the transcription factor dropdown.
 */
 function initTFControl(accordionId, trans, tab) {
     var $familyAccordion = $(accordionId);
-    for (var i =0; i<trans.length; i++) {
+    for (var i = 0; i<trans.length; i++) {
         var familyId = trans[i][0]+tab;
         var $familyGroup = $('<div></div>').addClass('accordion-group');
         var $familyHeading = $('<div></div>').addClass('accordion-heading tft-family-heading');
@@ -132,7 +132,7 @@ function initTFControl(accordionId, trans, tab) {
 }
 
 function initMultiSelect(container, tftList, listClass) {
-    //put the select all 
+    //put the select all
     $(container)
         .append($('<li/>')
                 .append($('<label/>')
@@ -160,6 +160,7 @@ function initMultiSelect(container, tftList, listClass) {
 // ````````````````````````````````````````````````````````````````
 function ajaxSearch (rowNum, resetPagination) {
     console.log("AJAX searching!");
+    console.log($('#tft-search-form-2').serialize())
     $.post('/', $('#tft-search-form-2').serialize()+ '&row_index='+rowNum +'&rows='+RESULTS_PER_PAGE, function (data) {
         console.log("AJAX searched");
         //clear the search result for ready for next search result
@@ -168,7 +169,7 @@ function ajaxSearch (rowNum, resetPagination) {
         var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
         var thead = $('<thead></thead>').addClass('tft-thead');
         var tbody = $('<tbody></tbody>');
-        
+
         //UNCOMMENT THIS CODE IF YOU FINISH IMPLEMENTING THE BACK
       /*  var rows = data["num_results"];
         var results = data["results"];
@@ -215,7 +216,7 @@ function ajaxSearch (rowNum, resetPagination) {
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
   @params start The first page index to the left.
   @params results the total number of rows
-*/ 
+*/
 function paginate(start, results) {
     $('#tft-page-container-2').children().remove();
     var pages = results / RESULTS_PER_PAGE;//get the number of pages
@@ -242,7 +243,7 @@ function paginate(start, results) {
         $pageItem.attr('tft-results', results);
         $pageList.append($pageItem);
     }
-        
+
     $pagesContainer.append($pageList);
     $('#tft-page-container-2').append($pagesContainer);
     addPageClickEvent();
@@ -250,11 +251,11 @@ function paginate(start, results) {
 
 
 /**This is a messed up function although it works
-It is a temporary way to write json 
+It is a temporary way to write json
 */
-function populateTranscriptionInput() {
+function writeJSON(cls) {
     var factors = '[';
-    $('.family-member:checked').each(function() {
+    $('.' + cls + ':checked').each(function() {
         factors += '"'+$(this).attr('value') + '",'
     });
     if (factors.length>1) {
@@ -274,7 +275,7 @@ function searchSummary() {
     $('.family-member:checked').each(function() {
         factors += $(this).attr('value') + ', '
     });
-    
+
     var $dl = $('<dl></dl>');
     $dl.addClass('dl-horizontal');
     if($.trim(factors)!='') {
@@ -385,29 +386,31 @@ function addEventHandlers() {
         searchSummary();
     });
     $('#tft-search-btn-2').click(function() {
-        $('#id_transcription_factor').val(populateTranscriptionInput());
+        $('#id_transcription_factor').val(writeJSON('family-member'));
+        $('#id_expt_type').val(writeJSON('expt-types2'));
+        $('#id_species').val(writeJSON('species2'));
         ajaxSearch(1, true);
     });
 
     $('.tft-family-select').click(function() {
         $($(this).attr('tft-parent-id')).collapse('show');
         if($(this).is(':checked')==true){
-            $('.'+$(this).attr('id')).each(function(){ 
+            $('.'+$(this).attr('id')).each(function(){
                 this.checked = true;
             });
         } else {
-            $('.'+$(this).attr('id')).each(function(){ 
+            $('.'+$(this).attr('id')).each(function(){
                 this.checked = false;
             });
         }
     });
     $('.tft-search-select-all').click(function() {
         if($(this).is(':checked')==true){
-            $('.'+$(this).attr('select-target')).each(function(){ 
+            $('.'+$(this).attr('select-target')).each(function(){
                 this.checked = true;
             });
         } else {
-            $('.'+$(this).attr('select-target')).each(function(){ 
+            $('.'+$(this).attr('select-target')).each(function(){
                 this.checked = false;
             });
         }
@@ -418,9 +421,9 @@ function addEventHandlers() {
         //choose the selected index
         initTab($('.tab-pane.active').index());
     })
-    $('#tft-result-container-2').hide();
-  //  $('#tft-summary-form-2').modal();
-  //  $('#tft-home-tab a[href="#download-database"]').click();
+    $('#tft-download-db').hide();
+    //  $('#tft-summary-form-2').modal();
+    //  $('#tft-home-tab a[href="#download-database"]').click();
         /* $('.family-member').click(function() {
        // console.log('im a clicked member');
        // console.log( $('.'+$(this).attr('my-parent')).length);
