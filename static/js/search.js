@@ -203,7 +203,7 @@ function ajaxSearch (rowNum, resetPagination) {
 */
 function paginate(start, results) {
     $('#tft-page-container-2').children().remove();
-    var pages = results / RESULTS_PER_PAGE;//get the number of pages
+    var pages = (results / RESULTS_PER_PAGE) + 1;//get the number of pages
     var pageSpan = start + 10;
     var $pagesContainer = $('<div></div>').addClass('pagination tft-page-container ');
     var $pageList = $('<ul></ul>'); 
