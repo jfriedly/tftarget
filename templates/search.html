@@ -70,6 +70,7 @@
       <form id="tft-search-form-2" class="form-horizontal row">
         <label>Transcription Factor</label>
         <div class="controls">
+         <div class "row">
           <div class="dropdown">
             <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
               Multiple Selection
@@ -82,6 +83,7 @@
               </li>
             </ul>
           </div> <!-- dropdown -->
+         </div>
         </div>
         {% csrf_token %}
         {{ form }}
@@ -123,14 +125,36 @@
       </div>
     </div> <!-- form-container -->
     <br>
-    <div class="row" id="tft-result-container">
-      <div class="row ">
-        <a id="tft-download-db" class="span1 ">Download!</a>
-        <div class="span2" id="tft-results-number">
-        </div>
-        <div id="tft-page-container-2" class="span6">
+    <div id="tft-result-container-2" class="row tft-result-container">
+      <div class="navbar navbar-top tft-red-bottom-1">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <div class="brand">
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Table<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-header">All Pages</li>
+                  <li><a href="#">as a csv file</a></li>
+                  <li><a href="#">as an html file</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">This Page</li>
+                  <li><a href="#">as a csv file</a></li>
+                  <li><a href="#">as an html file</a></li>
+                </ul>
+              </div>
+            </div><!--/.nav-collapse -->
+            <div id="tft-page-container-2" class="pull-right">
+            </div>
+            <label id="tft-results-number" class="tft-label-result label pull-right"></label>
+          </div>
         </div>
       </div>
+      
       <br>
       <div id="search-results" class="row ">
       </div> 

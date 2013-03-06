@@ -23,32 +23,18 @@ body {
 .tft-grey-bottom-3 {
     border-bottom: #7e7e7e 10px solid;
 }
-.tft-red-bottom-3 a:hover {
+.tft-red-link a:hover {
     color:#990000;
     text-decoration:underline;
-}
-
-.tft-tab-header {
-    padding-left: 20px;
-    background-color:#f0f0f0;
 }
 .tft-container {
     margin:0 auto;
     background-color:#fff;
 }
-
 .tft-welcome-banner {
-    background-color: lightgrey;
+    background-color: #c0c0c0;
     height: 100px;
 }
-.tft-form-container {
-    background-color:#fcfcfc;
-}
-.tft-dropdown-container {
-    max-height:200px;
-    overflow:auto;
-}
-
 #tft-home-tabs {
     margin: 0px;
     background-color:#d5d2c4
@@ -58,13 +44,21 @@ body {
     font-weight:bold;
     font-size:1.1em;
 }
-#search-results {
-    margin-left:30px;
-    background-color:#fff;
-}
+
 .tft-head {
     border-right: 1px solid black;
     background-color:lightgrey;
+}
+.tft-tab-header {
+    padding-left: 20px;
+    background-color:#f0f0f0;
+}
+.tft-form-container {
+    background-color:#fcfcfc;
+}
+.tft-dropdown-container {
+    max-height:200px;
+    overflow:auto;
 }
 
 .tft-family-toggle {
@@ -79,3 +73,20 @@ body {
     float:left;
     margin-left:5px;
 }
+#search-results {
+    margin-left:30px;
+    background-color:#fff;
+}
+.tft-label-result {
+    margin-top:10px;
+    margin-right:20px;
+}
+.tft-page-container {
+    margin-top:2px;
+    margin-bottom:2px;
+}
+
+.tft-result-container {
+    padding:10px;
+}
+

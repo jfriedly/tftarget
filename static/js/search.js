@@ -198,7 +198,7 @@ function ajaxSearch (rowNum, resetPagination) {
         //Make sure we print the heading when the results returns values
         $('#tft-results-number').text(data.length + " results");
         if (data.length > 0){
-            $('#tft-download-db').show();
+            $('#tft-result-container-2').show();
             printTHead(thead);
             for (var i = 0; i < data.length; i++) {
                 printTBody(tbody, data[i], i+1);
@@ -206,6 +206,8 @@ function ajaxSearch (rowNum, resetPagination) {
             table.append(thead);
             table.append(tbody);
             $('#search-results').append(table);
+        } else {
+            $('#tft-result-container-2').hide();
         }
         //END BLOCK
     }, 'json');
@@ -218,7 +220,7 @@ function paginate(start, results) {
     $('#tft-page-container-2').children().remove();
     var pages = results / RESULTS_PER_PAGE;//get the number of pages
     var pageSpan = start + 10;
-    var $pagesContainer = $('<div></div>').addClass('pagination pagination-right');
+    var $pagesContainer = $('<div></div>').addClass('pagination tft-page-container ');
     var $pageList = $('<ul></ul>'); 
     for (var i=start; i<=pages && i<pageSpan; i++) {
         var $pageItem = $('<li class="tft-page-btn"><a>'+i+'</a></li>');
@@ -384,7 +386,6 @@ function addEventHandlers() {
     });
     $('#tft-search-btn-2').click(function() {
         $('#id_transcription_factor').val(populateTranscriptionInput());
-       // alert($('#id_transcription_factor').val());
         ajaxSearch(1, true);
     });
 
@@ -417,7 +418,7 @@ function addEventHandlers() {
         //choose the selected index
         initTab($('.tab-pane.active').index());
     })
-    $('#tft-download-db').hide();
+    $('#tft-result-container-2').hide();
   //  $('#tft-summary-form-2').modal();
   //  $('#tft-home-tab a[href="#download-database"]').click();
         /* $('.family-member').click(function() {
