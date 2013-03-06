@@ -186,7 +186,7 @@ function ajaxSearch (rowNum, resetPagination) {
         //Make sure we print the heading when the results returns values
         $('#tft-results-number').text(results.length + " results");
         if (results.length > 0){
-            $('#tft-download-db').show();
+            $('#tft-result-container-2').show();
             printTHead(thead);
             for (var i = 0; i < results.length; i++) {
                 printTBody(tbody, results[i], i+1);
@@ -194,6 +194,8 @@ function ajaxSearch (rowNum, resetPagination) {
             table.append(thead);
             table.append(tbody);
             $('#search-results').append(table);
+        } else {
+            $('#tft-result-container-2').hide();
         }
     }, 'json');
 }
@@ -402,7 +404,7 @@ function addEventHandlers() {
         //choose the selected index
         initTab($('.tab-pane.active').index());
     })
-    $('#tft-download-db').hide();
+    $('#tft-result-container-2').hide();
     //  $('#tft-summary-form-2').modal();
     //  $('#tft-home-tab a[href="#download-database"]').click();
         /* $('.family-member').click(function() {
