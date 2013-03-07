@@ -167,7 +167,7 @@ function ajaxSearch (rowNum, resetPagination) {
     console.log($('#tft-search-form-2').serialize())
     $.post('/', $('#tft-search-form-2').serialize(), function (data) {
         console.log("AJAX searched");
-        console.log(data);
+      //  console.log(data);
         //clear the search result for ready for next search result
         $('#search-results').children().remove();
         //create a table here
@@ -184,12 +184,12 @@ function ajaxSearch (rowNum, resetPagination) {
             paginate(1, rows);
         }
         //Make sure we print the heading when the results returns values
-        $('#tft-results-number').text(results.length + " results");
+        $('#tft-results-number').text(rows + " results");
         if (results.length > 0){
             $('#tft-result-container-2').show();
             printTHead(thead);
             for (var i = 0; i < results.length; i++) {
-                printTBody(tbody, results[i], i+1);
+                printTBody(tbody, results[i], rowNum+i+1);
             }
             table.append(thead);
             table.append(tbody);
@@ -353,6 +353,7 @@ function addPageClickEvent() {
             paginate(startIndex+1, results);
         } else {
             var rowNum = (parseInt(pageVal) - 1) * RESULTS_PER_PAGE;
+            $(this).addClass('active');
             ajaxSearch(rowNum, false);
         }
     });
