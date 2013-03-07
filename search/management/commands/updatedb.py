@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 import csv
 import re
 import sys
-
+from _constants import TRANSCRIPTION_FACTORS, ALL_SPECIES
 
 from search.models import Experiment, Gene
 
@@ -91,9 +91,9 @@ class Command(BaseCommand):
         """
         Preform basic row validation before adding the row in.
         """
-        #TODO import this from somewhere
-        ALL_SPECIES = ('human', 'mouse', 'rat', 'arabidopsis', 'hamster')
-        species = row['species'].lower()
+        species = row['species'].strip().lower()
+        if species == 'monkey':
+            species = 'human'
         if species not in ALL_SPECIES:
             raise DBImportError("Error on line %d: Species %s is not valid."
                                 % (line, species))
@@ -112,22 +112,25 @@ class Command(BaseCommand):
                                     "integer. Got '%s'" % (line, row['pmid']))
         else:
             row['pmid'] = None
+
         return row
 
-    def _get_row_multis(self, row, row_multis, key, name, depth, line):
+    def _get_row_multis(self, row, row_multis, key, name, depth, line, check_func):
         """For columns that can have multiple values, create the row_multis
         list of appropriate dicts.
         """
-        if not row[key]:
+        data = row.pop(key)
+        if not data:
             raise DBImportError("Error on line %d: No %s." %
                                 (line, name.lower()))
         # Split up the row, and check that the depth is valid
-        cell_values, depth = self._split_cell(row[key], name, depth, line)
+        cell_values, depth = self._split_cell(data, name, depth, line)
         # If our list of multis is too short, grow it
         while len(row_multis) < depth:
             row_multis.append({})
-        # Then, add each cell value to a row_multi dictionary
+        # Then, add each cell value to a row_multi list of dicts
         for n, value in enumerate(cell_values):
+            value = check_func(value, line)
             row_multis[n][key] = value
         return row_multis
 
@@ -139,13 +142,33 @@ class Command(BaseCommand):
         # this will be n where n == 1 or n is the same for all columns in row
         depth = 1
         row_multis = []
+        
+        
         #NOTE only trans. fac, expt, cell line/organ can have multi-value
-        for key, name in (('expt_type', 'Experiment type'),
-                          ('cell_line', 'Cell Line'),
-                          ('transcription_factor', 'Transcription factor')):
-            row_multis = self._get_row_multis(row, row_multis, key, name,
-                                              depth, line)
-            row.pop(key)
+        #We define the function that each key should be checked against, and
+        #send it on to the function that breaks up the cells. This way we can
+        #check these things as we go. There's probably a better way.
+        def validate_transcription_factor(value, line):
+            canonical_value = TRANSCRIPTION_FACTORS.get(value.translate(None, '-_. ').lower())
+            if not canonical_value:
+                raise DBImportError("Error on line %d: Transcription factor %s"
+                                    " is not valid." % (line, value))#TODO
+            return canonical_value
+        row_multis = self._get_row_multis(row, row_multis,
+                                          'transcription_factor',
+                                          'Transcription factor', depth, line,
+                                          validate_transcription_factor)
+
+        def validate_cell_line(value, line):
+            return value
+        row_multis = self._get_row_multis(row, row_multis, 'cell_line',
+                                          'Cell line', depth, line, validate_cell_line)
+
+        def validate_expt_type(value, line):
+            return value
+        row_multis = self._get_row_multis(row, row_multis, 'expt_type',
+                                          'Experiment type', depth, line,
+                                          validate_expt_type)
 
         # Now we can finally add rows
         added = 0
@@ -159,35 +182,3 @@ class Command(BaseCommand):
                 added += 1
         return added, duplicates
 
-    #TODO(jfriedly) We need to use this function or remove it
-    def _check_experiment_types(self, expt_types):
-        """
-        Takes a list of experiment types and ensures that they are valid and
-        extant.
-        """
-        # Matches one or more slash, semicolon, comma, plus sign, ampersand,
-        # possibly with whitespace on either side.
-        for expt_type in expt_types:
-            expt_type = expt_type.strip().lower()
-            # Sometimes they forget the dash in experiment names
-            #expt_type = re.sub('qPCR', 'q-PCR', expt_type, flags=re.I)
-            #expt_type = re.sub('Run on', 'run-on', expt_type, flags=re.I)
-            #expt_type = re.sub('run off', 'run-off', expt_type, flags=re.I)
-            # Found this typo in the data.  We can fix it for them.
-            #expt_type = re.sub('Westernn', 'Western', expt_type, flags=re.I)
-
-    #TODO(jfriedly) We need to use this function or remove it
-    def _custom_transcription_factor_regexes(self, experiment, tf):
-        # This one isn't supposed to have a dash
-        tf = re.sub('NF-kB', 'NFkB', tf, flags=re.I)
-        # The data they give us may have Myc transcription factors as just
-        # the letter for the family member.  We fix that here.
-        if (experiment.transcription_family == Experiment.MYC and
-            Experiment.MYC.lower() not in tf.lower()):
-            tf = re.sub('(.*)', r'\1-Myc', tf, flags=re.I)
-        # The data they give us may have STAT transcription factors as just
-        # the digit for the family member.  We fix that here.
-        if (experiment.transcription_family == Experiment.STAT and
-            Experiment.STAT.lower() not in tf.lower()):
-            tf = re.sub('(.*)', r'STAT\1', tf, flags=re.I)
-        return tf
