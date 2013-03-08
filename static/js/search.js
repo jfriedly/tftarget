@@ -22,7 +22,8 @@ var PAGE_PREV = 'Prev';
    e.g. expt_type - Experimental Type
 */
 var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
-                     ["gene", "Gene"],
+                     ["gene", "Human Gene"],
+                     ["mouse_gene", "Mouse Gene"],
                      ["pmid", "PMID"],
                      ["species", "Species"],
                      ["expt_tissues", "Organ"],
@@ -321,6 +322,9 @@ function printTBody (tbody, object, rowNum) {
              row += '<td> - </td>'; //prints a desh to indicate no value
         } else if (property == 'pmid') {
             row += '<td><a target="blank" href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
+        } else if (property == 'gene') {
+            row += '<td>' + object['gene']['human'] + '</td>';
+            row += '<td>' + object['gene']['mouse'] + '</td>';
         } else {
             row += '<td>' + object[property] + '</td>';
         }

@@ -31,6 +31,9 @@ def search(request):
     if form.cleaned_data['species']:
         species = json.loads(form.cleaned_data.pop('species'))
         results = results.filter(species__in=species)
+    if form.cleaned_data['gene']:
+        gene = form.cleaned_data.pop('gene')
+        results = results.filter(gene__human=gene)
 
     for key, value in form.cleaned_data.iteritems():
         if value:
