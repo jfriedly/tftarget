@@ -180,12 +180,16 @@ function ajaxSearch (pageNum, resetPagination) {
         //differantiate searching by clicking page number of submit btn.
         //Submit btn should reset the page numbers shown starting from 1
         if (resetPagination==true) {
-            paginate(1, rows);
+            paginate('#tft-page-container-top-2', 1, rows);
+            paginate('#tft-page-container-bottom-2', 1, rows)
         }
         //Make sure we print the heading when the results returns values
         var rowsFrom = ((pageNum-1)*RESULTS_PER_PAGE)+1;
         var rowsTo = rowsFrom + RESULTS_PER_PAGE - 1;
-        $('#tft-results-number').text("Showing rows "
+        $('#tft-results-number-top-2').text("Showing rows "
+                                      + rowsFrom + " to " + rowsTo 
+                                      + " of " + rows + " results ");
+        $('#tft-results-number-bottom-2').text("Showing rows "
                                       + rowsFrom + " to " + rowsTo 
                                       + " of " + rows + " results ");
         if (results.length > 0){
@@ -206,8 +210,8 @@ function ajaxSearch (pageNum, resetPagination) {
   @params start The first page index to the left.
   @params results the total number of rows
 */
-function paginate(start, results) {
-    $('#tft-page-container-2').children().remove();
+function paginate(containerId, start, results) {
+    $(containerId).children().remove();
     var pages = (results / RESULTS_PER_PAGE) + 1;//get the number of pages
     var pageSpan = start + 10;
     var $pagesContainer = $('<div></div>').addClass('pagination tft-page-container ');
@@ -234,7 +238,7 @@ function paginate(start, results) {
     }
 
     $pagesContainer.append($pageList);
-    $('#tft-page-container-2').append($pagesContainer);
+    $(containerId).append($pagesContainer);
     addPageClickEvent();
 }
 
@@ -349,11 +353,13 @@ function addPageClickEvent() {
         if (pageVal=="Prev") {
             var startIndex=parseInt($(this).attr('tft-start-index'));
             var results=parseInt($(this).attr('tft-results'));
-            paginate(startIndex-1, results);
+            paginate('#tft-page-container-top-2', startIndex-1, results);
+            paginate('#tft-page-container-bottom-2', startIndex-1, results);
         }else if (pageVal=="Next") {
             var startIndex=parseInt($(this).attr('tft-start-index'));
             var results=parseInt($(this).attr('tft-results'));
-            paginate(startIndex+1, results);
+            paginate('#tft-page-container-top-2', startIndex+1, results);
+            paginate('#tft-page-container-bottom-2', startIndex+1, results);
         } else {
             var rowNum = parseInt(pageVal);
             $(this).addClass('active');
