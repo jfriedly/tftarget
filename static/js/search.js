@@ -158,13 +158,13 @@ function initMultiSelect(container, tftList, listClass) {
 // ________________________________________________________________
 // |-------------------------SEARCH------ -------------------------|
 // ````````````````````````````````````````````````````````````````
-function ajaxSearch (rowNum, resetPagination) {
+function ajaxSearch (pageNum, resetPagination) {
     console.log("AJAX searching!");
     $('#id_transcription_factor').val(writeJSON('family-member'));
     $('#id_expt_type').val(writeJSON('expt-types2'));
     $('#id_species').val(writeJSON('species2'));
-    $('#id_row_index').val(rowNum);
-    console.log($('#tft-search-form-2').serialize())
+    $('#id_page_number').val(pageNum);
+
     $.post('/', $('#tft-search-form-2').serialize(), function (data) {
         console.log("AJAX searched");
       //  console.log(data);
@@ -175,7 +175,6 @@ function ajaxSearch (rowNum, resetPagination) {
         var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
         var tbody = $('<tbody></tbody>');
 
-        //UNCOMMENT THIS CODE IF YOU FINISH IMPLEMENTING THE BACK
         var rows = data["num_results"];
         var results = data["results"];
         //differantiate searching by clicking page number of submit btn.
@@ -184,12 +183,16 @@ function ajaxSearch (rowNum, resetPagination) {
             paginate(1, rows);
         }
         //Make sure we print the heading when the results returns values
-        $('#tft-results-number').text(rows + " results");
+        var rowsFrom = ((pageNum-1)*RESULTS_PER_PAGE)+1;
+        var rowsTo = rowsFrom + RESULTS_PER_PAGE - 1;
+        $('#tft-results-number').text("Showing rows "
+                                      + rowsFrom + " to " + rowsTo 
+                                      + " of " + rows + " results ");
         if (results.length > 0){
             $('#tft-result-container-2').show();
             printTHead(thead);
             for (var i = 0; i < results.length; i++) {
-                printTBody(tbody, results[i], (rowNum-1)*RESULTS_PER_PAGE+i+1);
+                printTBody(tbody, results[i], (pageNum-1)*RESULTS_PER_PAGE+i+1);
             }
             table.append(thead);
             table.append(tbody);

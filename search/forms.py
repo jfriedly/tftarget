@@ -20,6 +20,6 @@ class SearchForm(forms.Form):
     expt_tissues = forms.CharField(label="Organ",
         widget=forms.TextInput(attrs={'class': 'input input-text'}),
         required=False)
-    row_index = forms.CharField(label="Row Index",
+    page_number = forms.CharField(label="Page Number",
         widget=forms.HiddenInput(),
         required=False)

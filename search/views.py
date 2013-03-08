@@ -23,7 +23,7 @@ def search(request):
     print form.cleaned_data
     
     results = Experiment.objects.all()
-    page_num = int(form.cleaned_data.pop('row_index'))
+    page_num = int(form.cleaned_data.pop('page_number'))
     if form.cleaned_data['transcription_factor']:
         tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
         results = results.filter(transcription_factor__in=tfs)
