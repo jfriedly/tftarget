@@ -189,7 +189,7 @@ function ajaxSearch (rowNum, resetPagination) {
             $('#tft-result-container-2').show();
             printTHead(thead);
             for (var i = 0; i < results.length; i++) {
-                printTBody(tbody, results[i], rowNum+i+1);
+                printTBody(tbody, results[i], (rowNum-1)*RESULTS_PER_PAGE+i+1);
             }
             table.append(thead);
             table.append(tbody);
@@ -352,7 +352,7 @@ function addPageClickEvent() {
             var results=parseInt($(this).attr('tft-results'));
             paginate(startIndex+1, results);
         } else {
-            var rowNum = (parseInt(pageVal) - 1) * RESULTS_PER_PAGE;
+            var rowNum = parseInt(pageVal);
             $(this).addClass('active');
             ajaxSearch(rowNum, false);
         }
@@ -362,7 +362,7 @@ function addEventHandlers() {
     $('.input-text').keypress(function (e) {
         if (e.which == 13) {
             console.log('enter pressed');
-            ajaxSearch(0, true);//start at row 1
+            ajaxSearch(1, true);//start at row 1
             //whenever someone presses enters, page 1 will be activated
             //resetPage(); will implement this
         }
@@ -373,7 +373,7 @@ function addEventHandlers() {
         searchSummary();
     });
     $('#tft-search-btn-2').click(function() {
-        ajaxSearch(0, true);
+        ajaxSearch(1, true);
     });
 
     $('.tft-family-select').click(function() {
