@@ -113,6 +113,12 @@ class Command(BaseCommand):
         else:
             row['pmid'] = None
 
+        #Capitalize the organ value
+        if not row['expt_tissues']:
+            row['expt_tissues'] = ''
+        else:
+            row['expt_tissues'] = row['expt_tissues'].capitalize()
+
         return row
 
     def _get_row_multis(self, row, row_multis, key, name, depth, line, check_func):
