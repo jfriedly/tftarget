@@ -45,6 +45,11 @@ class Command(BaseCommand):
                                     delimiter='\t')
             # Skip the first row (column names)
             r = reader.next()
+            if not all((r[c] for c in columns)):
+                print ('This file is missing some columns. This may be due to '
+                       'saving the file in an incorrect format. Please fix '
+                       'this, and try again.')
+                return
             sys.stdout.write(args[0] + ' line:       ')
             errors = 0
             adds = 0
