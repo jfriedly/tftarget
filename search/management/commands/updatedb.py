@@ -3,6 +3,7 @@ import csv
 import re
 import sys
 from _constants import TRANSCRIPTION_FACTORS, ALL_SPECIES, IMPORT_COLUMN_ORDER
+from copy import deepcopy
 
 from search.models import Experiment, Gene
 
@@ -142,12 +143,12 @@ class Command(BaseCommand):
         cell_values, depth = self._split_cell(data, name, depth, line)
         # If our list of multis is too short, grow it
         while len(row_multis) < depth:
-            row_multis.append({})
+            row_multis.append(deepcopy(row_multis[0]))
         # Then, add each cell value to a row_multi list of dicts
         for n, value in enumerate(cell_values):
             value = check_func(value, line)
             row_multis[n][key] = value
-        return row_multis
+        return row_multis, depth
 
     def _add(self, row, line):
         """
@@ -156,7 +157,7 @@ class Command(BaseCommand):
         # The number of delimited values in the row. Supposedly, for each column
         # this will be n where n == 1 or n is the same for all columns in row
         depth = 1
-        row_multis = []
+        row_multis = [{}]
 
         #NOTE only trans. fac, expt, cell line/organ can have multi-value
         #We define the function that each key should be checked against, and
@@ -168,19 +169,19 @@ class Command(BaseCommand):
                 raise DBImportError("Error on line %d: Transcription factor %s"
                                     " is not valid." % (line, value))  # TODO
             return canonical_value
-        row_multis = self._get_row_multis(row, row_multis,
+        row_multis, depth = self._get_row_multis(row, row_multis,
                                           'transcription_factor',
                                           'Transcription factor', depth, line,
                                           validate_transcription_factor)
 
         def validate_cell_line(value, line):
             return value
-        row_multis = self._get_row_multis(row, row_multis, 'cell_line',
+        row_multis, depth = self._get_row_multis(row, row_multis, 'cell_line',
                                           'Cell line', depth, line, validate_cell_line)
 
         def validate_expt_type(value, line):
             return value
-        row_multis = self._get_row_multis(row, row_multis, 'expt_type',
+        row_multis, depth = self._get_row_multis(row, row_multis, 'expt_type',
                                           'Experiment type', depth, line,
                                           validate_expt_type)
 
