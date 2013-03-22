@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.core.paginator import Paginator
 
 from search.models import Experiment
 from search.forms import SearchForm
@@ -20,8 +21,9 @@ def search(request):
                                   context_instance=RequestContext(request))
 
     print form.cleaned_data
+    
     results = Experiment.objects.all()
-    row_index = int(form.cleaned_data.pop('row_index'))
+    page_num = int(form.cleaned_data.pop('page_number'))
     if form.cleaned_data['transcription_factor']:
         tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
         results = results.filter(transcription_factor__in=tfs)
@@ -34,21 +36,26 @@ def search(request):
     if form.cleaned_data['gene']:
         gene = form.cleaned_data.pop('gene')
         results = results.filter(gene__human=gene)
+ 
+    p = Paginator(results, 100) #100 is hard coded rows per page
+    results = p.page(page_num ).object_list
 
+    #this was the one taig a lot of time, but now t will only process 100 items
     for key, value in form.cleaned_data.iteritems():
         if value:
             results = results.filter(**{key: value})
-    count = results.count()
-    json_results = _serialize_results(results, row_index, count)
+
+   
+    json_results = _serialize_results(results, p.count)
     return HttpResponse(json_results)
 
 
-def _serialize_results(results, row_index, count):
+def _serialize_results(results, count):
     """Takes the results set and serializes it to JSON, adding transcription
     factors and experiment types.
     """
     results = list(results)
     for i, expt in enumerate(results):
         results[i] = expt.serialize()
-    return json.dumps({'results': results[row_index:row_index+100],
+    return json.dumps({'results': results,
                        'num_results': count})
