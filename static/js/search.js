@@ -61,6 +61,7 @@ function initTab(tabIndex) {
 
         initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
         //Tab Event handlers
+        //Stop the dropdown from hiding when clicked
         $('.tft-family-dropdown-menu').click(function (e) {
             e.stopPropagation();
         });
@@ -94,40 +95,40 @@ function initTFControl(accordionId, trans, tab) {
     var $familyAccordion = $(accordionId);
     for (var i = 0; i<trans.length; i++) {
         var familyId = trans[i][0]+tab;
-        var $familyGroup = $('<div></div>').addClass('accordion-group');
-        var $familyHeading = $('<div></div>').addClass('accordion-heading tft-family-heading');
-        var $familyToggle = $('<a></a>').addClass ('btn accordion-toggle tft-family-toggle ');
-        var $familyNameCheckBox = $('<input id="'+familyId+'"type="checkbox" />').addClass('tft-family-select');
-        var $collapse = $('<div></div>').addClass('accordion-body collapse');
         var $inner = $('<div></div>').addClass('accordion-inner');
-
-        $familyToggle.attr('data-toggle', 'collapse');
-        $familyToggle.attr('data-parent', $familyAccordion);
-        $familyToggle.attr('data-target', '#collapse'+familyId);
-        $familyToggle.text(trans[i][0]);
-
-        $collapse.attr('id', 'collapse'+familyId);
-        $familyNameCheckBox.attr('tft-parent-id', '#collapse'+ familyId);
-
-        //appending
-        $familyToggle.prepend("&nbsp;&nbsp;&nbsp;");
-        $familyToggle.prepend($familyNameCheckBox);
-        $familyHeading.append($familyToggle);
-        $collapse.append($inner);
-        $familyGroup.append($familyHeading);
-        $familyGroup.append($collapse);
-
+        
+        $familyAccordion
+            .append($("<div/>")
+                    .append($('<div/>') //Transcription Family Heading
+                            .addClass('accordion-heading tft-family-heading')
+                            .append($('<a/>')
+                                    .addClass ('btn accordion-toggle tft-family-toggle ')  
+                                    .attr('data-toggle', 'collapse')
+                                    .attr('data-parent', $familyAccordion)
+                                    .attr('data-target', '#collapse'+familyId)
+                                    .text(trans[i][0])
+                                    .prepend("&nbsp;&nbsp;&nbsp;")
+                                    .prepend($('<input id="'+familyId+'"type="checkbox" />')
+                                             .addClass('tft-family-select')
+                                             .attr('tft-parent-id', '#collapse'+ familyId))))
+                    .append($('<div/>') //Body
+                            .addClass('accordion-group')
+                            .append( $('<div/>')
+                                     .addClass('accordion-body collapse')
+                                     .attr('id', 'collapse'+familyId)
+                                     .append($inner))));
+        
         for (var j= 1; j< trans[i].length; j++) {
-            $inner.append($('<li/>')
-                          .append($('<label/>')
-                                  .addClass('checkbox')
-                                  .text(trans[i][j])
-                                  .append($('<input type="checkbox">')
-                                          .addClass('family-member '+familyId) 
-                                          .attr('my-parent', familyId)
-                                          .attr('value', trans[i][j]))));
+            $inner
+                .append($('<li/>')
+                        .append($('<label/>')
+                                .addClass('checkbox')
+                                .text(trans[i][j])
+                                .append($('<input type="checkbox">')
+                                        .addClass('family-member '+familyId) 
+                                        .attr('my-parent', familyId)
+                                        .attr('value', trans[i][j]))));
         }
-        $familyAccordion.append($familyGroup);
     }
 }
 
