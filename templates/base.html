@@ -1,15 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
 <html xml:lang="en" lang="en">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  
-  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery1.9.0.min.js"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.10.0.custom.min.js"></script>
-  <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet"/>
-  <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" type="text/css" rel="stylesheet"/>
-  
-  
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery1.9.0.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.10.0.custom.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
+    
+    <script id="tf-choices" type="text/javascript">{% autoescape off %}{{ tf_choices }}{% endautoescape %}</script>
+    <script id="tft-species" type="text/javascript">{% autoescape off %}{{ tft_species }}{% endautoescape %}</script>
+    <script id="tft-expt-types" type="text/javascript">{% autoescape off %}{{ tft_expt_types }}{% endautoescape %}</script>
+    
+    <link href="{{ STATIC_URL }}css/bootstrap.css" type="text/css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}css/bootstrap-responsive.css" type="text/css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}css/search.css" type="text/css" rel="stylesheet"/>
+    
+  </head>
   <body>
     <div id="tft-navbar" class="navbar navbar-top">
       <div class="navbar-inner">
@@ -67,7 +75,7 @@
       {% endblock %}
     </div>
   </body>
-  <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap-responsive.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-responsive.js"></script>
 </html>
 
