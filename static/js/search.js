@@ -14,8 +14,8 @@
     range 50 <= RESULTS_PER_PAGE <= 500
 */
 var RESULTS_PER_PAGE = 100;
-var PAGE_NEXT = 'Next';
-var PAGE_PREV = 'Prev';
+var PAGINATION_NEXT = 'Next';
+var PAGINATION_PREV = 'Prev';
 var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST;
 /**
    Used to order the column of the table. The purpose of the multidimensional array is to
@@ -23,8 +23,8 @@ var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST;
    e.g. expt_type - Experimental Type
 */
 var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
-                     ["gene", "Human Gene"],
-                     ["mouse_gene", "Mouse Gene"],
+                     ["gene", "Human Gene", 'human'],
+                     ["gene", "Mouse Gene", 'mouse'],
                      ["pmid", "PMID"],
                      ["species", "Species"],
                      ["expt_tissues", "Organ"],
@@ -206,31 +206,34 @@ function ajaxSearch (pageNum, resetPagination) {
     }, 'json');
 }
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
-  @params start The first page index to the left.
-  @params results the total number of rows
+ * @params start The first page index to the left.
+ * @params results the total number of rows
 */
 function paginate(containerId, start, results) {
     $(containerId).children().remove();
     var pages = (results / RESULTS_PER_PAGE) + 1;//get the number of pages
     var pageSpan = start + 10;
-    var $pagesContainer = $('<div></div>').addClass('pagination tft-page-container ');
-    var $pageList = $('<ul></ul>'); 
+    var $pagesContainer = $('<div/>').addClass('pagination tft-page-container ');
+    var $pageList = $('<ul/>'); 
     for (var i=start; i<=pages && i<pageSpan; i++) {
-        var $pageItem = $('<li class="tft-page-btn"><a>'+i+'</a></li>');
-        $pageItem.attr('tft-page', i);
-        $pageList.append($pageItem);
+        $pageList
+            .append($('<li/>')
+                    .attr('tft-page', i)
+                    .addClass("tft-page-btn")
+                    .append($('<a/>')
+                            .text(i)));
     }
     // Determine to print "Previous" or "Next" Button
     if (start>1) {
         var $pageItem = $('<li class="tft-page-btn"><a>Prev</a></li>');
-        $pageItem.attr('tft-page', 'Prev');
+        $pageItem.attr('tft-page', PAGINATION_PREV);
         $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
         $pageItem.attr('tft-results', results);
         $pageList.prepend($pageItem);
     }
     if (pages>pageSpan) {
         var $pageItem = $('<li class="tft-page-btn"><a>Next</a></li>');
-        $pageItem.attr('tft-page', 'Next');
+        $pageItem.attr('tft-page', PAGINATION_NEXT);
         $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
         $pageItem.attr('tft-results', results);
         $pageList.append($pageItem);
@@ -323,16 +326,15 @@ function printTBody (tbody, object, rowNum) {
     //prints from row according to the order of the TABLE_HEADING array.
     for (var i=0; i < TABLE_HEADING.length; i++) {
         property = TABLE_HEADING[i][0];
-        if (object[property]==null || object[property]=='') {
-             row += '<td> - </td>'; //prints a desh to indicate no value
+        if (property == 'gene') {
+            row += '<td>' + object['gene'][ TABLE_HEADING[i][2]] + '</td>';//TABLE_HEADING[I][2] contains a second name in case it is ambiguous i.e. gene
+        } else if (object[property]==null || object[property]=='') {
+            row += '<td> - </td>'; //prints a desh to indicate no value
         } else if (property == 'pmid') {
             row += '<td><a target="blank" href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
-        } else if (property == 'gene') {
-            row += '<td>' + object['gene']['human'] + '</td>';
-            row += '<td>' + object['gene']['mouse'] + '</td>';
         } else {
             row += '<td>' + object[property] + '</td>';
-        }
+        } 
     }
     row += '</tr>'; //end the row, ready to append
     tbody.append(row);
