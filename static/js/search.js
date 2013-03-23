@@ -16,6 +16,7 @@
 var RESULTS_PER_PAGE = 100;
 var PAGE_NEXT = 'Next';
 var PAGE_PREV = 'Prev';
+var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST;
 /**
    Used to order the column of the table. The purpose of the multidimensional array is to
    map from DB name to Human readable format
@@ -46,44 +47,40 @@ var tabInitialized = [false, false, false];
 $(document).ready(function () {
     console.log("Loading search.js...");
     $.ajaxSetup({traditional: true});
+    TF_LIST = $.parseJSON($('#tf-choices').html())
+    SPECIES_LIST = $.parseJSON($('#tft-species').html());
+    EXPT_TYPES_LIST = $.parseJSON($('#tft-expt-types').html())
     initTab(2);// tab 2 is the  first
 });
 /*Initialize all the commponets. All the 3 main forms of the have the same format
 */
 function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
-        initForm('#tft-search-form-' + tabIndex);
-        var trans = $.parseJSON($('#tf-choices').html())
-        var species = $.parseJSON($('#tft-species').html());
-        var expt_types = $.parseJSON($('#tft-expt-types').html())
-
-        initMultiSelect('#tft-species-dropdown-'+tabIndex, species, 'species'+tabIndex);
-        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, expt_types, 'expt-types'+tabIndex);
-
-        initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
-        //Tab Event handlers
-        //Stop the dropdown from hiding when clicked
-        $('.tft-family-dropdown-menu').click(function (e) {
-            e.stopPropagation();
-        });
-        addToggleEvents();
-        addEventHandlers();
+        initForm('#tft-search-form-'+tabIndex);
+        initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species'+tabIndex);
+        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex,EXPT_TYPES_LIST, 'expt-types'+tabIndex);
+        initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
+        
+        addTabEvents(tabIndex);
         tabInitialized[tabIndex]=true;
     }
 }
-/*Initializes the search and put all controls.
-@requires the form should have the format
-<form>
-<label></label><controls>
-<label></label><controls>
-...
-</form>
-@params formId -The id of the form
-*/
+/*InitForm ===========================================
+ * Initializes the search and put all controls. Adds bootstrap class to rearrange and prettify the form 
+ * labels and cotrols
+ * @requires the form should have the format
+ *   <form>
+ *     <label></label>
+ *     <controls>
+ *     <label></label>
+ *     <controls>
+ *     ...
+ *   </form>
+ * @params formId -The id of the form */
 function initForm (formId) {
-    var $tftForm = $(formId).children(':not(:hidden)'); //get all hidden components
-    $(formId+' > label').addClass('control-label ');
-    //wrap all non hidden components with a control-group class for bootstrap
+    var $tftForm = $(formId).children(':not(:hidden)'); //get all non hidden components
+    $(formId+' > label').addClass('control-label');
+    //put a parent div to all non hidden components with a control-group class for bootstrap
     for(var i=0, j=$tftForm.length; i<j; i+=2) {
         $tftForm.slice(i, i+2).wrapAll('<div class="control-group span5"/>')
     }
@@ -93,19 +90,18 @@ function initForm (formId) {
 /*Initialize the transcription factor dropdown.
 */
 function initTFControl(accordionId, trans, tab) {
-    var $familyAccordion = $(accordionId);
     for (var i = 0; i<trans.length; i++) {
         var familyId = trans[i][0]+tab;
-        var $inner = $('<div></div>').addClass('accordion-inner');
+        var $inner = $('<div/>');
         
-        $familyAccordion
+        $(accordionId)
             .append($("<div/>")
                     .append($('<div/>') //Transcription Family Heading
                             .addClass('accordion-heading tft-family-heading')
                             .append($('<a/>')
                                     .addClass ('btn accordion-toggle tft-family-toggle ')  
                                     .attr('data-toggle', 'collapse')
-                                    .attr('data-parent', $familyAccordion)
+                                    .attr('data-parent', accordionId)
                                     .attr('data-target', '#collapse'+familyId)
                                     .text(trans[i][0])
                                     .prepend("&nbsp;&nbsp;&nbsp;")
@@ -121,6 +117,7 @@ function initTFControl(accordionId, trans, tab) {
         
         for (var j= 1; j< trans[i].length; j++) {
             $inner
+                .addClass('accordion-inner')
                 .append($('<li/>')
                         .append($('<label/>')
                                 .addClass('checkbox')
@@ -161,7 +158,7 @@ function initMultiSelect(container, tftList, listClass) {
 // |-------------------------SEARCH------ -------------------------|
 // ````````````````````````````````````````````````````````````````
 function ajaxSearch (pageNum, resetPagination) {
-    console.log("AJAX searching!");
+    console.log("Searching!");
     $('#id_transcription_factor').val(writeJSON('family-member'));
     $('#id_expt_type').val(writeJSON('expt-types2'));
     $('#id_species').val(writeJSON('species2'));
@@ -345,6 +342,13 @@ function printTBody (tbody, object, rowNum) {
 // |------------------------- EVENT HANDLERS ----------------------------|
 //  ``````````````````````````````````````````````````````````````````````
 /*Handles the event of the dropdown collapsible*/
+function addTabEvents (tabIndex) {
+    $('.tft-family-dropdown-menu').click(function (e) {
+        e.stopPropagation();
+    });
+    addToggleEvents();
+    addEventHandlers();
+}
 function addToggleEvents() {
     $(".tft-family-toggle").each(function () {
         $(this).click (function() {
