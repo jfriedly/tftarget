@@ -5,6 +5,10 @@ from django.shortcuts import render_to_response
 from search.models import Experiment
 from search.forms import SearchForm
 
+import settings
+
+import os
+import random
 import json
 import tablib
 
@@ -47,7 +51,6 @@ def search(request):
     results, count, row_index = _search(form)
     serialized = _serialize_results(results, count, row_index=row_index)
     return HttpResponse(json.dumps(serialized))
-    
 
 
 def download(request, size, filetype):
@@ -59,10 +62,26 @@ def download(request, size, filetype):
         serialized_results = _serialize_results(results, count)['results']
     data = tablib.Dataset(headers=serialized_results[0].keys())
     data.json = json.dumps(serialized_results)
-    print data
-    print '-' * 79
-    print data.json
-    return HttpResponse('{"foo": "bar"}')
+    filepath, fileid = _get_filepath(filetype)
+    with open(os.path.join(settings.DOWNLOAD_DIR, filepath), 'wb') as fp:
+        fp.write(getattr(data, filetype))
+    return HttpResponse('{"url": "download_file/%s/%d"}' % (filetype, fileid))
+
+
+def download_file(request, filetype, fileid):
+    filepath, fileid = _get_filepath(filetype, fileid=fileid)
+    with open(os.path.join(settings.DOWNLOAD_DIR, filepath), 'r') as fp:
+        response = HttpResponse(fp.read(), content_type='application/%s' %
+                                filetype)
+        response['Content-Disposition'] = ('attachment; filename=%s' %
+                                           os.path.basename(fp.name))
+        return response
+
+
+def _get_filepath(filetype, fileid=None):
+    fileid = fileid or random.randint(0, 1000000)
+    filepath = 'tftarget-search-%d.%s' % (int(fileid), filetype)
+    return filepath, fileid
 
 
 def _serialize_results(results, count, row_index=None):

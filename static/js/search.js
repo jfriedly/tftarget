@@ -9,7 +9,7 @@
 // |-------------------------CONSTANTS ----------------------------|
 // `````````````````````````````````````````````````````````````````
 
-var DEBUG = true;
+var DEBUG = false;
 /** Search results displayed on one page. The lower the number the
     faster the load time. Preferred results is in the
     range 50 <= RESULTS_PER_PAGE <= 500
@@ -220,8 +220,18 @@ function updatePage (url, rowNum, resetPagination) {
 
 function downloadDB(e) {
     e.preventDefault();
-    ajaxSearch('download/all/csv', 0, function (data) {
-        console.log(data);
+    ajaxSearch(e.target.href, 0, function (data) {
+        if (DEBUG) {
+            console.log("Opening download file dialog.");
+        }
+        $("#dialog").dialog({autoOpen: false, show: {
+            effect: "blind",
+            duration: 1
+        }});
+        $("#dialog").html('Your file can be downloaded from <a href="http://d.embolalia.net/' + data['url'] + '">here</a>');
+        $("#dialog").dialog("open");
+        //alert('Your file can be downloaded from <a href="http://d.embolalia.net/' +
+        //      data["url"] + '">here</a>')
     });
 }
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
@@ -349,6 +359,7 @@ function printTBody (tbody, object, rowNum) {
         } else if (property == 'gene') {
             row += '<td>' + object['gene']['human'] + '</td>';
             row += '<td>' + object['gene']['mouse'] + '</td>';
+            i++;
         } else {
             row += '<td>' + object[property] + '</td>';
         }
