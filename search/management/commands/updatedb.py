@@ -200,7 +200,11 @@ class Command(BaseCommand):
                                           'Cell line', depth, line, validate_cell_line)
 
         def validate_expt_type(value, line):
-            return value
+            canonical_value = EXPT_TYPES.get(value.translate(None, '-_. ').lower())
+            if not canonical_value:
+                raise DBImportError("Error on line %d: Experiment type %s"
+                                    " is not valid." % (line, value))  # TODO
+            return canonical_value
         row_multis, depth = self._get_row_multis(row, row_multis, 'expt_type',
                                           'Experiment type', depth, line,
                                           validate_expt_type)

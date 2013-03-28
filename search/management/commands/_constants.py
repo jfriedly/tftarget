@@ -50,16 +50,16 @@ EXPT_TYPES = {
     'chipchip': 'ChIP-chip',
     'chipseq': 'ChIP-seq',
     'emsa': 'EMSA',
-    'reporter gene assay': 'Reporter Gene Assay',
-    'western blot': 'Western Blot',
-    'northern blot': 'Northern Blot',
+    'reportergeneassay': 'Reporter Gene Assay',
+    'westernblot': 'Western Blot',
+    'northernblot': 'Northern Blot',
     'pcr': 'PCR',
     'qpcr': 'q-PCR',
     'rtpcr': 'RT-PCR',
     'microarray': 'Microarray',
     'rnaseq': 'RNA-seq',
-    'nuclearn runon': 'Nuclearn run-on',
-    'nuclearn runoff': 'Nuclearn run-off',
+    'nuclearnrunon': 'Nuclearn run-on',
+    'nuclearnrunoff': 'Nuclearn run-off',
 }
 
 
