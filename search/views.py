@@ -15,9 +15,8 @@ import tablib
 
 def _search(form):
     print form.cleaned_data
-
     results = Experiment.objects.all()
-    page_num = int(form.cleaned_data.pop('page_number'))
+    row_index = int(form.cleaned_data.pop('row_index'))
     if form.cleaned_data['transcription_factor']:
         tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
         results = results.filter(transcription_factor__in=tfs)

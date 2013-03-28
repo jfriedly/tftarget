@@ -7,6 +7,7 @@
 
 //TODO(jfriedly):  Add a spinner when a user clicks on 'Download all pages'.
 //TODO(jfriedly):  Figure out why the link to download a CSV isn't in blue and fix it.
+//TODO(jfriedly):  Make the download window close when you click the link.
 
 // ________________________________________________________________
 // |-------------------------CONSTANTS ----------------------------|
@@ -198,10 +199,12 @@ function updatePage (url, rowNum, resetPagination) {
         //differantiate searching by clicking page number of submit btn.
         //Submit btn should reset the page numbers shown starting from 1
         if (resetPagination==true) {
-            paginate(1, rows);
+            paginate('#tft-page-container-top-2', 1, rows);
+            paginate('#tft-page-container-bottom-2', 1, rows);
         }
         //Make sure we print the heading when the results returns values
-        $('#tft-results-number').text(results.length + " results of " + rows);
+        $('#tft-results-number-top-2').text(results.length + " results of " + rows);
+        $('#tft-results-number-bottom-2').text(results.length + " results of " + rows);
         if (results.length > 0){
             $('#tft-result-container-2').show();
             printTHead(thead);
