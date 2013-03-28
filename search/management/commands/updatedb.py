@@ -93,7 +93,8 @@ class Command(BaseCommand):
                 raise DBImportError(
                     "Error on line %d: Number of row sub-values does not "
                     "match in each column. %s has %d values, while previous "
-                    "columns had %d values." % (line, name, len(r), depth))
+                    "columns had %d values." % (line, name, len(cell_values),
+                                                depth))
             depth = len(cell_values)
         return cell_values, depth
 
@@ -110,7 +111,8 @@ class Command(BaseCommand):
 
         #The values here is a bit weird. You're looking for the row where the
         #given gene is in the column of the species, verified above.
-        gene, created = Gene.objects.get_or_create(**{species: row['gene']})
+        gene, created = Gene.objects.get_or_create(**{species:
+                                                      row['gene'][:255]})
         row['gene'] = gene
 
         # Make sure pmid can be made an int, but pass on empty strings.
@@ -127,7 +129,23 @@ class Command(BaseCommand):
         if not row['expt_tissues']:
             row['expt_tissues'] = ''
         else:
-            row['expt_tissues'] = row['expt_tissues'].capitalize()
+            row['expt_tissues'] = row['expt_tissues'][:255].capitalize()
+
+        #Validate the rest of the values
+        if not row['replicates']:
+            row['replicates'] = ''
+        else:
+            row['replicates'] = row['replicates'][:50]
+
+        if not row['control']:
+            row['control'] = ''
+        else:
+            row['control'] = row['control'][:255]
+
+        if not row['quality']:
+            row['quality'] = ''
+        else:
+            row['quality'] = row['quality'][:255]
 
         return row
 
@@ -141,7 +159,6 @@ class Command(BaseCommand):
                                 (line, name.lower()))
         # Split up the row, and check that the depth is valid
         cell_values, depth = self._split_cell(data, name, depth, line)
-        print cell_values
         if len(cell_values) == 1:
             cell_values = cell_values * depth
         # If our list of multis is too short, grow it
