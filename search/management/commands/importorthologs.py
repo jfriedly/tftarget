@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from _constants import ALL_SPECIES
+from search._constants import ALL_SPECIES
 from search.models import Gene
 import csv
 import sys
