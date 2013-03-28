@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 
 from search.models import Experiment
 from search.forms import SearchForm
+from management.commands._constants import EXPT_TYPES, ALL_SPECIES, TRANSCRIPTION_FACTORS
 
 import json
 
@@ -13,11 +14,14 @@ def search(request):
     """Search through the experiments for a search term."""
     form = SearchForm(request.POST or None)
     if not form.is_valid():
+        tfs = [(a, b) for a, b in TRANSCRIPTION_FACTORS.iteritems()]
+        species = [(a, a.capitalize()) for a in ALL_SPECIES]
+        expts = [(a, b) for a, b in EXPT_TYPES.iteritems()]
         return render_to_response("search.html",
                                   {'form': form,
-                                   'tf_choices': json.dumps(Experiment.TF_CHOICES),
-                                   'tft_species':json.dumps(Experiment.SPECIES),
-                                   'tft_expt_types':json.dumps(Experiment.EXPERIMENT_TYPES)},
+                                   'tf_choices': json.dumps(tfs),
+                                   'tft_species':json.dumps(species),
+                                   'tft_expt_types':json.dumps(expts)},
                                   context_instance=RequestContext(request))
 
     print form.cleaned_data

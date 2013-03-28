@@ -2,7 +2,6 @@ import json
 
 from django.db import models
 
-
 class Gene(models.Model):
     human = models.CharField(max_length=255, default='', null=True)
     mouse = models.CharField(max_length=255, default='', null=True)
