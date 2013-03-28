@@ -4,7 +4,9 @@ from django.shortcuts import render_to_response
 
 from search.models import Experiment
 from search.forms import SearchForm
-from management.commands._constants import EXPT_TYPES, ALL_SPECIES, TRANSCRIPTION_FACTORS
+from search._constants import (SPECIES_CHOICES,
+                               TF_CHOICES,
+                               EXPT_CHOICES)
 
 import settings
 
@@ -44,9 +46,9 @@ def search(request):
     if not form.is_valid():
         return render_to_response("search.html",
                                   {'form': form,
-                                   'tf_choices': json.dumps(Experiment.TF_CHOICES),
-                                   'tft_species':json.dumps(Experiment.SPECIES),
-                                   'tft_expt_types':json.dumps(Experiment.EXPERIMENT_TYPES)},
+                                   'tf_choices': json.dumps(TF_CHOICES),
+                                   'tft_species':json.dumps(SPECIES_CHOICES),
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
                                   context_instance=RequestContext(request))
 
     results, count, row_index = _search(form)

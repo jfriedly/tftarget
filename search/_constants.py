@@ -24,6 +24,7 @@ TRANSCRIPTION_FACTORS = {
     'cmyc': 'c-Myc',
     'nmyc': 'n-Myc',
     'c': 'c-Myc',   # We've been told this is what to do with these values...
+    'n': 'n-Myc',
     'myc': 'c-Myc',
 
     #E2F
@@ -41,6 +42,11 @@ TRANSCRIPTION_FACTORS = {
     'foxm': 'FOXM',
     'foxo': 'FOXO',
 }
+
+
+# Short name to make stuff pass pep8 easier
+TFS = TRANSCRIPTION_FACTORS
+
 
 EXPT_TYPES = {
     '': '',
@@ -72,3 +78,17 @@ IMPORT_COLUMN_ORDER = ['gene', 'transcription_factor', 'pmid', 'species',
 #NOTE Changing this is not the only step to add a new species! You must also
 #add the column to the species table in models.py, and migrate the database.
 ALL_SPECIES = ('human', 'mouse', 'rat', 'arabidopsis', 'hamster')
+
+
+# Options for the search form
+EMPTY_STRING = ''
+TF_CHOICES = [
+    ['E2F'] + [v for v in TFS.values() if v.startswith('E2F')],
+    ['MYC'] + [v for v in TFS.values() if v[2:] == 'Myc'],
+    ['NFkB'] + [v for v in TFS.values() if v.startswith('NF-kB')],
+    ['FOX'] + [v for v in TFS.values() if v.startswith('FOX')],
+    ['STAT'] + [v for v in TFS.values() if v.startswith('STAT')],
+]
+SPECIES_CHOICES = ([(EMPTY_STRING, EMPTY_STRING)] +
+                   [(s.capitalize(), s.capitalize()) for s in ALL_SPECIES])
+EXPT_CHOICES = [(v, v) for v in EXPT_TYPES.values()]

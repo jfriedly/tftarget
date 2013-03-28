@@ -2,8 +2,9 @@ from django.core.management.base import BaseCommand, CommandError
 import csv
 import re
 import sys
-from _constants import TRANSCRIPTION_FACTORS, ALL_SPECIES, IMPORT_COLUMN_ORDER
 from copy import deepcopy
+from search._constants import TFS, ALL_SPECIES, IMPORT_COLUMN_ORDER
+
 
 from search.models import Experiment, Gene
 
@@ -184,7 +185,7 @@ class Command(BaseCommand):
         #send it on to the function that breaks up the cells. This way we can
         #check these things as we go. There's probably a better way.
         def validate_transcription_factor(value, line):
-            canonical_value = TRANSCRIPTION_FACTORS.get(value.translate(None, '-_. ').lower())
+            canonical_value = TFS.get(value.translate(None, '-_. ').lower())
             if not canonical_value:
                 raise DBImportError("Error on line %d: Transcription factor %s"
                                     " is not valid." % (line, value))  # TODO
