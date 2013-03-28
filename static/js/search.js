@@ -15,16 +15,17 @@ var DEBUG = false;
     range 50 <= RESULTS_PER_PAGE <= 500
 */
 var RESULTS_PER_PAGE = 100;
-var PAGE_NEXT = 'Next';
-var PAGE_PREV = 'Prev';
+var PAGINATION_NEXT = 'Next';
+var PAGINATION_PREV = 'Prev';
+var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST;
 /**
    Used to order the column of the table. The purpose of the multidimensional array is to
    map from DB name to Human readable format
    e.g. expt_type - Experimental Type
 */
 var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
-                     ["gene", "Human Gene"],
-                     ["mouse_gene", "Mouse Gene"],
+                     ["gene", "Human Gene", 'human'],
+                     ["gene", "Mouse Gene", 'mouse'],
                      ["pmid", "PMID"],
                      ["species", "Species"],
                      ["expt_tissues", "Organ"],
@@ -49,43 +50,40 @@ $(document).ready(function () {
         console.log("Loading search.js...");
     }
     $.ajaxSetup({traditional: true});
+    TF_LIST = $.parseJSON($('#tf-choices').html())
+    SPECIES_LIST = $.parseJSON($('#tft-species').html());
+    EXPT_TYPES_LIST = $.parseJSON($('#tft-expt-types').html())
     initTab(2);// tab 2 is the  first
 });
 /*Initialize all the commponets. All the 3 main forms of the have the same format
 */
 function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
-        initForm('#tft-search-form-' + tabIndex);
-        var trans = $.parseJSON($('#tf-choices').html())
-        var species = $.parseJSON($('#tft-species').html());
-        var expt_types = $.parseJSON($('#tft-expt-types').html())
-
-        initMultiSelect('#tft-species-dropdown-'+tabIndex, species, 'species'+tabIndex);
-        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, expt_types, 'expt-types'+tabIndex);
-
-        initTFControl('#tft-family-accordion-'+tabIndex, trans, tabIndex);
-        //Tab Event handlers
-        $('.tft-family-dropdown-menu').click(function (e) {
-            e.stopPropagation();
-        });
-        addToggleEvents();
-        addEventHandlers();
+        initForm('#tft-search-form-'+tabIndex);
+        initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species'+tabIndex);
+        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex,EXPT_TYPES_LIST, 'expt-types'+tabIndex);
+        initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
+        
+        addTabEvents(tabIndex);
         tabInitialized[tabIndex]=true;
     }
 }
-/*Initializes the search and put all controls.
-@requires the form should have the format
-<form>
-<label></label><controls>
-<label></label><controls>
-...
-</form>
-@params formId -The id of the form
-*/
+/*InitForm ===========================================
+ * Initializes the search and put all controls. Adds bootstrap class to rearrange and prettify the form 
+ * labels and cotrols
+ * @requires the form should have the format
+ *   <form>
+ *     <label></label>
+ *     <controls>
+ *     <label></label>
+ *     <controls>
+ *     ...
+ *   </form>
+ * @params formId -The id of the form */
 function initForm (formId) {
-    var $tftForm = $(formId).children(':not(:hidden)'); //get all hidden components
-    $(formId+' > label').addClass('control-label ');
-    //wrap all non hidden components with a control-group class for bootstrap
+    var $tftForm = $(formId).children(':not(:hidden)'); //get all non hidden components
+    $(formId+' > label').addClass('control-label');
+    //put a parent div to all non hidden components with a control-group class for bootstrap
     for(var i=0, j=$tftForm.length; i<j; i+=2) {
         $tftForm.slice(i, i+2).wrapAll('<div class="control-group span5"/>')
     }
@@ -95,43 +93,43 @@ function initForm (formId) {
 /*Initialize the transcription factor dropdown.
 */
 function initTFControl(accordionId, trans, tab) {
-    var $familyAccordion = $(accordionId);
     for (var i = 0; i<trans.length; i++) {
         var familyId = trans[i][0]+tab;
-        var $familyGroup = $('<div></div>').addClass('accordion-group');
-        var $familyHeading = $('<div></div>').addClass('accordion-heading tft-family-heading');
-        var $familyToggle = $('<a></a>').addClass ('btn accordion-toggle tft-family-toggle ');
-        var $familyNameCheckBox = $('<input id="'+familyId+'"type="checkbox" />').addClass('tft-family-select');
-        var $collapse = $('<div></div>').addClass('accordion-body collapse');
-        var $inner = $('<div></div>').addClass('accordion-inner');
-
-        $familyToggle.attr('data-toggle', 'collapse');
-        $familyToggle.attr('data-parent', $familyAccordion);
-        $familyToggle.attr('data-target', '#collapse'+familyId);
-        $familyToggle.text(trans[i][0]);
-
-        $collapse.attr('id', 'collapse'+familyId);
-        $familyNameCheckBox.attr('tft-parent-id', '#collapse'+ familyId);
-
-        //appending
-        $familyToggle.prepend("&nbsp;&nbsp;&nbsp;");
-        $familyToggle.prepend($familyNameCheckBox);
-        $familyHeading.append($familyToggle);
-        $collapse.append($inner);
-        $familyGroup.append($familyHeading);
-        $familyGroup.append($collapse);
-
+        var $inner = $('<div/>');
+        
+        $(accordionId)
+            .append($("<div/>")
+                    .append($('<div/>') //Transcription Family Heading
+                            .addClass('accordion-heading tft-family-heading')
+                            .append($('<a/>')
+                                    .addClass ('btn accordion-toggle tft-family-toggle ')  
+                                    .attr('data-toggle', 'collapse')
+                                    .attr('data-parent', accordionId)
+                                    .attr('data-target', '#collapse'+familyId)
+                                    .text(trans[i][0])
+                                    .prepend("&nbsp;&nbsp;&nbsp;")
+                                    .prepend($('<input id="'+familyId+'"type="checkbox" />')
+                                             .addClass('tft-family-select')
+                                             .attr('tft-parent-id', '#collapse'+ familyId))))
+                    .append($('<div/>') //Body
+                            .addClass('accordion-group')
+                            .append( $('<div/>')
+                                     .addClass('accordion-body collapse')
+                                     .attr('id', 'collapse'+familyId)
+                                     .append($inner))));
+        
         for (var j= 1; j< trans[i].length; j++) {
-            $inner.append($('<li/>')
-                          .append($('<label/>')
-                                  .addClass('checkbox')
-                                  .text(trans[i][j])
-                                  .append($('<input type="checkbox">')
-                                          .addClass('family-member '+familyId) 
-                                          .attr('my-parent', familyId)
-                                          .attr('value', trans[i][j]))));
+            $inner
+                .addClass('accordion-inner')
+                .append($('<li/>')
+                        .append($('<label/>')
+                                .addClass('checkbox')
+                                .text(trans[i][j])
+                                .append($('<input type="checkbox">')
+                                        .addClass('family-member '+familyId) 
+                                        .attr('my-parent', familyId)
+                                        .attr('value', trans[i][j]))));
         }
-        $familyAccordion.append($familyGroup);
     }
 }
 
@@ -192,16 +190,23 @@ function updatePage (url, rowNum, resetPagination) {
         var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
         var tbody = $('<tbody></tbody>');
 
-        //UNCOMMENT THIS CODE IF YOU FINISH IMPLEMENTING THE BACK
         var rows = data["num_results"];
         var results = data["results"];
         //differantiate searching by clicking page number of submit btn.
         //Submit btn should reset the page numbers shown starting from 1
         if (resetPagination==true) {
-        paginate(1, rows);
+            paginate('#tft-page-container-top-2', 1, rows);
+            paginate('#tft-page-container-bottom-2', 1, rows)
         }
         //Make sure we print the heading when the results returns values
-        $('#tft-results-number').text(results.length + " results");
+        var rowsFrom = ((1)*RESULTS_PER_PAGE)+1;
+        var rowsTo = rowsFrom + RESULTS_PER_PAGE - 1;
+        $('#tft-results-number-top-2').text("Showing rows "
+                                      + rowsFrom + " to " + rowsTo 
+                                      + " of " + rows + " results ");
+        $('#tft-results-number-bottom-2').text("Showing rows "
+                                      + rowsFrom + " to " + rowsTo 
+                                      + " of " + rows + " results ");
         if (results.length > 0){
         $('#tft-result-container-2').show();
         printTHead(thead);
@@ -212,7 +217,7 @@ function updatePage (url, rowNum, resetPagination) {
         table.append(tbody);
         $('#search-results').append(table);
         } else {
-        $('#tft-result-container-2').hide();
+            $('#tft-result-container-2').hide();
         }
     }
     ajaxSearch(url, rowNum, createTable);
@@ -235,38 +240,41 @@ function downloadDB(e) {
     });
 }
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
-  @params start The first page index to the left.
-  @params results the total number of rows
+ * @params start The first page index to the left.
+ * @params results the total number of rows
 */
-function paginate(start, results) {
-    $('#tft-page-container-2').children().remove();
+function paginate(containerId, start, results) {
+    $(containerId).children().remove();
     var pages = (results / RESULTS_PER_PAGE) + 1;//get the number of pages
     var pageSpan = start + 10;
-    var $pagesContainer = $('<div></div>').addClass('pagination tft-page-container ');
-    var $pageList = $('<ul></ul>'); 
+    var $pagesContainer = $('<div/>').addClass('pagination tft-page-container ');
+    var $pageList = $('<ul/>'); 
     for (var i=start; i<=pages && i<pageSpan; i++) {
-        var $pageItem = $('<li class="tft-page-btn"><a>'+i+'</a></li>');
-        $pageItem.attr('tft-page', i);
-        $pageList.append($pageItem);
+        $pageList
+            .append($('<li/>')
+                    .attr('tft-page', i)
+                    .addClass("tft-page-btn")
+                    .append($('<a/>')
+                            .text(i)));
     }
     // Determine to print "Previous" or "Next" Button
     if (start>1) {
         var $pageItem = $('<li class="tft-page-btn"><a>Prev</a></li>');
-        $pageItem.attr('tft-page', 'Prev');
+        $pageItem.attr('tft-page', PAGINATION_PREV);
         $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
         $pageItem.attr('tft-results', results);
         $pageList.prepend($pageItem);
     }
     if (pages>pageSpan) {
         var $pageItem = $('<li class="tft-page-btn"><a>Next</a></li>');
-        $pageItem.attr('tft-page', 'Next');
+        $pageItem.attr('tft-page', PAGINATION_NEXT);
         $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
         $pageItem.attr('tft-results', results);
         $pageList.append($pageItem);
     }
 
     $pagesContainer.append($pageList);
-    $('#tft-page-container-2').append($pagesContainer);
+    $(containerId).append($pagesContainer);
     addPageClickEvent();
 }
 
@@ -352,17 +360,15 @@ function printTBody (tbody, object, rowNum) {
     //prints from row according to the order of the TABLE_HEADING array.
     for (var i=0; i < TABLE_HEADING.length; i++) {
         property = TABLE_HEADING[i][0];
-        if (object[property]==null || object[property]=='') {
-             row += '<td> - </td>'; //prints a desh to indicate no value
+        if (property == 'gene') {
+            row += '<td>' + object['gene'][ TABLE_HEADING[i][2]] + '</td>';//TABLE_HEADING[I][2] contains a second name in case it is ambiguous i.e. gene
+        } else if (object[property]==null || object[property]=='') {
+            row += '<td> - </td>'; //prints a desh to indicate no value
         } else if (property == 'pmid') {
             row += '<td><a target="blank" href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
-        } else if (property == 'gene') {
-            row += '<td>' + object['gene']['human'] + '</td>';
-            row += '<td>' + object['gene']['mouse'] + '</td>';
-            i++;
         } else {
             row += '<td>' + object[property] + '</td>';
-        }
+        } 
     }
     row += '</tr>'; //end the row, ready to append
     tbody.append(row);
@@ -372,6 +378,13 @@ function printTBody (tbody, object, rowNum) {
 // |------------------------- EVENT HANDLERS ----------------------------|
 //  ``````````````````````````````````````````````````````````````````````
 /*Handles the event of the dropdown collapsible*/
+function addTabEvents (tabIndex) {
+    $('.tft-family-dropdown-menu').click(function (e) {
+        e.stopPropagation();
+    });
+    addToggleEvents();
+    addEventHandlers();
+}
 function addToggleEvents() {
     $(".tft-family-toggle").each(function () {
         $(this).click (function() {
@@ -385,14 +398,17 @@ function addPageClickEvent() {
         if (pageVal=="Prev") {
             var startIndex=parseInt($(this).attr('tft-start-index'));
             var results=parseInt($(this).attr('tft-results'));
-            paginate(startIndex-1, results);
+            paginate('#tft-page-container-top-2', startIndex-1, results);
+            paginate('#tft-page-container-bottom-2', startIndex-1, results);
         }else if (pageVal=="Next") {
             var startIndex=parseInt($(this).attr('tft-start-index'));
             var results=parseInt($(this).attr('tft-results'));
-            paginate(startIndex+1, results);
+            paginate('#tft-page-container-top-2', startIndex+1, results);
+            paginate('#tft-page-container-bottom-2', startIndex+1, results);
         } else {
             var rowNum = (parseInt(pageVal) - 1) * RESULTS_PER_PAGE;
             updatePage('/', rowNum, false);
+            $(this).addClass('active');
         }
     });
 }

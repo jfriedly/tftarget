@@ -1,11 +1,5 @@
 {% extends "base.html" %}
 {% block body %}
-<script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
-<script id="tf-choices" type="text/javascript">{% autoescape off %}{{ tf_choices }}{% endautoescape %}</script>
-<script id="tft-species" type="text/javascript">{% autoescape off %}{{ tft_species }}{% endautoescape %}</script>
-<script id="tft-expt-types" type="text/javascript">{% autoescape off %}{{ tft_expt_types }}{% endautoescape %}</script>
-<link href="{{ STATIC_URL }}css/search.css" type="text/css" rel="stylesheet"/>
-
 <!-- This probably shouldn't be here, but I can't HTML - embolalia -->
 <div id="dialog" title="Your download is ready"></div>
 
@@ -74,7 +68,7 @@
       <form id="tft-search-form-2" class="form-horizontal row">
         <label>Transcription Factor</label>
         <div class="controls">
-         <div class "row">
+         <div class="row">
           <div class="dropdown">
             <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
               Select Transcription Factors
@@ -150,14 +144,42 @@
                 </ul>
               </div>
             </div><!--/.nav-collapse -->
-            <div id="tft-page-container-2" class="pull-right">
+            <div id="tft-page-container-top-2" class="pull-right">
             </div>
-            <label id="tft-results-number" class="tft-label-result pull-right"></label>
+            <label id="tft-results-number-top-2" class="tft-label-result pull-right"></label>
           </div>
         </div>
       </div>
       <div id="search-results" class="row ">
-      </div> 
+      </div>
+      <div class="navbar navbar-top tft-grey-bottom-1">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <div class="brand">
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Table<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-header">All Pages</li>
+                  <li><a href="#">as a csv file</a></li>
+                  <li><a href="#">as an html file</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">This Page</li>
+                  <li><a href="#">as a csv file</a></li>
+                  <li><a href="#">as an html file</a></li>
+                </ul>
+              </div>
+            </div><!--/.nav-collapse -->
+            <div id="tft-page-container-bottom-2" class="pull-right">
+            </div>
+            <label id="tft-results-number-bottom-2" class="tft-label-result pull-right"></label>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

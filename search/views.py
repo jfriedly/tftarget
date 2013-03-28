@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.core.paginator import Paginator
 
 from search.models import Experiment
 from search.forms import SearchForm
@@ -15,6 +16,7 @@ import tablib
 
 def _search(form):
     print form.cleaned_data
+    
     results = Experiment.objects.all()
     row_index = int(form.cleaned_data.pop('row_index'))
     if form.cleaned_data['transcription_factor']:
@@ -29,6 +31,9 @@ def _search(form):
     if form.cleaned_data['gene']:
         gene = form.cleaned_data.pop('gene')
         results = results.filter(gene__human=gene)
+ 
+   # p = Paginator(results, 100) #100 is hard coded rows per page
+    #results = p.page(page_num ).object_list
 
     for key, value in form.cleaned_data.iteritems():
         if value:
@@ -93,3 +98,4 @@ def _serialize_results(results, count, row_index=None):
         return {'results': results, 'num_results': count}
     return {'results': results[row_index:row_index+100],
                        'num_results': count}
+

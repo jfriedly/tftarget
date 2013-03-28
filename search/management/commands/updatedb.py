@@ -2,7 +2,8 @@ from django.core.management.base import BaseCommand, CommandError
 import csv
 import re
 import sys
-from _constants import TRANSCRIPTION_FACTORS, ALL_SPECIES
+from _constants import TRANSCRIPTION_FACTORS, ALL_SPECIES, IMPORT_COLUMN_ORDER
+from copy import deepcopy
 
 from search.models import Experiment, Gene
 
@@ -31,30 +32,37 @@ class Command(BaseCommand):
         """Main function of the management command.  When the management
         command is called from a shell, this function 'handles' it.
         """
-        # This is the expected order of columns. It can easily be re-arranged.
-        columns = ['gene', 'transcription_factor', 'pmid', 'species',
-                   'expt_tissues', 'cell_line', 'expt_type', 'replicates',
-                   'control', 'quality']
+        columns = IMPORT_COLUMN_ORDER
         if len(args) != 1:
             raise CommandError("Please give one and only one filename.")
 
-        #(jfriedly) I considered putting this in a try: except IOError, but I
-        # think it's better to just let that bubble up.
         with open(args[0], 'r') as csvfile:
             reader = csv.DictReader(csvfile, fieldnames=columns,
                                     delimiter='\t')
             # Skip the first row (column names)
             r = reader.next()
+            # But check it to make sure the user is at least *trying* to get
+            # the right number of columns.
+            if not all((r[c] for c in columns)):
+                print ('This file is missing some columns. This may be due to '
+                       'saving the file in an incorrect format. Please fix '
+                       'this, and try again.')
+                return
+
             sys.stdout.write(args[0] + ' line:       ')
             errors = 0
             adds = 0
             dupes = 0
+
             for line, row in enumerate(reader, start=2):
-                sys.stdout.write('\b'*5 + str(line).rjust(5))
+                sys.stdout.write('\b' * 5 + str(line).rjust(5))
                 sys.stdout.flush()
                 # Sometimes the data has an extra column.  Ignore it.
                 if row.has_key(None):
                     row.pop(None)
+
+                # Try to validate, then add the row. If it doesn't work, say so
+                # and increment the error counter.
                 try:
                     row = self._validate(row, line)
                     added, dupe = self._add(row, line)
@@ -64,8 +72,10 @@ class Command(BaseCommand):
                     #TODO make a file of these errors.
                     errors += 1
                     sys.stdout.write('\n%s\n%s line:      ' % (e, args[0]))
+
+            # We're done, so print out the summary.
             print ('\nAdded %d/%d entries. Ignored %d errors and %d duplicates.'
-                    % (adds, adds+dupes+errors, errors, dupes))
+                   % (adds, adds + dupes + errors, errors, dupes))
 
     def _split_cell(self, row, name, depth, line):
         """
@@ -113,6 +123,12 @@ class Command(BaseCommand):
         else:
             row['pmid'] = None
 
+        #Capitalize the organ value
+        if not row['expt_tissues']:
+            row['expt_tissues'] = ''
+        else:
+            row['expt_tissues'] = row['expt_tissues'].capitalize()
+
         return row
 
     def _get_row_multis(self, row, row_multis, key, name, depth, line, check_func):
@@ -127,12 +143,12 @@ class Command(BaseCommand):
         cell_values, depth = self._split_cell(data, name, depth, line)
         # If our list of multis is too short, grow it
         while len(row_multis) < depth:
-            row_multis.append({})
+            row_multis.append(deepcopy(row_multis[0]))
         # Then, add each cell value to a row_multi list of dicts
         for n, value in enumerate(cell_values):
             value = check_func(value, line)
             row_multis[n][key] = value
-        return row_multis
+        return row_multis, depth
 
     def _add(self, row, line):
         """
@@ -141,9 +157,8 @@ class Command(BaseCommand):
         # The number of delimited values in the row. Supposedly, for each column
         # this will be n where n == 1 or n is the same for all columns in row
         depth = 1
-        row_multis = []
-        
-        
+        row_multis = [{}]
+
         #NOTE only trans. fac, expt, cell line/organ can have multi-value
         #We define the function that each key should be checked against, and
         #send it on to the function that breaks up the cells. This way we can
@@ -152,21 +167,21 @@ class Command(BaseCommand):
             canonical_value = TRANSCRIPTION_FACTORS.get(value.translate(None, '-_. ').lower())
             if not canonical_value:
                 raise DBImportError("Error on line %d: Transcription factor %s"
-                                    " is not valid." % (line, value))#TODO
+                                    " is not valid." % (line, value))  # TODO
             return canonical_value
-        row_multis = self._get_row_multis(row, row_multis,
+        row_multis, depth = self._get_row_multis(row, row_multis,
                                           'transcription_factor',
                                           'Transcription factor', depth, line,
                                           validate_transcription_factor)
 
         def validate_cell_line(value, line):
             return value
-        row_multis = self._get_row_multis(row, row_multis, 'cell_line',
+        row_multis, depth = self._get_row_multis(row, row_multis, 'cell_line',
                                           'Cell line', depth, line, validate_cell_line)
 
         def validate_expt_type(value, line):
             return value
-        row_multis = self._get_row_multis(row, row_multis, 'expt_type',
+        row_multis, depth = self._get_row_multis(row, row_multis, 'expt_type',
                                           'Experiment type', depth, line,
                                           validate_expt_type)
 
@@ -181,4 +196,3 @@ class Command(BaseCommand):
             else:
                 added += 1
         return added, duplicates
-
