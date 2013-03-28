@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 
 from search.models import Experiment
 from search.forms import SearchForm
+from management.commands._constants import EXPT_TYPES, ALL_SPECIES, TRANSCRIPTION_FACTORS
 
 import settings
 

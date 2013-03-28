@@ -42,6 +42,27 @@ TRANSCRIPTION_FACTORS = {
     'foxo': 'FOXO',
 }
 
+EXPT_TYPES = {
+    '': '',
+    'chip': 'ChIP',
+    'chipqpcr': 'ChIP-qPCR',
+    'chippcr': 'ChIP-PCR',
+    'chipchip': 'ChIP-chip',
+    'chipseq': 'ChIP-seq',
+    'emsa': 'EMSA',
+    'reportergeneassay': 'Reporter Gene Assay',
+    'westernblot': 'Western Blot',
+    'northernblot': 'Northern Blot',
+    'pcr': 'PCR',
+    'qpcr': 'q-PCR',
+    'rtpcr': 'RT-PCR',
+    'microarray': 'Microarray',
+    'rnaseq': 'RNA-seq',
+    'nuclearnrunon': 'Nuclearn run-on',
+    'nuclearnrunoff': 'Nuclearn run-off',
+}
+
+
 # The oder of columns in the database import file. You can re-arrange the order
 # here, and things should "just work", but obviously adding more columns won't.
 IMPORT_COLUMN_ORDER = ['gene', 'transcription_factor', 'pmid', 'species',
