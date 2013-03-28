@@ -5,11 +5,14 @@
    @date 2/7/2013
 */
 
+//TODO(jfriedly):  Add a spinner when a user clicks on 'Download all pages'.
+//TODO(jfriedly):  Figure out why the link to download a CSV isn't in blue and fix it.
+
 // ________________________________________________________________
 // |-------------------------CONSTANTS ----------------------------|
 // `````````````````````````````````````````````````````````````````
 
-var DEBUG = false;
+var DEBUG = true;
 /** Search results displayed on one page. The lower the number the
     faster the load time. Preferred results is in the
     range 50 <= RESULTS_PER_PAGE <= 500
@@ -201,7 +204,7 @@ function updatePage (url, rowNum, resetPagination) {
         paginate(1, rows);
         }
         //Make sure we print the heading when the results returns values
-        $('#tft-results-number').text(results.length + " results");
+        $('#tft-results-number').text(results.length + " results of " + rows);
         if (results.length > 0){
         $('#tft-result-container-2').show();
         printTHead(thead);

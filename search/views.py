@@ -53,43 +53,43 @@ def search(request):
     return HttpResponse(json.dumps(serialized))
 
 
-def download(request, size, filetype):
+def download(request, size):
     form = SearchForm(request.POST or None)
     if not form.is_valid():
         return HttpResponse('Invalid form %s.' % form.errors)
     results, count, row_index = _search(form)
     if size == 'all':
         serialized_results = _serialize_results(results, count)['results']
+    elif size == 'page':
+        serialized_results = _serialize_results(results, count,
+                                                row_index=row_index)['results']
     data = tablib.Dataset(headers=serialized_results[0].keys())
     data.json = json.dumps(serialized_results)
-    filepath, fileid = _get_filepath(filetype)
+    filepath, fileid = _get_filepath()
     with open(os.path.join(settings.DOWNLOAD_DIR, filepath), 'wb') as fp:
-        fp.write(getattr(data, filetype))
-    return HttpResponse('{"url": "download_file/%s/%d"}' % (filetype, fileid))
+        # Use tsv here to get tab-separated values
+        fp.write(data.tsv)
+    return HttpResponse('{"url": "download_file/%d"}' % fileid)
 
 
-def download_file(request, filetype, fileid):
-    filepath, fileid = _get_filepath(filetype, fileid=fileid)
+def download_file(request, fileid):
+    filepath, fileid = _get_filepath(fileid=fileid)
     with open(os.path.join(settings.DOWNLOAD_DIR, filepath), 'r') as fp:
-        response = HttpResponse(fp.read(), content_type='application/%s' %
-                                filetype)
+        response = HttpResponse(fp.read(), content_type='application/csv')
         response['Content-Disposition'] = ('attachment; filename=%s' %
                                            os.path.basename(fp.name))
         return response
 
 
-def _get_filepath(filetype, fileid=None):
+def _get_filepath(fileid=None):
     fileid = fileid or random.randint(0, 1000000)
-    filepath = 'tftarget-search-%d.%s' % (int(fileid), filetype)
+    filepath = 'tftarget-search-%d.csv' % int(fileid)
     return filepath, fileid
 
 
 def _serialize_results(results, count, row_index=None):
     """Takes the results set and serializes it"""
-    results = list(results)
-    for i, expt in enumerate(results):
-        results[i] = expt.serialize()
-    if row_index is None:
-        return {'results': results, 'num_results': count}
-    return {'results': results[row_index:row_index+100],
-                       'num_results': count}
+    if row_index is not None:
+        results = results[row_index:row_index+100]
+    results = [expt.serialize() for expt in results]
+    return {'results': results, 'num_results': count}
