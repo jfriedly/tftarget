@@ -141,6 +141,9 @@ class Command(BaseCommand):
                                 (line, name.lower()))
         # Split up the row, and check that the depth is valid
         cell_values, depth = self._split_cell(data, name, depth, line)
+        print cell_values
+        if len(cell_values) == 1:
+            cell_values = cell_values * depth
         # If our list of multis is too short, grow it
         while len(row_multis) < depth:
             row_multis.append(deepcopy(row_multis[0]))
