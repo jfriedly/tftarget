@@ -1,16 +1,21 @@
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.db.models import Q
 
-from search.models import Experiment
+
+from search.models import Experiment, Gene
 from search.forms import SearchForm
 from search._constants import (SPECIES_CHOICES,
                                TF_CHOICES,
                                EXPT_CHOICES)
 
+
 import settings
 
+
 import os
+import operator
 import random
 import json
 import tablib
@@ -20,6 +25,7 @@ def _search(form):
     print form.cleaned_data
     results = Experiment.objects.all()
     row_index = int(form.cleaned_data.pop('row_index'))
+    species = None
     if form.cleaned_data['transcription_factor']:
         tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
         results = results.filter(transcription_factor__in=tfs)
@@ -31,7 +37,16 @@ def _search(form):
         results = results.filter(species__in=species)
     if form.cleaned_data['gene']:
         gene = form.cleaned_data.pop('gene')
-        results = results.filter(gene__human=gene)
+        if species is not None:
+            fnames = [s.lower() for s in species]
+        else:
+            fnames = [field.name for field in Gene._meta.fields]
+            fnames.remove('id')
+        if fnames:
+            qgroup = reduce(operator.or_,
+                            (Q(**{name: gene}) for name in fnames))
+            genes = Gene.objects.filter(qgroup)
+            results = results.filter(gene__in=genes)
 
     for key, value in form.cleaned_data.iteritems():
         if value:
