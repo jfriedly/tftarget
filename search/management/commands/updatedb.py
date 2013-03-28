@@ -2,7 +2,8 @@ from django.core.management.base import BaseCommand, CommandError
 import csv
 import re
 import sys
-from _constants import TRANSCRIPTION_FACTORS, ALL_SPECIES, IMPORT_COLUMN_ORDER
+import random
+from _constants import TRANSCRIPTION_FACTORS, ALL_SPECIES, IMPORT_COLUMN_ORDER, EXPT_TYPES
 from copy import deepcopy
 
 from search.models import Experiment, Gene
@@ -214,6 +215,8 @@ class Command(BaseCommand):
         duplicates = 0
         for values in row_multis:
             values.update(row)
+            #We don't have an algorithm for rank yet (I think?) so make it random
+            values['rank'] = random.random()
             e, created = Experiment.objects.get_or_create(**values)
             if not created:
                 duplicates += 1

@@ -33,6 +33,7 @@ class Experiment(models.Model):
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+    rank = models.FloatField(default=1)
 
     def serialize(self):
         d = self.__dict__.copy()
