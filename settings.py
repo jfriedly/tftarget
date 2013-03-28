@@ -154,6 +154,8 @@ LOGGING = {
     }
 }
 
+DOWNLOAD_DIR = '/home/joel/tmp'
+
 try:
     from local_settings import *
 except ImportError:

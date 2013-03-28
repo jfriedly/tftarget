@@ -5,10 +5,14 @@
    @date 2/7/2013
 */
 
+//TODO(jfriedly):  Add a spinner when a user clicks on 'Download all pages'.
+//TODO(jfriedly):  Figure out why the link to download a CSV isn't in blue and fix it.
+
 // ________________________________________________________________
 // |-------------------------CONSTANTS ----------------------------|
 // `````````````````````````````````````````````````````````````````
 
+var DEBUG = true;
 /** Search results displayed on one page. The lower the number the
     faster the load time. Preferred results is in the
     range 50 <= RESULTS_PER_PAGE <= 500
@@ -45,7 +49,9 @@ var tabInitialized = [false, false, false];
 // `````````````````````````````````````````````````````````````````
 
 $(document).ready(function () {
-    console.log("Loading search.js...");
+    if (DEBUG) {
+        console.log("Loading search.js...");
+    }
     $.ajaxSetup({traditional: true});
     TF_LIST = $.parseJSON($('#tf-choices').html())
     SPECIES_LIST = $.parseJSON($('#tft-species').html());
@@ -157,16 +163,29 @@ function initMultiSelect(container, tftList, listClass) {
 // ________________________________________________________________
 // |-------------------------SEARCH------ -------------------------|
 // ````````````````````````````````````````````````````````````````
-function ajaxSearch (pageNum, resetPagination) {
-    console.log("Searching!");
+function ajaxSearch(url, rowNum, callback) {
+    if (DEBUG) {
+        console.log("AJAX searching!");
+        console.log($('#tft-search-form-2').serialize())
+    }
     $('#id_transcription_factor').val(writeJSON('family-member'));
     $('#id_expt_type').val(writeJSON('expt-types2'));
     $('#id_species').val(writeJSON('species2'));
-    $('#id_page_number').val(pageNum);
+    $('#id_row_index').val(rowNum);
+    $.post(url, $('#tft-search-form-2').serialize(), function (data) {
+        if (DEBUG) {
+            console.log("AJAX searched");
+            console.log(data);
+        }
+        callback(data);
+    }, 'json');
+}
 
-    $.post('/', $('#tft-search-form-2').serialize(), function (data) {
-        console.log("AJAX searched");
-      //  console.log(data);
+function updatePage (url, rowNum, resetPagination) {
+    if (DEBUG) {
+        console.log('Called updatePage');
+    }
+    function createTable(data) {
         //clear the search result for ready for next search result
         $('#search-results').children().remove();
         //create a table here
@@ -179,23 +198,15 @@ function ajaxSearch (pageNum, resetPagination) {
         //differantiate searching by clicking page number of submit btn.
         //Submit btn should reset the page numbers shown starting from 1
         if (resetPagination==true) {
-            paginate('#tft-page-container-top-2', 1, rows);
-            paginate('#tft-page-container-bottom-2', 1, rows)
+            paginate(1, rows);
         }
         //Make sure we print the heading when the results returns values
-        var rowsFrom = ((pageNum-1)*RESULTS_PER_PAGE)+1;
-        var rowsTo = rowsFrom + RESULTS_PER_PAGE - 1;
-        $('#tft-results-number-top-2').text("Showing rows "
-                                      + rowsFrom + " to " + rowsTo 
-                                      + " of " + rows + " results ");
-        $('#tft-results-number-bottom-2').text("Showing rows "
-                                      + rowsFrom + " to " + rowsTo 
-                                      + " of " + rows + " results ");
+        $('#tft-results-number').text(results.length + " results of " + rows);
         if (results.length > 0){
             $('#tft-result-container-2').show();
             printTHead(thead);
             for (var i = 0; i < results.length; i++) {
-                printTBody(tbody, results[i], (pageNum-1)*RESULTS_PER_PAGE+i+1);
+                printTBody(tbody, results[i], i+1);
             }
             table.append(thead);
             table.append(tbody);
@@ -203,7 +214,25 @@ function ajaxSearch (pageNum, resetPagination) {
         } else {
             $('#tft-result-container-2').hide();
         }
-    }, 'json');
+    }
+    ajaxSearch(url, rowNum, createTable);
+}
+
+function downloadDB(e) {
+    e.preventDefault();
+    ajaxSearch(e.target.href, 0, function (data) {
+        if (DEBUG) {
+            console.log("Opening download file dialog.");
+        }
+        $("#dialog").dialog({autoOpen: false, show: {
+            effect: "blind",
+            duration: 1
+        }});
+        $("#dialog").html('Your file can be downloaded from <a href="http://d.embolalia.net/' + data['url'] + '">here</a>');
+        $("#dialog").dialog("open");
+        //alert('Your file can be downloaded from <a href="http://d.embolalia.net/' +
+        //      data["url"] + '">here</a>')
+    });
 }
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
  * @params start The first page index to the left.
@@ -332,6 +361,10 @@ function printTBody (tbody, object, rowNum) {
             row += '<td> - </td>'; //prints a desh to indicate no value
         } else if (property == 'pmid') {
             row += '<td><a target="blank" href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
+        } else if (property == 'gene') {
+            row += '<td>' + object['gene']['human'] + '</td>';
+            row += '<td>' + object['gene']['mouse'] + '</td>';
+            i++;
         } else {
             row += '<td>' + object[property] + '</td>';
         } 
@@ -372,28 +405,30 @@ function addPageClickEvent() {
             paginate('#tft-page-container-top-2', startIndex+1, results);
             paginate('#tft-page-container-bottom-2', startIndex+1, results);
         } else {
-            var rowNum = parseInt(pageVal);
+            var rowNum = (parseInt(pageVal) - 1) * RESULTS_PER_PAGE;
             $(this).addClass('active');
-            ajaxSearch(rowNum, false);
+            updatePage('/', rowNum, false);
         }
     });
 }
 function addEventHandlers() {
     $('.input-text').keypress(function (e) {
         if (e.which == 13) {
-            console.log('enter pressed');
-            ajaxSearch(1, true);//start at row 1
+            if (DEBUG) {
+                console.log('enter pressed');
+            }
+            updatePage('/', 0, true);//start at row 1
             //whenever someone presses enters, page 1 will be activated
             //resetPage(); will implement this
         }
     });
-    //$('.input-select').change(ajaxSearch(1));
+    //$('.input-select').change(updatePage(1));
     $('#tft-summary-btn-2').click(function (){
         $('#tft-summary-form-2').modal('show');
         searchSummary();
     });
     $('#tft-search-btn-2').click(function() {
-        ajaxSearch(1, true);
+        updatePage('/', 0, true);
     });
 
     $('.tft-family-select').click(function() {
@@ -438,6 +473,7 @@ function addEventHandlers() {
          });
     });*/
     $('.dropdown-toggle').dropdown();
+    $('.download-option').click(downloadDB)
 }
 $(function() {
 

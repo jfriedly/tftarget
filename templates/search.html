@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block body %}
 
+<!-- This probably shouldn't be here, but I can't HTML - embolalia -->
+<div id="dialog" title="Your download is ready"></div>
+
 <div class="row tab-content tft-margin1">
   <div class="tab-pane" id="direct-targets">
     <div class="row tft-tab-header">
@@ -26,7 +29,7 @@
                 <div id="tft-family-accordion-0" class="accordion tft-dropdown-container">
                 </div>
               </li>
-              <!--<a id="#tft-close" class="tft-close btn">Close</a>-->
+              <!--<a id="tft-close" class="tft-close btn">Close</a>-->
             </ul>
           </div> <!-- dropdown -->
         </div> <!-- control -->
@@ -132,13 +135,9 @@
               <div class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Table<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li class="nav-header">All Pages</li>
-                  <li><a href="#">as a csv file</a></li>
-                  <li><a href="#">as an html file</a></li>
+                  <li><a href="download/all" class="download-option all-pages">All Pages</a></li>
                   <li class="divider"></li>
-                  <li class="nav-header">This Page</li>
-                  <li><a href="#">as a csv file</a></li>
-                  <li><a href="#">as an html file</a></li>
+                  <li><a href="download/page" class="download-option page-only">This Page</a></li>
                 </ul>
               </div>
             </div><!--/.nav-collapse -->
