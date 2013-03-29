@@ -69,6 +69,8 @@ function initTab(tabIndex) {
         initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
         
         addTabEvents(tabIndex);
+        addPopoverEvents(tabIndex);
+        addOnMouseOverEvents();
         tabInitialized[tabIndex]=true;
     }
 }
@@ -106,7 +108,7 @@ function initTFControl(accordionId, trans, tab) {
                     .append($('<div/>') //Transcription Family Heading
                             .addClass('accordion-heading tft-family-heading')
                             .append($('<a/>')
-                                    .addClass ('btn accordion-toggle tft-family-toggle ')  
+                                    .addClass ('tft-white-btn accordion-toggle tft-family-toggle')  
                                     .attr('data-toggle', 'collapse')
                                     .attr('data-parent', accordionId)
                                     .attr('data-target', '#collapse'+familyId)
@@ -118,13 +120,13 @@ function initTFControl(accordionId, trans, tab) {
                     .append($('<div/>') //Body
                             .addClass('accordion-group')
                             .append( $('<div/>')
-                                     .addClass('accordion-body collapse')
+                                     .addClass('accordion-body collapse tft-accordion-container')
                                      .attr('id', 'collapse'+familyId)
                                      .append($inner))));
         
         for (var j= 1; j< trans[i].length; j++) {
             $inner
-                .addClass('accordion-inner')
+                .addClass('accordion-inner ')
                 .append($('<li/>')
                         .append($('<label/>')
                                 .addClass('checkbox')
@@ -393,6 +395,25 @@ function addToggleEvents() {
             $($(this).attr('data-target')).collapse("toggle");
         });
     });
+}
+//function 
+//fooo='p';
+function addOnMouseOverEvents() {
+    $("#tft-family-dropdown-toggle-2").mouseover(function(){
+       // fooo=(writeJSON('family-member'));
+        $("#tft-popover-tf-inner-2").text(writeJSON('family-member'));
+    });
+}
+function addPopoverEvents(tabIndex) {
+    $('#tft-family-dropdown-toggle-2').popover({ 
+        trigger :'hover',
+        title :'Selected Transcription Factor(s)',
+        placement :'top',
+        html : true,
+        content: function() {
+            return $('#tft-popover-tf-2').html();
+        }
+  });
 }
 function addPageClickEvent() {
     $('.tft-page-btn').click(function () {

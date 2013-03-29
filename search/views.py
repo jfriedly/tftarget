@@ -1,11 +1,11 @@
 from django.http import HttpResponse
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.db.models import Q
 
 
 from search.models import Experiment, Gene
-from search.forms import SearchForm
+from search.forms import QueryDB_SearchForm, GeneEnrichement_SearchForm, DirectTargets_SearchForm
 from search._constants import (SPECIES_CHOICES,
                                TF_CHOICES,
                                EXPT_CHOICES)
@@ -57,7 +57,7 @@ def _search(form):
 
 def search(request):
     """Search through the experiments for a search term."""
-    form = SearchForm(request.POST or None)
+    form = QueryDB_SearchForm(request.POST or None)
     if not form.is_valid():
         return render_to_response("search.html",
                                   {'form': form,
@@ -72,7 +72,7 @@ def search(request):
 
 
 def download(request, size):
-    form = SearchForm(request.POST or None)
+    form = QueryDB_SearchForm(request.POST or None)
     if not form.is_valid():
         return HttpResponse('Invalid form %s.' % form.errors)
     results, count, row_index = _search(form)
