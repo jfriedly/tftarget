@@ -69,6 +69,8 @@ function initTab(tabIndex) {
         initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
         
         addTabEvents(tabIndex);
+        addPopoverEvents(tabIndex);
+        addOnMouseOverEvents();
         tabInitialized[tabIndex]=true;
     }
 }
@@ -393,6 +395,25 @@ function addToggleEvents() {
             $($(this).attr('data-target')).collapse("toggle");
         });
     });
+}
+//function 
+//fooo='p';
+function addOnMouseOverEvents() {
+    $("#tft-family-dropdown-toggle-2").mouseover(function(){
+       // fooo=(writeJSON('family-member'));
+        $("#tft-popover-tf-inner-2").text(writeJSON('family-member'));
+    });
+}
+function addPopoverEvents(tabIndex) {
+    $('#tft-family-dropdown-toggle-2').popover({ 
+        trigger :'hover',
+        title :'Selected Transcription Factor(s)',
+        placement :'top',
+        html : true,
+        content: function() {
+            return $('#tft-popover-tf-2').html();
+        }
+  });
 }
 function addPageClickEvent() {
     $('.tft-page-btn').click(function () {
