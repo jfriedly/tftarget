@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from search._constants import ALL_SPECIES
-from search.models import Gene
+from search.models import Gene, Experiment
 from django.db.models import Q
 import csv
 import sys
@@ -62,6 +62,8 @@ class Command(BaseCommand):
                     # Remove duplicates, if there are any.
                     if len(gene) > 1:
                         for g in gene:
+                            for exp in Experiment.objects.filter(gene=g):
+                                exp.gene = gene[0]
                             g.delete()
                     #Perform the modification.
                     dupes += 1

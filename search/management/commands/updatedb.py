@@ -3,7 +3,7 @@ import csv
 import re
 import sys
 from copy import deepcopy
-from search._constants import TFS, ALL_SPECIES, IMPORT_COLUMN_ORDER
+from search._constants import TFS, ALL_SPECIES, IMPORT_COLUMN_ORDER, EXPT_TYPES
 
 
 from search.models import Experiment, Gene
@@ -37,6 +37,7 @@ class Command(BaseCommand):
         if len(args) != 1:
             raise CommandError("Please give one and only one filename.")
 
+        logfile = args[0] + '.log'
         with open(args[0], 'r') as csvfile:
             reader = csv.DictReader(csvfile, fieldnames=columns,
                                     delimiter='\t')
@@ -73,10 +74,16 @@ class Command(BaseCommand):
                     #TODO make a file of these errors.
                     errors += 1
                     sys.stdout.write('\n%s\n%s line:      ' % (e, args[0]))
+                    with open(logfile, 'a') as log:
+                        log.write('\n%s' % e)
 
             # We're done, so print out the summary.
-            print ('\nAdded %d/%d entries. Ignored %d errors and %d duplicates.'
+            done = ('\nAdded %d/%d entries. Ignored %d errors and %d duplicates.'
                    % (adds, adds + dupes + errors, errors, dupes))
+            print done
+            with open(logfile, 'a') as log:
+                log.write(done)
+
 
     def _split_cell(self, row, name, depth, line):
         """
