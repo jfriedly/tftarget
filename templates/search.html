@@ -15,13 +15,14 @@
       </div>
     </div> <!-- tab-header -->
     <div class="row tft-form-container">
-      <h5 class="offset1">Build your search below </h5> 
+      
+      <legend class="tft-legend">Direct Target Database Search</legend>
       <form id="tft-search-form-0" class="form-horizontal row">
         <label>Transcription Factor</label>
         <div class="controls">
-          <div class="dropdown span2">
-            <a id="tft-family-dropdown-toggle-0" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
-              Select Transcription Factors
+          <div class="dropdown">
+            <a id="tft-family-dropdown-toggle-0" data-target="#" class="tft-white-btn dropdown-toggle " role="button" data-toggle="dropdown">
+              Selected [0 of 40]
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu tft-family-dropdown-menu ">
@@ -29,17 +30,34 @@
                 <div id="tft-family-accordion-0" class="accordion tft-dropdown-container">
                 </div>
               </li>
-              <!--<a id="tft-close" class="tft-close btn">Close</a>-->
             </ul>
           </div> <!-- dropdown -->
-        </div> <!-- control -->
-        <!--Put form here replace the following with direct target form-->
+        </div>
         <label>Species</label>
-        <input class="input input-text" type="text" >
+        <div class="controls">
+          <div class="dropdown">
+            <a id="tft-family-dropdown-toggle-0" data-target="#" class="tft-white-btn dropdown-toggle" role="button" data-toggle="dropdown">
+              Selected [0 of 20]
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <div id="tft-species-dropdown-2" class="accordion tft-dropdown-container">
+                </div>
+              </li>
+            </ul>
+          </div> <!-- dropdown -->
+        </div>
         <label>Organ</label>
         <input class="input input-text" type="text">
-        <a class="offset1 btn btn-info btn-medium">Submit</a>
       </form>
+      <div class ="form-actions tft-red-bottom-1">
+        <button type="submit" id="tft-search-btn-0" data-loading-text="Loading..." class="btn">Submit</button>
+        <button type="button" id="tft-clear-form-btn-0" class="btn">Clear</button>
+      </div>
+      <div id="tft-popover-tf-0" style="display: none">
+        <div id="tft-popover-tf-inner-0"></div>
+      </div>
     </div>
   </div>
   <div class="tab-pane tft-margin1" id="enrichment-analysis">
