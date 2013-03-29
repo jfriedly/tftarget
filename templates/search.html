@@ -11,7 +11,7 @@
         <h3>Direct Targets</h3>
       </div>
       <div class="span9">
-        <p>We don't beat around the bush, find your targets directly. Filter the results below.</p>
+        <p>Find your targets directly. Filter the results below.</p>
       </div>
     </div> <!-- tab-header -->
     <div class="row tft-form-container">
@@ -55,7 +55,7 @@
       <textarea rows="3"></textarea>
     </div>
   </div>
-  <div class=" tab-pane active tft-margin1"  id="download-database">
+  <div class=" tab-pane active tft-margin1"  id="query-database">
     <div class="row tft-tab-header tft-red-bottom-1">
       <div class="span5">
         <h3>Query Database</h3>
@@ -65,14 +65,14 @@
       </div>
     </div> <!-- tab-header -->
     <div class="row tft-form-container">
-      <h5 class="offset1">Build your search below </h5> 
+
+      <legend class="tft-legend">Query Database Search</legend>
       <form id="tft-search-form-2" class="form-horizontal row">
         <label>Transcription Factor</label>
         <div class="controls">
-         <div class="row">
           <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
-              Select Transcription Factors
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn dropdown-toggle " role="button" data-toggle="dropdown">
+              Selected [0 of 40]
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu tft-family-dropdown-menu ">
@@ -82,15 +82,14 @@
               </li>
             </ul>
           </div> <!-- dropdown -->
-         </div>
         </div>
         {% csrf_token %}
         {{ form }}
         <label>Species</label>
         <div class="controls">
           <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle" role="button" data-toggle="dropdown">
-              Select Species
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn dropdown-toggle" role="button" data-toggle="dropdown">
+              Selected [0 of 20]
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu ">
@@ -104,8 +103,8 @@
         <label>Experiment Type</label>
         <div class="controls">
           <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-2" data-target="#" class="btn dropdown-toggle " role="button" data-toggle="dropdown">
-              Select Experiment Type(s)
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn dropdown-toggle " role="button" data-toggle="dropdown">
+              Selected [0 of 6]
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu ">

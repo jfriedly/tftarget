@@ -106,7 +106,7 @@ function initTFControl(accordionId, trans, tab) {
                     .append($('<div/>') //Transcription Family Heading
                             .addClass('accordion-heading tft-family-heading')
                             .append($('<a/>')
-                                    .addClass ('btn accordion-toggle tft-family-toggle ')  
+                                    .addClass ('tft-white-btn accordion-toggle tft-family-toggle')  
                                     .attr('data-toggle', 'collapse')
                                     .attr('data-parent', accordionId)
                                     .attr('data-target', '#collapse'+familyId)
@@ -118,13 +118,13 @@ function initTFControl(accordionId, trans, tab) {
                     .append($('<div/>') //Body
                             .addClass('accordion-group')
                             .append( $('<div/>')
-                                     .addClass('accordion-body collapse')
+                                     .addClass('accordion-body collapse tft-accordion-container')
                                      .attr('id', 'collapse'+familyId)
                                      .append($inner))));
         
         for (var j= 1; j< trans[i].length; j++) {
             $inner
-                .addClass('accordion-inner')
+                .addClass('accordion-inner ')
                 .append($('<li/>')
                         .append($('<label/>')
                                 .addClass('checkbox')
