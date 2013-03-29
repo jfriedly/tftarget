@@ -1,8 +1,10 @@
 from django.core.management.base import BaseCommand, CommandError
 from search._constants import ALL_SPECIES
 from search.models import Gene
+from django.db.models import Q
 import csv
 import sys
+import operator
 
 
 class DBImportError(Exception):
@@ -42,14 +44,35 @@ class Command(BaseCommand):
                 # Sometimes the data has an extra column.  Ignore it.
                 if row.has_key(None):
                     row.pop(None)
-                values = dict()
-                for key in row.keys():
-                    if row[key]:
-                        values[key] = row[key]
-                g, created = Gene.objects.get_or_create(**values)
-                if not created:
+
+                # Ignore empty cells
+                for species in row.keys():
+                    if not row[species]:
+                        row.pop(species)
+
+                # Select where any of the given values are present
+                query = reduce(operator.or_, (Q(**{s:g}) for s, g in row.iteritems()))
+                gene = Gene.objects.filter(query)
+
+                # Modify extant entry or create a new one.
+                if gene:
+                    #FIXME This works when only two columns are actually in use,
+                    # but there is the potential for data loss if more columns
+                    # are used later on.
+                    # Remove duplicates, if there are any.
+                    if len(gene) > 1:
+                        for g in gene:
+                            g.delete()
+                    #Perform the modification.
                     dupes += 1
+                    gene = gene[0]
+                    for species in row.keys():
+                        gene.__setattr__(species, row[species])
+                    gene.save()
                 else:
                     adds += 1
-            print ('\nAdded %d/%d entries. Ignored %d errors and %d duplicates.'
-                    % (adds, adds+dupes+errors, errors, dupes))
+                    gene = Gene(**row)
+                    gene.save()
+
+            print ('\nAdded %d/%d entries and modified %d. Ignored %d errors.'
+                    % (adds, adds+dupes+errors, dupes, errors))
