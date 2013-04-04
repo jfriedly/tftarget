@@ -30,6 +30,7 @@ class Experiment(models.Model):
     replicates = models.CharField(max_length=50, default='', null=True)
     control = models.CharField(max_length=255, default='', null=True)
     quality = models.CharField(max_length=255, default='', null=True)
+    quality_factor = models.FloatField(default=-1.2)
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

@@ -152,9 +152,23 @@ class Command(BaseCommand):
 
         if not row['quality']:
             row['quality'] = ''
+            row['quality_factor'] = -1.5
         else:
             row['quality'] = row['quality'][:255]
-
+            factor = -1.5
+            for q in DELIMITER.split(row['quality']):
+                q = q.lower().strip()
+                try:
+                    factor = float(q)
+                    break
+                except:
+                    if q is ['high', 'h']:
+                        factor = -2
+                    elif q in ['med', 'medium', 'm']:
+                        factor = -1.75
+                    elif q in ['low', 'l']:
+                        factor = '-1.5'
+            row['quality-factor'] = factor
         return row
 
     def _get_row_multis(self, row, row_multis, key, name, depth, line, check_func):
