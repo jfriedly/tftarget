@@ -152,7 +152,7 @@ class Command(BaseCommand):
 
         if not row['quality']:
             row['quality'] = ''
-            row['quality_factor'] = -1.5
+            row['quality_factor'] = 1
         else:
             row['quality'] = row['quality'][:255]
             factor = -1.5
@@ -162,13 +162,20 @@ class Command(BaseCommand):
                     factor = float(q)
                     break
                 except:
-                    if q is ['high', 'h']:
-                        factor = -2
+                    if q in ['high', 'h']:
+                        factor = 3
                     elif q in ['med', 'medium', 'm']:
-                        factor = -1.75
+                        factor = 2
                     elif q in ['low', 'l']:
-                        factor = '-1.5'
-            row['quality-factor'] = factor
+                        factor = 1
+            factor = abs(factor)
+            if factor < 1.5:
+                factor = 1
+            elif factor > 2:
+                factor = 3
+            else:
+                factor = 2
+            row['quality_factor'] = factor
         return row
 
     def _get_row_multis(self, row, row_multis, key, name, depth, line, check_func):
