@@ -1,8 +1,0 @@
-Gene	Family Member	PMID	Species	Experimental Tissue(s)	Cell line	Experiment	# Replicates	Control	Quality/Fold Change
-PHBa	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~4
-PHBb	C	11983916	HUMAN	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~7
-									
-CCNB1	C	11983916	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~15	~4
-CEB1	C	11983916	cervical cells	HeLa	ChIP	3+	CDC25C antibody	~8	~4
-									
-PHB	C	11983916	cervical cells	HeLa	qPCR	NA	serum-deprived	~2.7	~4

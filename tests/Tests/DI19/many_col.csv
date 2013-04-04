@@ -1,0 +1,19 @@
+Gene	Family Member	PMID	Species	Experimental Tissue(s)	Cell line	Experiment	# Replicates	Control	Quality/Fold Change	Control copy
+CDKN1A	E2f1	22480684	Human	bone	U2OS	Western Blot	3	Actin	High	Actin
+CDKN1A	E2f1	22480684	Human	bone	U2OS	ChIP	3	No treatment with ADR	High	No treatment with ADR
+cyp1a1	E2f2	20573986	Mouse	lymphocytes	NA	qPCR	1	WT lymphocytes	High/2	WT lymphocytes
+bax	E2f2	20573986	Mouse	lymphocytes	NA	qPCR	1	WT lymphocytes	Medium/1.7	WT lymphocytes
+Fasl	E2f2	20573986	Mouse	lymphocytes	NA	qPCR	1	WT lymphocytes	High/2.5	WT lymphocytes
+Ahr	E2f2	20573986	Mouse	lymphocytes	NA	Western Blot	3	WT lymphocytes	High/1.9	WT lymphocytes
+Ahr	E2f2	20573986	Mouse	lymphocytes	NA	qPCR	3	WT lymphocytes	High/2	WT lymphocytes
+TopoII	E2f4	11799067	Human	embryonic lung	WI-38	ChIP	3	Mock	High/2	Mock
+Mad2	E2f4	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	High/3.5	Mock
+Mad2	E2f1	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	Medium/2	Mock
+Rad54	E2f4	11799067	Human	embryonic lung	WI-38	ChIP	3	Mock	High/3.5	Mock
+Rad54	E2f1	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	Medium/1.8	Mock
+Bard1	E2f4	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	High/2.5	Mock
+Bard1	E2f1	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	Medium/1.5	Mock
+Chk1	E2f4	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	High/2.5	Mock
+Mlh1	E2f4	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	Medium/1.5	Mock
+Msh2	E2f4	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	High/1.8	Mock
+Msh2	E2f1	11799067	Human	embryonic lung	WI-38	ChIP	1	Mock	Low/1.2	Mock
