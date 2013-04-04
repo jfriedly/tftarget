@@ -1,0 +1,2 @@
+Gene	Family Member	PMID	Species	Experimental Tissue(s)	Cell line	Experiment	# Replicates	Control	Quality/Fold Change
+MAP4K1	C	22801218	HUMAN	embryonic kidney	HEK293 cells, HeLa Cell Line	qPCR, Western Blot	3+	GEO-shLacZ/ ratio map4k1:GAPDH	~1.5
