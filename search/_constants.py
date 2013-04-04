@@ -84,7 +84,8 @@ ALL_SPECIES = ('human', 'mouse', 'rat', 'arabidopsis', 'hamster')
 EMPTY_STRING = ''
 TF_CHOICES = [
     ['E2F'] + [v for v in TFS.values() if v.startswith('E2F')],
-    ['MYC'] + [v for v in TFS.values() if v[2:] == 'Myc'],
+    # There's duplicates in here
+    ['MYC'] + list(set([v for v in TFS.values() if v[2:] == 'Myc'])),
     ['NFkB'] + [v for v in TFS.values() if v.startswith('NF-kB')],
     ['FOX'] + [v for v in TFS.values() if v.startswith('FOX')],
     ['STAT'] + [v for v in TFS.values() if v.startswith('STAT')],

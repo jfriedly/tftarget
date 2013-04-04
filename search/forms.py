@@ -24,6 +24,7 @@ class QueryDB_SearchForm(forms.Form):
         widget=forms.HiddenInput(),
         required=False)
 
+
 class DirectTargets_SearchForm(forms.Form):
     """Search form to be submitted by a user."""
     transcription_factor = forms.CharField(label="Transcription Factor",
@@ -38,6 +39,7 @@ class DirectTargets_SearchForm(forms.Form):
     row_index = forms.CharField(label="Row Index",
         widget=forms.HiddenInput(),
         required=False)
+
 
 class GeneEnrichement_SearchForm(forms.Form):
     """Search form to be submitted by a user."""

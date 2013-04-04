@@ -67,7 +67,7 @@ function initTab(tabIndex) {
         initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species'+tabIndex);
         initMultiSelect('#tft-expt-types-dropdown-'+tabIndex,EXPT_TYPES_LIST, 'expt-types'+tabIndex);
         initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
-        
+
         addTabEvents(tabIndex);
         addPopoverEvents(tabIndex);
         addOnMouseOverEvents();
@@ -102,7 +102,7 @@ function initTFControl(accordionId, trans, tab) {
     for (var i = 0; i<trans.length; i++) {
         var familyId = trans[i][0]+tab;
         var $inner = $('<div/>');
-        
+
         $(accordionId)
             .append($("<div/>")
                     .append($('<div/>') //Transcription Family Heading
@@ -123,7 +123,7 @@ function initTFControl(accordionId, trans, tab) {
                                      .addClass('accordion-body collapse tft-accordion-container')
                                      .attr('id', 'collapse'+familyId)
                                      .append($inner))));
-        
+
         for (var j= 1; j< trans[i].length; j++) {
             $inner
                 .addClass('accordion-inner ')
