@@ -30,8 +30,16 @@ Special note to Windows users:  you may need to edit your path if the instructio
 If you plan on doing any other Python projects, particularly Django ones, you should probably ``pip install virtualenv virtualenvwrapper`` and create a virtual environment for the project.
 See the `documentation for virtualenvwrapper`_ if you think you'll do any other large Python projects, otherwise you can skip this step.
 
-Now install the rest of the Python package dependencies by running ``pip install -r requirements.txt``.
-Next, follow the instructions below for installing MySQL and South, and you should have all the dependencies installed.
+Most of the dependencies can then be installed by running ``pip install -r requirements.txt``, with the exceptions of SciPy and MySQL.
+
+
+SciPy
+-----
+
+Typically, dependencies should be isolated to the ``requirements.txt`` file whenever possible.
+However, SciPy is difficult to install with ``pip`` on any operating system.
+On Linux, it's as simple as an ``apt-get install python-scipy`` (or the equivalent on distros that don't use aptitude).
+Otherwise, see the `Windows SciPy installation instructions`_ or the `OSX ones`_ on scipy.org.
 
 
 MySQL
@@ -58,14 +66,18 @@ To do this, run ``mysql -u root -p`` and enter the root password that you picked
 
 MySQL should tell you that each query was ok.
 Exit the MySQL prompt and now create a file in this directory called ``local_settings.py``.
-Put the following lines into the file and save it, making up a secret key to use for hashing::
+Put the following lines into the file and save it, making up a secret key to use for hashing:
+
+.. code:: python
 
     import settings
 
     settings.DATABASES['default']['PASSWORD'] = '$PASSWORD'
     settings.SECRET_KEY = "$SECRET_KEY"
 
-Ensure that Django has access to the MySQL database by opening a Python interpreter with ``python manage.py shell`` and then running these commands::
+Ensure that Django has access to the MySQL database by opening a Python interpreter with ``python manage.py shell`` and then running these commands:
+
+.. code:: python
 
     >>> from search.models import Experiment
     >>> e = Experiment(species='Human', cell_line='frankencells!')
@@ -79,19 +91,25 @@ Using South
 Databases complain whenever a table schema is changed, and anytime you make a change to a class in a models.py file it represents a change to a table schema.
 South makes migrating table schemas easy, without losing your data.
 Information on South can be found on `their tutorial`_, and you should already have it installed if the ``pip install -r requirements.txt`` worked.
-The first thing you'll need to do is run a ``python manage.py syncdb``, and create a Django admin user by following the prompts (don't skip creating the admin user, you'll need this later).
-Then, run this command for each app that we built, replacing $APP_NAME with the name of the app (currently we've only created one app, called ``search``)::
+The first thing you'll need to do is run a ``python manage.py syncdb``, and create a Django admin user by following the prompts.
+Then, run this command for each app that we built, replacing $APP_NAME with the name of the app (currently we've only created one app, called ``search``):
+
+.. code:: bash
 
     $ python manage.py migrate $APP_NAME
 
-In order to load the latest SQL dump, run these commands, giving the root user's password at the prompt each time::
+In order to load the latest SQL dump, run these commands, giving the root user's password at the prompt each time:
+
+.. code:: bash
 
     $ mysql -u root -p tftarget < sqldumps/search_experiment.sql
     $ mysql -u root -p tftarget < sqldumps/search_gene.sql
 
 
-Currently, we have a simple shell script that will run all of the commands to reload the database from the sqldumps.
-You can call it with::
+Currently, we have a simple shell script that will run both of the above commands for you.
+You can call it with:
+
+.. code:: bash
 
     $ tools/reloaddb.sh
 
@@ -108,7 +126,7 @@ Do NOT do this on a production database.
 
 How to Export the Database to a SQLdump
 '''''''''''''''''''''''''''''''''''''''
-::
+.. code:: bash
 
     $ mysqldump -u root -p tftarget search_experiment > sqldumps/search_experiment.sql
     $ mysqldump -u root -p tftarget search_gene > sqldumps/search_gene.sql
@@ -161,3 +179,5 @@ It will assume that you know at least a little Python though.
 .. _Dive into Python: http://www.diveintopython.net/
 .. _Learn Python the Hard Way: http://learnpythonthehardway.org/
 .. _Django Tutorial: https://docs.djangoproject.com/en/dev/intro/tutorial01/
+.. _Windows SciPy installation instructions: http://www.scipy.org/Installing_SciPy/Windows
+.. _OSX ones: http://www.scipy.org/Installing_SciPy/Mac_OS_X
