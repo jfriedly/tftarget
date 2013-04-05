@@ -7,7 +7,9 @@
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery1.9.0.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.10.0.custom.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-linedtextarea.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
+
 
     <script id="tf-choices" type="text/javascript">{% autoescape off %}{{ tf_choices }}{% endautoescape %}</script>
     <script id="tft-species" type="text/javascript">{% autoescape off %}{{ tft_species }}{% endautoescape %}</script>
@@ -15,8 +17,10 @@
 
     <link href="{{ STATIC_URL }}css/bootstrap.css" type="text/css" rel="stylesheet"/>
     <link href="{{ STATIC_URL }}css/bootstrap-responsive.css" type="text/css" rel="stylesheet"/>
-    <link href="{{ STATIC_URL }}css/search.css" type="text/css" rel="stylesheet"/>
     <link href="{{ STATIC_URL }}css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}css/jquery-linedtextarea.css" type="text/css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}css/search.css" type="text/css" rel="stylesheet"/>
+
 
   </head>
   <body>
@@ -28,12 +32,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand tft-red-bottom-3" href="http://www.osu.edu/">The Ohio State University</a>
-          <a class="brand tft-red-bottom-3" href="http://medicalcenter.osu.edu/research/Pages/index.aspx">Cancer Research</a>
+          <a class="brand" href="http://www.osu.edu/">The Ohio State University
+          <b class="tft-right-caret"></b></a>
+          <a class="brand" href="http://medicalcenter.osu.edu/research/Pages/index.aspx">Cancer Research</a>
           <div class="nav-collapse collapse">
-            <ul class="nav tft-grey-bottom-3">
-
+            <ul class="nav">
               <li class="active"><a href="#">TFTarget</a></li>
+            </ul>
+            <ul class="nav pull-right">
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">How To  <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -45,8 +51,8 @@
                   <li><a href="#">to html file format</a></li>
                 </ul>
               </li>
-              <li class="pull-right"><a href="#About">About</a></li>
-              <li class="pull-right"><a href="#Contact">Contact Us</a></li>
+              <li><a href="#About">About</a></li>
+              <li><a href="#Contact">Contact Us</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -73,6 +79,27 @@
       </div>
       {% block body %}
       {% endblock %}
+    </div>
+    <div id="tft-download-bar" class="navbar navbar-fixed-bottom tft-grey-bottom-1">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <ul class="nav nav-tabs inline">
+            <li><h4 id="tft-download-status">Processing...</h4></li>
+            <li class="span2"><a id="tft-download-link" class="btn btn-success" href="#">Download Now</a></li>
+            <li class="span4">
+              <a id="tft-download-progress" class="progress progress-striped active">
+                <div class="bar" style="width: 100%;">
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </body>
   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>

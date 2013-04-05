@@ -15,7 +15,6 @@
       </div>
     </div> <!-- tab-header -->
     <div class="row tft-form-container">
-
       <legend class="tft-legend">Direct Target Database Search</legend>
       <form id="tft-search-form-0" class="form-horizontal row">
         <label>Transcription Factor</label>
@@ -73,21 +72,8 @@
       
       <legend class="tft-legend">Direct Target Database Search</legend>
       <form id="tft-search-form-1" class="form-horizontal row">
-        <label>Transcription Factor</label>
-        <div class="controls">
-          <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-1" data-target="#" class="tft-white-btn dropdown-toggle " role="button" data-toggle="dropdown">
-              Selected [0 of 40]
-              <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu tft-family-dropdown-menu ">
-              <li>
-                <div id="tft-family-accordion-1" class="accordion tft-dropdown-container">
-                </div>
-              </li>
-            </ul>
-          </div> <!-- dropdown -->
-        </div>
+        <label>List of Genes</label>
+        <textarea id="tft-genelist" class="lined span4" rows="10"></textarea>
       </form>
       <div class ="form-actions tft-red-bottom-1">
         <button type="submit" id="tft-search-btn-1" data-loading-text="Loading..." class="btn">Submit</button>
@@ -230,5 +216,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
 </div>
+
 {% endblock %}
