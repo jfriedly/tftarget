@@ -8,7 +8,9 @@ from search.models import Experiment, Gene
 from search.forms import QueryDB_SearchForm, GeneEnrichement_SearchForm, DirectTargets_SearchForm
 from search._constants import (SPECIES_CHOICES,
                                TF_CHOICES,
-                               EXPT_CHOICES)
+                               EXPT_CHOICES,
+                               EXPT_WEIGHTS,
+                               DIRECT_SEARCH_THRESHOLD)
 
 
 import settings
@@ -68,6 +70,44 @@ def search(request):
 
     results, count, row_index = _search(form)
     serialized = _serialize_results(results, count, row_index=row_index)
+    return HttpResponse(json.dumps(serialized))
+
+
+def direct_search(request):
+    """
+    Perform a direct target search. User selects TFs, species, and organ, and
+    we return a ranked list of genes.
+    """
+    form = QueryDB_SearchForm(request.POST or None)
+    if not form.is_valid():
+        pass #I'm not sure what this response should contain.
+    print form.cleaned_data
+    #Get a list of genes that matches the query. Figure out their score, and
+    #then drop the ones below the threshold somehow
+    results = Experiment.objects.all()
+    row_index = int(form.cleaned_data.pop('row_index'))
+    species = None
+    if form.cleaned_data['transcription_factor']:
+        tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
+        results = results.filter(transcription_factor__in=tfs)
+    if form.cleaned_data['species']:
+        species = json.loads(form.cleaned_data.pop('species'))
+        results = results.filter(species__in=species)
+    if form.cleaned_data['organ']:
+        species = json.loads(form.cleaned_data.pop('organ'))
+        results = results.filter(expt_tissue__in=organ)
+    genes = {}
+    genes_to_show = set()
+    for result in results:
+        score = genes.get(result.gene) or 0
+        score = score + EXPT_WEIGHTS[result.expt_type] * result.quality_factor
+        genes[result.gene] = score
+        if score > DIRECT_TARGET_THRESHOLD:
+            genes_to_show.add(result.gene)
+
+    final_results = Experiment.objects.get(gene__in=genes_to_show)
+    actual_results = sorted(final_results, key=lambda r: genes[r.gene])
+    serialized = _serialized(actual_results, final_results.count())
     return HttpResponse(json.dumps(serialized))
 
 
