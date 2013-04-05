@@ -78,15 +78,15 @@ def direct_search(request):
     Perform a direct target search. User selects TFs, species, and organ, and
     we return a ranked list of genes.
     """
-    form = QueryDB_SearchForm(request.POST or None)
+    form = DirectTargets_SearchForm(request.GET or None)
+    print form
     if not form.is_valid():
-        # TODO I'm not sure what to do here.
         return HttpResponse('Invalid form %s.' % form.errors)
     print form.cleaned_data
     #Get a list of genes that matches the query. Figure out their score, and
     #then drop the ones below the threshold somehow
     results = Experiment.objects.all()
-    row_index = int(form.cleaned_data.pop('row_index'))
+    row_index = 0
     species = None
     if form.cleaned_data['transcription_factor']:
         tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
@@ -94,8 +94,8 @@ def direct_search(request):
     if form.cleaned_data['species']:
         species = json.loads(form.cleaned_data.pop('species'))
         results = results.filter(species__in=species)
-    if form.cleaned_data['organ']:
-        species = json.loads(form.cleaned_data.pop('organ'))
+    if form.cleaned_data['expt_tissues']:
+        species = json.loads(form.cleaned_data.pop('expt_tissues'))
         results = results.filter(expt_tissue__in=organ)
     genes = {}
     genes_to_show = set()
