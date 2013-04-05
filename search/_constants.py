@@ -47,27 +47,37 @@ TRANSCRIPTION_FACTORS = {
 # Short name to make stuff pass pep8 easier
 TFS = TRANSCRIPTION_FACTORS
 
+# Genes for which the sum of (experiment weight * quality factor) across all
+# experiments in which they were involved is less than this number will not be
+# shown in a direct target search. 1, 2, and 3 are the possible quality factors
+# (for low, medium, and high quality experiments respectively) and experiment
+# weights are defined below.
+DIRECT_SEARCH_THRESHOLD = 3
 
-EXPT_TYPES = {
-    '': '',
-    'chip': 'ChIP',
-    'chipqpcr': 'ChIP-qPCR',
-    'chippcr': 'ChIP-PCR',
-    'chipchip': 'ChIP-chip',
-    'chipseq': 'ChIP-seq',
-    'emsa': 'EMSA',
-    'reportergeneassay': 'Reporter Gene Assay',
-    'westernblot': 'Western Blot',
-    'northernblot': 'Northern Blot',
-    'pcr': 'PCR',
-    'qpcr': 'q-PCR',
-    'rtpcr': 'RT-PCR',
-    'microarray': 'Microarray',
-    'rnaseq': 'RNA-seq',
-    'nuclearnrunon': 'Nuclearn run-on',
-    'nuclearnrunoff': 'Nuclearn run-off',
+# This maps a slugified experiment name to a tuple of it's canonical
+# (that is, capitalized) name and its relative weight in direct target searches
+_experiments = {
+    '': ('', 1),
+    'chip': ('ChIP', 1),
+    'chipqpcr': ('ChIP-qPCR', 1),
+    'chippcr': ('ChIP-PCR', 1),
+    'chipchip': ('ChIP-chip', 1),
+    'chipseq': ('ChIP-seq', 1),
+    'emsa': ('EMSA', 1),
+    'reportergeneassay': ('Reporter Gene Assay', 1),
+    'westernblot': ('Western Blot', 1),
+    'northernblot': ('Northern Blot', 1),
+    'pcr': ('PCR', 1),
+    'qpcr': ('q-PCR', 1),
+    'rtpcr': ('RT-PCR', 1),
+    'microarray': ('Microarray', 1),
+    'rnaseq': ('RNA-seq', 1),
+    'nuclearnrunon': ('Nuclearn run-on', 1),
+    'nuclearnrunoff': ('Nuclearn run-off', 1),
 }
 
+EXPT_TYPES = {key: value[0] for key, value in _experiments.iteritems()}
+EXPT_WEIGHTS = {name: weight for name, weight in _experiments.itervalues()}
 
 # The oder of columns in the database import file. You can re-arrange the order
 # here, and things should "just work", but obviously adding more columns won't.

@@ -80,7 +80,8 @@ def direct_search(request):
     """
     form = QueryDB_SearchForm(request.POST or None)
     if not form.is_valid():
-        pass #I'm not sure what this response should contain.
+        # TODO I'm not sure what to do here.
+        return HttpResponse('Invalid form %s.' % form.errors)
     print form.cleaned_data
     #Get a list of genes that matches the query. Figure out their score, and
     #then drop the ones below the threshold somehow
