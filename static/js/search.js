@@ -102,7 +102,7 @@ function initTFControl(accordionId, trans, tab) {
     for (var i = 0; i<trans.length; i++) {
         var familyId = trans[i][0]+tab;
         var $inner = $('<div/>');
-
+        
         $(accordionId)
             .append($("<div/>")
                     .append($('<div/>') //Transcription Family Heading
@@ -123,7 +123,7 @@ function initTFControl(accordionId, trans, tab) {
                                      .addClass('accordion-body collapse tft-accordion-container')
                                      .attr('id', 'collapse'+familyId)
                                      .append($inner))));
-
+        
         for (var j= 1; j< trans[i].length; j++) {
             $inner
                 .addClass('accordion-inner ')
@@ -135,6 +135,7 @@ function initTFControl(accordionId, trans, tab) {
                                         .addClass('family-member '+familyId) 
                                         .attr('my-parent', familyId)
                                         .attr('value', trans[i][j]))));
+            
         }
     }
 }
@@ -229,12 +230,13 @@ function downloadDB(e) {
         if (DEBUG) {
             console.log("Opening download file dialog.");
         }
-        $("#dialog").dialog({autoOpen: false, show: {
-            effect: "blind",
-            duration: 1
-        }});
-        $("#dialog").html('Your file can be downloaded from <a href="http://d.embolalia.net/' + data['url'] + '">here</a>');
-        $("#dialog").dialog("open");
+       
+      //  $("#dialog").dialog("open");
+        $("#tft-download-status").text("Download Ready");
+        $("#tft-download-progress").hide();
+        $("#tft-download-link").show();
+        $("#tft-download-link").attr("href", "http://127.0.0.1:8000/" + data['url']);
+       // $("#tft-download-bar").dialog("open");
         //alert('Your file can be downloaded from <a href="http://d.embolalia.net/' +
         //      data["url"] + '">here</a>')
     });
@@ -408,7 +410,7 @@ function addPopoverEvents(tabIndex) {
     $('#tft-family-dropdown-toggle-2').popover({ 
         trigger :'hover',
         title :'Selected Transcription Factor(s)',
-        placement :'top',
+        placement :'right',
         html : true,
         content: function() {
             return $('#tft-popover-tf-2').html();
@@ -485,6 +487,7 @@ function addEventHandlers() {
         initTab($('.tab-pane.active').index());
     })
     $('#tft-result-container-2').hide();
+    $('#tft-download-bar').hide();
     //  $('#tft-summary-form-2').modal();
     //  $('#tft-home-tab a[href="#download-database"]').click();
         /* $('.family-member').click(function() {
@@ -496,8 +499,18 @@ function addEventHandlers() {
              }
          });
     });*/
+ 
     $('.dropdown-toggle').dropdown();
-    $('.download-option').click(downloadDB)
+    $('.download-option').click(function(e) {
+        $("#tft-download-bar").show();
+        $("#tft-download-status").text("Processing CSV ..");
+        $("#tft-download-link").hide();
+        $("#tft-download-progress").show();
+        downloadDB(e);
+    });
+    $("#tft-download-link").click(function () {
+        $("#tft-download-bar").hide();
+    });
 }
 $(function() {
 

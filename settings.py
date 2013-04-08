@@ -154,7 +154,7 @@ LOGGING = {
     }
 }
 
-DOWNLOAD_DIR = '/home/joel/tmp'
+DOWNLOAD_DIR = '/home/tre/Downloads'
 
 try:
     from local_settings import *
