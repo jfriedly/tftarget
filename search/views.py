@@ -10,6 +10,8 @@ from search._constants import (SPECIES_CHOICES,
                                TF_CHOICES,
                                EXPT_CHOICES,
                                EXPT_WEIGHTS,
+                               BINDING_EXPTS,
+                               EXPRESSION_EXPTS,
                                DIRECT_SEARCH_THRESHOLD)
 
 
@@ -100,13 +102,23 @@ def direct_search(request):
     # Map genes to their score (cumulatively)
     genes = {}
     # Add genes to this as we see their score get high enough
-    genes_to_show = set()
+    genes_above_threshold = set()
+    genes_with_binding = set()
+    genes_with_expression = set()
     for result in results:
         score = genes.get(result.gene) or 0
         score = score + EXPT_WEIGHTS[result.expt_type] * result.quality_factor
         genes[result.gene] = score
         if score > DIRECT_SEARCH_THRESHOLD:
-            genes_to_show.add(result.gene)
+            genes_above_threshold.add(result.gene)
+        if result.expt_type in BINDING_EXPTS:
+            genes_with_binding.add(result.gene)
+        elif result.expt_type in EXPRESSION_EXPTS:
+            genes_with_expression.add(result.gene)
+
+    # We want the ones with both experiment classes and above the threshold
+    genes_to_show = (genes_above_threshold & genes_with_binding
+                     & genes_with_expression)
 
     # Now we know what genes to show, so figure out which results involve them
     results_to_show = set()

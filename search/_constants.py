@@ -55,29 +55,38 @@ TFS = TRANSCRIPTION_FACTORS
 DIRECT_SEARCH_THRESHOLD = 3
 
 # This maps a slugified experiment name to a tuple of it's canonical
-# (that is, capitalized) name and its relative weight in direct target searches
+# (that is, capitalized) name, its relative weight in direct target searches,
+# and it's category (currently binding or gene expression) for direct target
+# searches
 _experiments = {
-    '': ('', 1),
-    'chip': ('ChIP', 1),
-    'chipqpcr': ('ChIP-qPCR', 1),
-    'chippcr': ('ChIP-PCR', 1),
-    'chipchip': ('ChIP-chip', 1),
-    'chipseq': ('ChIP-seq', 1),
-    'emsa': ('EMSA', 1),
-    'reportergeneassay': ('Reporter Gene Assay', 1),
-    'westernblot': ('Western Blot', 1),
-    'northernblot': ('Northern Blot', 1),
-    'pcr': ('PCR', 1),
-    'qpcr': ('q-PCR', 1),
-    'rtpcr': ('RT-PCR', 1),
-    'microarray': ('Microarray', 1),
-    'rnaseq': ('RNA-seq', 1),
-    'nuclearnrunon': ('Nuclearn run-on', 1),
-    'nuclearnrunoff': ('Nuclearn run-off', 1),
+    '': ('', 0, ''),
+    'chip': ('ChIP', 1, 'binding'),
+    'chipqpcr': ('ChIP-qPCR', 1, 'binding'),
+    'chippcr': ('ChIP-PCR', 1, 'binding'),
+    'chipchip': ('ChIP-chip', 1, 'binding'),
+    'chipseq': ('ChIP-seq', 1, 'binding'),
+    'emsa': ('EMSA', 1, 'binding'),
+    'reportergeneassay': ('Reporter Gene Assay', 1, 'gene expression'),
+    'westernblot': ('Western Blot', 1, 'gene expression'),
+    'northernblot': ('Northern Blot', 1, 'gene expression'),
+    'pcr': ('PCR', 1, 'gene expression'),
+    'qpcr': ('q-PCR', 1, 'gene expression'),
+    'rtpcr': ('RT-PCR', 1, 'gene expression'),
+    'microarray': ('Microarray', 1, 'gene expression'),
+    'rnaseq': ('RNA-seq', 1, 'gene expression'),
+    'nuclearnrunon': ('Nuclearn run-on', 1, 'gene expression'),
+    'nuclearnrunoff': ('Nuclearn run-off', 1, 'gene expression'),
 }
 
 EXPT_TYPES = {key: value[0] for key, value in _experiments.iteritems()}
-EXPT_WEIGHTS = {name: weight for name, weight in _experiments.itervalues()}
+EXPT_WEIGHTS = {name: weight for name, weight, cls in _experiments.itervalues()}
+BINDING_EXPTS = set()
+EXPRESSION_EXPTS = set()
+for expt in _experiments.itervalues():
+    if expt[2] == 'binding':
+        BINDING_EXPTS.add(expt[0])
+    elif expt[2] == 'gene expression':
+        EXPRESSION_EXPTS.add(expt[0])
 
 # The oder of columns in the database import file. You can re-arrange the order
 # here, and things should "just work", but obviously adding more columns won't.
