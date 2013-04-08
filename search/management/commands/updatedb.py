@@ -3,7 +3,11 @@ import csv
 import re
 import sys
 from copy import deepcopy
-from search._constants import TFS, ALL_SPECIES, IMPORT_COLUMN_ORDER, EXPT_TYPES
+from search._constants import (TFS,
+                               ALL_SPECIES,
+                               IMPORT_COLUMN_ORDER,
+                               EXPT_TYPES,
+                               ALL_TISSUES)
 
 
 from search.models import Experiment, Gene
@@ -137,7 +141,12 @@ class Command(BaseCommand):
         if not row['expt_tissues']:
             row['expt_tissues'] = ''
         else:
-            row['expt_tissues'] = row['expt_tissues'][:255].capitalize()
+            organ = row['expt_tissues'][:255].lower().replace(' ', '')
+            if organ not in ALL_TISSUES:
+                raise DBImportError('Error on line %d: Experiment tissue %s '
+                                    'is not valid.' % (line,
+                                                       row['expt_tissues']))
+            row['expt_tissues'] = ALL_TISSUES[organ]
 
         #Validate the rest of the values
         if not row['replicates']:
