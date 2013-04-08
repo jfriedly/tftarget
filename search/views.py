@@ -64,7 +64,7 @@ def search(request):
     form = QueryDB_SearchForm(request.POST or None)
     if not form.is_valid():
         return render_to_response("search.html",
-                                  {'form': form,
+                                  {'search_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
                                    'tft_expt_types':json.dumps(EXPT_CHOICES)},
@@ -80,10 +80,15 @@ def direct_search(request):
     Perform a direct target search. User selects TFs, species, and organ, and
     we return a ranked list of genes.
     """
-    form = DirectTargets_SearchForm(request.GET or None)
+    form = DirectTargets_SearchForm(request.POST or None)
     print form
     if not form.is_valid():
-        return HttpResponse('Invalid form %s.' % form.errors)
+        return render_to_response("search.html",
+                                  {'direct_form': form,
+                                   'tf_choices': json.dumps(TF_CHOICES),
+                                   'tft_species':json.dumps(SPECIES_CHOICES),
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
+                                  context_instance=RequestContext(request))
     print form.cleaned_data
     #Get a list of genes that matches the query. Figure out their score, and
     #then drop the ones below the threshold
