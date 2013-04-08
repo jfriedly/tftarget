@@ -15,6 +15,8 @@ Once you're logged in, cd into /srv/tftarget and you can begin development.
 Running the Server Locally
 ----------------------------------------
 
+From this point on, all commands will implicitly be run from the project root directory, that is, the one this README is in.
+
 If you have the dependencies installed, simply run ``python manage.py runserver``, then visit ``127.0.0.1:8000`` in a browser.
 
 If you don't have the dependencies installed, start by getting Python 2.7.3.
@@ -28,7 +30,8 @@ Special note to Windows users:  you may need to edit your path if the instructio
 If you plan on doing any other Python projects, particularly Django ones, you should probably ``pip install virtualenv virtualenvwrapper`` and create a virtual environment for the project.
 See the `documentation for virtualenvwrapper`_ if you think you'll do any other large Python projects, otherwise you can skip this step.
 
-Now install the rest of the dependencies by running ``pip install -r requirements.txt``.
+Now install the rest of the Python package dependencies by running ``pip install -r requirements.txt``.
+Next, follow the instructions below for installing MySQL and South, and you should have all the dependencies installed.
 
 
 MySQL
@@ -47,7 +50,7 @@ Talk to me (Joel Friedly) and I'll try to get you working on Windows.
 If you're unsure whether or not your MySQLdb installation worked, open a Python interpreter and run ``import MySQLdb``.
 
 Once the Python library is installed, you'll need to create your ``tftarget`` MySQL user.
-To do this, run ``mysql -uroot -p`` and enter the root password that you picked above, then input these SQL commands at the prompt, where $PASSWORD is a new password that you choose::
+To do this, run ``mysql -u root -p`` and enter the root password that you picked above, then input these SQL commands at the prompt, where $PASSWORD is a new password that you choose::
 
     mysql> CREATE USER 'tftarget'@'localhost' IDENTIFIED BY '$PASSWORD';
     mysql> CREATE DATABASE tftarget DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
@@ -76,16 +79,18 @@ Using South
 Databases complain whenever a table schema is changed, and anytime you make a change to a class in a models.py file it represents a change to a table schema.
 South makes migrating table schemas easy, without losing your data.
 Information on South can be found on `their tutorial`_, and you should already have it installed if the ``pip install -r requirements.txt`` worked.
-The first thing you'll need to do is run a ``python manage.py syncdb``, and create a Django admin user by following the prompts.
+The first thing you'll need to do is run a ``python manage.py syncdb``, and create a Django admin user by following the prompts (don't skip creating the admin user, you'll need this later).
 Then, run this command for each app that we built, replacing $APP_NAME with the name of the app (currently we've only created one app, called ``search``)::
 
     $ python manage.py migrate $APP_NAME
 
 In order to load the latest SQL dump, run these commands, giving the root user's password at the prompt each time::
 
-    $ mysql -uroot -p tftarget < search_experiment.sql
+    $ mysql -u root -p tftarget < sqldumps/search_experiment.sql
+    $ mysql -u root -p tftarget < sqldumps/search_gene.sql
 
-Currently, we have a simple shell script that will run both of the above commands for you.
+
+Currently, we have a simple shell script that will run all of the commands to reload the database from the sqldumps.
 You can call it with::
 
     $ tools/reloaddb.sh
@@ -105,7 +110,31 @@ How to Export the Database to a SQLdump
 '''''''''''''''''''''''''''''''''''''''
 ::
 
-    $ mysqldump -uroot -p tftarget search_experiment > sqldumps/search_experiment.sql
+    $ mysqldump -u root -p tftarget search_experiment > sqldumps/search_experiment.sql
+    $ mysqldump -u root -p tftarget search_gene > sqldumps/search_gene.sql
+
+How to Import Data from CSVs
+''''''''''''''''''''''''''''
+
+In the ``csv`` directory, we have six CSV files, an orthologs file and a file for each transcription factor family.
+To load the experiments from the CSV files, type the following command, replacing ``$TF_FAMILY`` with the families that you'd like to load.
+Run the command once for each family::
+
+    $ python manage.py updatedb csv/$TF_FAMILY.csv
+
+To load the orthologs from the CSV file, type this::
+
+    $ python manage.py importorthologs csv/orthologs.csv
+
+If you'd like to update the database to a new version, you can use these commands with new CSV files and additions to the database will occur automatically.
+Please note that the ``updatedb`` and ``importorthologs`` commands will not delete or modify any existing rows in the database, they will only add new rows.
+If a row changes, this will be considered an addition; the old row will remain in the database and the "new" row will be added.
+If you would like to explicitly delete a row from the database or change an existing row, you can use the MySQL database shell, an interactive Python session, or the admin pages; but the admin pages are probably the easiest to use.
+
+To log into the admin page, navigate to the ``/admin`` URL and log in with any existing Django user (you created one when you set up South).
+Find the experiment or gene row in the database that you'd like to change and click on it.
+The new page will have a form that you can use to update or delete the row.
+If you'd like to do a "soft delete", i.e. make the row invisible to end users without actually losing any data, just uncheck the box that says 'Active' (this is highly recommended, don't click the delete button unless you're sure).
 
 
 About Python
