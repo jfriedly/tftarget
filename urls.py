@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'search.views.search', name='home'),
+    url(r'^direct_search', 'search.views.direct_search', name='direct_search'),
     url(r'^download/(?P<size>(all|page))',
         'search.views.download', name='download'),
     url(r'^download_file/(?P<fileid>\d+)',

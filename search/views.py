@@ -84,7 +84,7 @@ def direct_search(request):
         return HttpResponse('Invalid form %s.' % form.errors)
     print form.cleaned_data
     #Get a list of genes that matches the query. Figure out their score, and
-    #then drop the ones below the threshold somehow
+    #then drop the ones below the threshold
     results = Experiment.objects.all()
     row_index = 0
     species = None
@@ -95,20 +95,29 @@ def direct_search(request):
         species = json.loads(form.cleaned_data.pop('species'))
         results = results.filter(species__in=species)
     if form.cleaned_data['expt_tissues']:
-        species = json.loads(form.cleaned_data.pop('expt_tissues'))
-        results = results.filter(expt_tissue__in=organ)
+        organ = json.loads(form.cleaned_data.pop('expt_tissues'))
+        results = results.filter(expt_tissues__in=organ)
+    # Map genes to their score (cumulatively)
     genes = {}
+    # Add genes to this as we see their score get high enough
     genes_to_show = set()
     for result in results:
         score = genes.get(result.gene) or 0
         score = score + EXPT_WEIGHTS[result.expt_type] * result.quality_factor
         genes[result.gene] = score
         if score > DIRECT_TARGET_THRESHOLD:
-            genes_to_show.add(result.gene)
+            genes_not_to_show.add(result.gene)
 
-    final_results = Experiment.objects.get(gene__in=genes_to_show)
-    actual_results = sorted(final_results, key=lambda r: genes[r.gene])
-    serialized = _serialized(actual_results, final_results.count())
+    # Now we know what genes to show, so figure out which results involve them
+    results_to_show = set()
+    for r in results:
+        if r.gene in genes_to_show:
+            results_to_show.add(r)
+    # Now figure out what order to show them in
+    actual_results = sorted(results_to_show, key=lambda r: genes[r.gene])
+
+    #And finally, show them
+    serialized = _serialize_results(actual_results, len(actual_results))
     return HttpResponse(json.dumps(serialized))
 
 
