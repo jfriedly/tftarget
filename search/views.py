@@ -88,7 +88,7 @@ def download(request, size):
     with open(os.path.join(settings.DOWNLOAD_DIR, filepath), 'wb') as fp:
         # Use tsv here to get tab-separated values
         fp.write(data.csv)
-    return HttpResponse('{"url": "download_file/%d"}' % fileid)
+    return HttpResponse('{"url": "/download_file/%d"}' % fileid)
 
 
 def download_file(request, fileid):

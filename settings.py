@@ -154,7 +154,7 @@ LOGGING = {
     }
 }
 
-DOWNLOAD_DIR = '/home/tre/Downloads'
+DOWNLOAD_DIR = os.path.join(PROJECT_ROOT, 'csv')
 
 try:
     from local_settings import *
