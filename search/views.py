@@ -105,8 +105,8 @@ def direct_search(request):
         score = genes.get(result.gene) or 0
         score = score + EXPT_WEIGHTS[result.expt_type] * result.quality_factor
         genes[result.gene] = score
-        if score > DIRECT_TARGET_THRESHOLD:
-            genes_not_to_show.add(result.gene)
+        if score > DIRECT_SEARCH_THRESHOLD:
+            genes_to_show.add(result.gene)
 
     # Now we know what genes to show, so figure out which results involve them
     results_to_show = set()
@@ -115,7 +115,6 @@ def direct_search(request):
             results_to_show.add(r)
     # Now figure out what order to show them in
     actual_results = sorted(results_to_show, key=lambda r: genes[r.gene])
-
     #And finally, show them
     serialized = _serialize_results(actual_results, len(actual_results))
     return HttpResponse(json.dumps(serialized))

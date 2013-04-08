@@ -39,6 +39,8 @@ class Experiment(models.Model):
         d = self.__dict__.copy()
         if '_state' in d:
             d.pop('_state')
+        if '_gene_cache' in d:
+            d.pop('_gene_cache')
         d['created'] = str(d['created'])
         d['modified'] = str(d['modified'])
         d['gene'] = "%s" % Gene.objects.get(id=d.pop('gene_id')).serialize()
