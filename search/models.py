@@ -1,3 +1,4 @@
+
 import json
 
 from django.db import models
@@ -34,13 +35,16 @@ class Experiment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def serialize(self):
+    def serialize(self, csv=False):
         d = self.__dict__.copy()
         if '_state' in d:
             d.pop('_state')
         d['created'] = str(d['created'])
         d['modified'] = str(d['modified'])
-        d['gene'] = "%s" % Gene.objects.get(id=d.pop('gene_id')).serialize()
+        if csv is True:
+            d['gene'] = "%s" % Gene.objects.get(id=d.pop('gene_id')).serialize()
+        else:
+            d['gene'] = Gene.objects.get(id=d.pop('gene_id')).serialize()
         return d
 
     def __repr__(self):
