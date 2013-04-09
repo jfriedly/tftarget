@@ -36,7 +36,7 @@ def index(request):
                                   context_instance=RequestContext(request))
 
 def _search(form):
-    results = Experiment.objects.all()
+    results = Experiment.objects.filter(active=True)
     row_index = int(form.cleaned_data.pop('row_index_2'))
     species = None
     if form.cleaned_data['transcription_factor_2']:
