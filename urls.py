@@ -5,8 +5,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'search.views.search', name='home'),
-    url(r'^direct_search', 'search.views.direct_search', name='direct_search'),
+    url(r'^$', 'search.views.index', name='home'),
+    url(r'^direct_targets', 'search.views.direct_search', name='direct_search'),
+    url(r'^query_db', 'search.views.search', name='search'),
     url(r'^download/(?P<size>(all|page))',
         'search.views.download', name='download'),
     url(r'^download_file/(?P<fileid>\d+)',
