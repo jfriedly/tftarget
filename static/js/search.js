@@ -234,15 +234,11 @@ function downloadDB(e) {
         if (DEBUG) {
             console.log("Opening download file dialog.");
         }
-       
-      //  $("#dialog").dialog("open");
+
         $("#tft-download-status").text("Download Ready");
         $("#tft-download-progress").hide();
         $("#tft-download-link").show();
-        $("#tft-download-link").attr("href", "http://127.0.0.1:8000/" + data['url']);
-       // $("#tft-download-bar").dialog("open");
-        //alert('Your file can be downloaded from <a href="http://d.embolalia.net/' +
-        //      data["url"] + '">here</a>')
+        $("#tft-download-link").attr("href", data['url']);
     });
 }
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
@@ -502,11 +498,11 @@ function addEventHandlers(tabIndex) {
              }
          });
     });*/
- 
+
     $('.dropdown-toggle').dropdown();
     $('.download-option').click(function(e) {
         $("#tft-download-bar").show();
-        $("#tft-download-status").text("Processing CSV ..");
+        $("#tft-download-status").text("Processing CSV ...");
         $("#tft-download-link").hide();
         $("#tft-download-progress").show();
         downloadDB(e);

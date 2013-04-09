@@ -36,7 +36,6 @@ def index(request):
                                   context_instance=RequestContext(request))
 
 def _search(form):
-    print form.cleaned_data
     results = Experiment.objects.all()
     row_index = int(form.cleaned_data.pop('row_index_2'))
     species = None
@@ -153,17 +152,19 @@ def download(request, size):
         return HttpResponse('Invalid form %s.' % form.errors)
     results, count, row_index = _search(form)
     if size == 'all':
-        serialized_results = _serialize_results(results, count)['results']
+        serialized_results = _serialize_results(results,
+                                                count, csv=True)['results']
     elif size == 'page':
         serialized_results = _serialize_results(results, count,
-                                                row_index=row_index)['results']
+                                                row_index=row_index,
+                                                csv=True)['results']
     data = tablib.Dataset(headers=serialized_results[0].keys())
     data.json = json.dumps(serialized_results)
     filepath, fileid = _get_filepath()
     with open(os.path.join(settings.DOWNLOAD_DIR, filepath), 'wb') as fp:
         # Use tsv here to get tab-separated values
         fp.write(data.csv)
-    return HttpResponse('{"url": "download_file/%d"}' % fileid)
+    return HttpResponse('{"url": "/download_file/%d"}' % fileid)
 
 
 def download_file(request, fileid):
@@ -180,10 +181,9 @@ def _get_filepath(fileid=None):
     filepath = 'tftarget-search-%d.csv' % int(fileid)
     return filepath, fileid
 
-
-def _serialize_results(results, count, tab_num, row_index=None):
+def _serialize_results(results, count, tab_num, row_index=None, csv=False):
     """Takes the results set and serializes it"""
     if row_index is not None:
         results = results[row_index:row_index+100]
-    results = [expt.serialize() for expt in results]
+    results = [expt.serialize(csv=csv) for expt in results]
     return {'results': results, 'num_results': count, 'tab_num':tab_num}
