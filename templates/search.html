@@ -1,9 +1,5 @@
 {% extends "base.html" %}
 {% block body %}
-
-<!-- This probably shouldn't be here, but I can't HTML - embolalia -->
-<div id="dialog" title="Your download is ready"></div>
-
 <div class="row tab-content tft-margin1">
   <div class="tab-pane active" id="direct-targets">
     <div class="row tft-tab-header">
@@ -152,10 +148,11 @@
       <legend class="tft-legend">Query Database Search</legend>
       <form id="tft-search-form-2" class="form-horizontal row">
         <label>Transcription Factor</label>
-        <div class="controls">
+        
+        <div class="controls tft-controls">
+         
           <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn dropdown-toggle " role="button" data-toggle="dropdown">
-              Selected [0 of 40]
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn btn-block dropdown-toggle " role="button" data-toggle="dropdown">
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu tft-family-dropdown-menu ">
@@ -165,6 +162,8 @@
               </li>
             </ul>
           </div> <!-- dropdown -->
+          <ul id="tft-tf-summary-2" class="nav inline tft-summary">
+          </ul>
         </div>
         {% csrf_token %}
         {{ querydb_form }}
@@ -261,16 +260,27 @@
     </div>
   </div>
 </div>
-<div id="tft-summary-form-2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="tft-download-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">[X]</button>
     <h3 id="tft-modal-label">Selected Item(s)</h3> 
   </div>
-  <div id="tft-summary-body" class="modal-body">
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  <div class="modal-body">
+    <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Warning!</strong> It might take few to several minutes to process the download.
+    </div>
+    <div id="tft-download-body">
+      <h4 id="tft-download-status">.</h4>
+      <a class="span2" id="tft-download-link" class="btn btn-success" href="#">Download Now</a>
+      <div id="tft-download-progress" class="progress progress-striped active row">
+        <div class="bar" style="width: 100%;">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
   </div>
 </div>
-
 {% endblock %}
