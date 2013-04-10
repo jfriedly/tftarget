@@ -138,9 +138,14 @@ def direct_search(request):
     results_to_show = set()
     for r in results:
         if r.gene in genes_to_show:
+            #FIXME This line is for testing only!! It should be removed prior
+            #to delivery.
+            r.transcription_factor = r.transcription_factor + ' '+str(genes[r.gene])
+
             results_to_show.add(r)
     # Now figure out what order to show them in
-    actual_results = sorted(results_to_show, key=lambda r: genes[r.gene])
+    actual_results = sorted(results_to_show, key=lambda r: genes[r.gene],
+                            reverse=True)
     #And finally, show them
     serialized = _serialize_results(actual_results, len(actual_results), 0, None)
     return HttpResponse(json.dumps(serialized))
