@@ -24,23 +24,32 @@ import random
 import json
 import tablib
 
+def index(request):
+    qdb_form = QueryDB_SearchForm()
+    dt_form = DirectTargets_SearchForm()
+    return render_to_response("search.html",
+                                  {'querydb_form': qdb_form,
+                                   'direct_targets_form': dt_form,
+                                   'tf_choices': json.dumps(TF_CHOICES),
+                                   'tft_species':json.dumps(SPECIES_CHOICES),
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
+                                  context_instance=RequestContext(request))
 
 def _search(form):
-    print form.cleaned_data
     results = Experiment.objects.all()
-    row_index = int(form.cleaned_data.pop('row_index'))
+    row_index = int(form.cleaned_data.pop('row_index_2'))
     species = None
-    if form.cleaned_data['transcription_factor']:
-        tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
+    if form.cleaned_data['transcription_factor_2']:
+        tfs = json.loads(form.cleaned_data.pop('transcription_factor_2'))
         results = results.filter(transcription_factor__in=tfs)
-    if form.cleaned_data['expt_type']:
-        expts = json.loads(form.cleaned_data.pop('expt_type'))
+    if form.cleaned_data['expt_type_2']:
+        expts = json.loads(form.cleaned_data.pop('expt_type_2'))
         results = results.filter(expt_type__in=expts)
-    if form.cleaned_data['species']:
-        species = json.loads(form.cleaned_data.pop('species'))
+    if form.cleaned_data['species_2']:
+        species = json.loads(form.cleaned_data.pop('species_2'))
         results = results.filter(species__in=species)
-    if form.cleaned_data['gene']:
-        gene = form.cleaned_data.pop('gene')
+    if form.cleaned_data['gene_2']:
+        gene = form.cleaned_data.pop('gene_2')
         if species is not None:
             fnames = [s.lower() for s in species]
         else:
@@ -64,14 +73,14 @@ def search(request):
     form = QueryDB_SearchForm(request.POST or None)
     if not form.is_valid():
         return render_to_response("search.html",
-                                  {'search_form': form,
+                                  {'querydb_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
                                    'tft_expt_types':json.dumps(EXPT_CHOICES)},
                                   context_instance=RequestContext(request))
 
     results, count, row_index = _search(form)
-    serialized = _serialize_results(results, count, row_index=row_index)
+    serialized = _serialize_results(results, count, 2, row_index=row_index)
     return HttpResponse(json.dumps(serialized))
 
 
@@ -84,7 +93,7 @@ def direct_search(request):
     print form
     if not form.is_valid():
         return render_to_response("search.html",
-                                  {'direct_form': form,
+                                  {'direct_targets_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
                                    'tft_expt_types':json.dumps(EXPT_CHOICES)},
@@ -95,14 +104,14 @@ def direct_search(request):
     results = Experiment.objects.all()
     row_index = 0
     species = None
-    if form.cleaned_data['transcription_factor']:
-        tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
+    if form.cleaned_data['transcription_factor_0']:
+        tfs = json.loads(form.cleaned_data.pop('transcription_factor_0'))
         results = results.filter(transcription_factor__in=tfs)
-    if form.cleaned_data['species']:
-        species = json.loads(form.cleaned_data.pop('species'))
+    if form.cleaned_data['species_0']:
+        species = json.loads(form.cleaned_data.pop('species_0'))
         results = results.filter(species__in=species)
-    if form.cleaned_data['expt_tissues']:
-        organ = json.loads(form.cleaned_data.pop('expt_tissues'))
+    if form.cleaned_data['expt_tissues_0']:
+        organ = json.loads(form.cleaned_data.pop('expt_tissues_0'))
         results = results.filter(expt_tissues__in=organ)
     # Map genes to their score (cumulatively)
     genes = {}
@@ -133,7 +142,7 @@ def direct_search(request):
     # Now figure out what order to show them in
     actual_results = sorted(results_to_show, key=lambda r: genes[r.gene])
     #And finally, show them
-    serialized = _serialize_results(actual_results, len(actual_results))
+    serialized = _serialize_results(actual_results, len(actual_results), 0, None)
     return HttpResponse(json.dumps(serialized))
 
 
@@ -143,17 +152,19 @@ def download(request, size):
         return HttpResponse('Invalid form %s.' % form.errors)
     results, count, row_index = _search(form)
     if size == 'all':
-        serialized_results = _serialize_results(results, count)['results']
+        serialized_results = _serialize_results(results,
+                                                count, csv=True)['results']
     elif size == 'page':
         serialized_results = _serialize_results(results, count,
-                                                row_index=row_index)['results']
+                                                row_index=row_index,
+                                                csv=True)['results']
     data = tablib.Dataset(headers=serialized_results[0].keys())
     data.json = json.dumps(serialized_results)
     filepath, fileid = _get_filepath()
     with open(os.path.join(settings.DOWNLOAD_DIR, filepath), 'wb') as fp:
         # Use tsv here to get tab-separated values
         fp.write(data.csv)
-    return HttpResponse('{"url": "download_file/%d"}' % fileid)
+    return HttpResponse('{"url": "/download_file/%d"}' % fileid)
 
 
 def download_file(request, fileid):
@@ -170,10 +181,9 @@ def _get_filepath(fileid=None):
     filepath = 'tftarget-search-%d.csv' % int(fileid)
     return filepath, fileid
 
-
-def _serialize_results(results, count, row_index=None):
+def _serialize_results(results, count, tab_num, row_index=None, csv=False):
     """Takes the results set and serializes it"""
     if row_index is not None:
         results = results[row_index:row_index+100]
-    results = [expt.serialize() for expt in results]
-    return {'results': results, 'num_results': count}
+    results = [expt.serialize(csv=csv) for expt in results]
+    return {'results': results, 'num_results': count, 'tab_num':tab_num}

@@ -5,38 +5,38 @@ from search.models import Experiment
 
 class QueryDB_SearchForm(forms.Form):
     """Search form to be submitted by a user."""
-    transcription_factor = forms.CharField(label="Transcription Factor",
+    transcription_factor_2 = forms.CharField(label="Transcription Factor",
         widget=forms.HiddenInput(attrs={'class': 'tft-hidden input input-text'}),
         required=False)
-    gene = forms.CharField(label="Gene",
+    gene_2 = forms.CharField(label="Gene",
         widget=forms.TextInput(attrs={'class': 'input input-text'}),
         required=False)
-    species = forms.CharField(label="Species",
+    species_2 = forms.CharField(label="Species",
         widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
         required=False)
-    expt_type = forms.CharField(label="Experiment Name",
+    expt_type_2 = forms.CharField(label="Experiment Name",
         widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
         required=False)
-    expt_tissues = forms.CharField(label="Organ",
+    expt_tissues_2 = forms.CharField(label="Organ",
         widget=forms.TextInput(attrs={'class': 'input input-text'}),
         required=False)
-    row_index = forms.CharField(label="Row Index",
+    row_index_2 = forms.CharField(label="Row Index",
         widget=forms.HiddenInput(),
         required=False)
 
 
 class DirectTargets_SearchForm(forms.Form):
     """Search form to be submitted by a user."""
-    transcription_factor = forms.CharField(label="Transcription Factor",
+    transcription_factor_0 = forms.CharField(label="Transcription Factor",
         widget=forms.HiddenInput(attrs={'class': 'tft-hidden input input-text'}),
         required=False)
-    species = forms.CharField(label="Species",
+    species_0 = forms.CharField(label="Species",
         widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
         required=False)
-    expt_tissues = forms.CharField(label="Organ",
-        widget=forms.TextInput(attrs={'class': 'input input-text'}),
+    expt_tissues_0 = forms.CharField(label="Organ",
+        widget=forms.HiddenInput(attrs={'class': 'input input-text'}),
         required=False)
-    row_index = forms.CharField(label="Row Index",
+    row_index_0 = forms.CharField(label="Row Index",
         widget=forms.HiddenInput(),
         required=False)
 

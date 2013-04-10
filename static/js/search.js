@@ -18,6 +18,7 @@ var DEBUG = true;
     faster the load time. Preferred results is in the
     range 50 <= RESULTS_PER_PAGE <= 500
 */
+var SEARCH_URL = ["direct_targets", "enrichment_analysis", "query_db"];
 var RESULTS_PER_PAGE = 100;
 var PAGINATION_NEXT = 'Next';
 var PAGINATION_PREV = 'Prev';
@@ -57,7 +58,7 @@ $(document).ready(function () {
     TF_LIST = $.parseJSON($('#tf-choices').html())
     SPECIES_LIST = $.parseJSON($('#tft-species').html());
     EXPT_TYPES_LIST = $.parseJSON($('#tft-expt-types').html())
-    initTab(2);// tab 2 is the  first
+    initTab(0);// tab 2 is the  first
 });
 /*Initialize all the commponets. All the 3 main forms of the have the same format
 */
@@ -69,7 +70,7 @@ function initTab(tabIndex) {
         initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
 
         addTabEvents(tabIndex);
-        addPopoverEvents(tabIndex);
+        addPopoverEvents();
         addOnMouseOverEvents();
         tabInitialized[tabIndex]=true;
     }
@@ -167,16 +168,17 @@ function initMultiSelect(container, tftList, listClass) {
 // ________________________________________________________________
 // |-------------------------SEARCH------ -------------------------|
 // ````````````````````````````````````````````````````````````````
-function ajaxSearch(url, rowNum, callback) {
+function ajaxSearch(url, rowNum, callback, tabIndex) {
     if (DEBUG) {
         console.log("AJAX searching!");
-        console.log($('#tft-search-form-2').serialize())
+        console.log($('#tft-search-form-'+tabIndex).serialize())
+        console.log(tabIndex);
     }
-    $('#id_transcription_factor').val(writeJSON('family-member'));
-    $('#id_expt_type').val(writeJSON('expt-types2'));
-    $('#id_species').val(writeJSON('species2'));
-    $('#id_row_index').val(rowNum);
-    $.post(url, $('#tft-search-form-2').serialize(), function (data) {
+    $('#id_transcription_factor_'+tabIndex).val(writeJSON('family-member'));
+    $('#id_expt_type_'+tabIndex).val(writeJSON('expt-types'+tabIndex));
+    $('#id_species_'+tabIndex).val(writeJSON('species'+tabIndex));
+    $('#id_row_index_'+tabIndex).val(rowNum);
+    $.post(url, $('#tft-search-form-'+tabIndex).serialize(), function (data) {
         if (DEBUG) {
             console.log("AJAX searched");
             console.log(data);
@@ -185,43 +187,45 @@ function ajaxSearch(url, rowNum, callback) {
     }, 'json');
 }
 
-function updatePage (url, rowNum, resetPagination) {
+function updatePage (url, rowNum, resetPagination, tabIndex) {
     if (DEBUG) {
         console.log('Called updatePage');
+        console.log(tabIndex);
     }
     function createTable(data) {
         //clear the search result for ready for next search result
-        $('#search-results').children().remove();
+        $('#search-results-'+tab_num).children().remove();
         //create a table here
         var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
         var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
         var tbody = $('<tbody></tbody>');
 
+        var tab_num = data['tab_num'];
         var rows = data["num_results"];
         var results = data["results"];
         //differantiate searching by clicking page number of submit btn.
         //Submit btn should reset the page numbers shown starting from 1
         if (resetPagination==true) {
-            paginate('#tft-page-container-top-2', 1, rows);
-            paginate('#tft-page-container-bottom-2', 1, rows);
+            paginate('#tft-page-container-top-'+tab_num, 1, rows);
+            paginate('#tft-page-container-bottom-'+tab_num, 1, rows);
         }
         //Make sure we print the heading when the results returns values
-        $('#tft-results-number-top-2').text(results.length + " results of " + rows);
-        $('#tft-results-number-bottom-2').text(results.length + " results of " + rows);
+        $('#tft-results-number-top-'+tab_num).text(results.length + " results of " + rows);
+        $('#tft-results-number-bottom-'+tab_num).text(results.length + " results of " + rows);
         if (results.length > 0){
-            $('#tft-result-container-2').show();
+            $('#tft-result-container-'+tab_num).show();
             printTHead(thead);
             for (var i = 0; i < results.length; i++) {
                 printTBody(tbody, results[i], i+1);
             }
             table.append(thead);
             table.append(tbody);
-            $('#search-results').append(table);
+            $('#search-results-'+tab_num).append(table);
         } else {
-            $('#tft-result-container-2').hide();
+            $('#tft-result-container-'+tab_num).hide();
         }
     }
-    ajaxSearch(url, rowNum, createTable);
+    ajaxSearch(url, rowNum, createTable, tabIndex);
 }
 
 function downloadDB(e) {
@@ -230,15 +234,11 @@ function downloadDB(e) {
         if (DEBUG) {
             console.log("Opening download file dialog.");
         }
-       
-      //  $("#dialog").dialog("open");
+
         $("#tft-download-status").text("Download Ready");
         $("#tft-download-progress").hide();
         $("#tft-download-link").show();
-        $("#tft-download-link").attr("href", "http://127.0.0.1:8000/" + data['url']);
-       // $("#tft-download-bar").dialog("open");
-        //alert('Your file can be downloaded from <a href="http://d.embolalia.net/' +
-        //      data["url"] + '">here</a>')
+        $("#tft-download-link").attr("href", data['url']);
     });
 }
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
@@ -277,7 +277,7 @@ function paginate(containerId, start, results) {
 
     $pagesContainer.append($pageList);
     $(containerId).append($pagesContainer);
-    addPageClickEvent();
+    addPageClickEvent( $('.tab-pane.active').index());
 }
 
 
@@ -388,73 +388,72 @@ function addTabEvents (tabIndex) {
     $('.tft-family-dropdown-menu').click(function (e) {
         e.stopPropagation();
     });
-    addToggleEvents();
-    addEventHandlers();
+    addToggleEvents(tabIndex);
+    addEventHandlers(tabIndex);
 }
-function addToggleEvents() {
+function addToggleEvents(tabIndex) {
     $(".tft-family-toggle").each(function () {
         $(this).click (function() {
             $($(this).attr('data-target')).collapse("toggle");
         });
     });
 }
-//function 
-//fooo='p';
-function addOnMouseOverEvents() {
-    $("#tft-family-dropdown-toggle-2").mouseover(function(){
+function addOnMouseOverEvents(tabIndex) {
+    $("#tft-family-dropdown-toggle-"+tabIndex).mouseover(function(){
        // fooo=(writeJSON('family-member'));
-        $("#tft-popover-tf-inner-2").text(writeJSON('family-member'));
+        $("#tft-popover-tf-inner-"+tabIndex).text(writeJSON('family-member'));
     });
 }
 function addPopoverEvents(tabIndex) {
-    $('#tft-family-dropdown-toggle-2').popover({ 
+    $('#tft-family-dropdown-toggle-'+tabIndex).popover({ 
         trigger :'hover',
         title :'Selected Transcription Factor(s)',
         placement :'right',
         html : true,
         content: function() {
-            return $('#tft-popover-tf-2').html();
+            return $('#tft-popover-tf-'+tabIndex).html();
         }
   });
 }
-function addPageClickEvent() {
+function addPageClickEvent(tabIndex) {
     $('.tft-page-btn').click(function () {
         var pageVal = $(this).attr('tft-page');
         if (pageVal=="Prev") {
             var startIndex=parseInt($(this).attr('tft-start-index'));
             var results=parseInt($(this).attr('tft-results'));
-            paginate('#tft-page-container-top-2', startIndex-1, results);
-            paginate('#tft-page-container-bottom-2', startIndex-1, results);
+            paginate('#tft-page-container-top-'+tabIndex, startIndex-1, results);
+            paginate('#tft-page-container-bottom-'+tabIndex, startIndex-1, results);
         }else if (pageVal=="Next") {
             var startIndex=parseInt($(this).attr('tft-start-index'));
             var results=parseInt($(this).attr('tft-results'));
-            paginate('#tft-page-container-top-2', startIndex+1, results);
-            paginate('#tft-page-container-bottom-2', startIndex+1, results);
+            paginate('#tft-page-container-top-'+tabIndex, startIndex+1, results);
+            paginate('#tft-page-container-bottom-'+tabIndex, startIndex+1, results);
         } else {
             var rowNum = (parseInt(pageVal) - 1) * RESULTS_PER_PAGE;
             $(this).addClass('active');
-            updatePage('/', rowNum, false);
+            updatePage('/', rowNum, false,  $('.tab-pane.active').index());
         }
     });
 }
-function addEventHandlers() {
+function addEventHandlers(tabIndex) {
     $('.input-text').keypress(function (e) {
         if (e.which == 13) {
             if (DEBUG) {
                 console.log('enter pressed');
             }
-            updatePage('/', 0, true);//start at row 1
+            updatePage('/', 0, true, tabIndex);//start at row 1
             //whenever someone presses enters, page 1 will be activated
             //resetPage(); will implement this
         }
     });
     //$('.input-select').change(updatePage(1));
-    $('#tft-summary-btn-2').click(function (){
-        $('#tft-summary-form-2').modal('show');
+    $('#tft-summary-btn-'+tabIndex).click(function (){
+        $('#tft-summary-form-'+tabIndex).modal('show');
         searchSummary();
     });
-    $('#tft-search-btn-2').click(function() {
-        updatePage('/', 0, true);
+
+    $('#tft-search-btn-'+tabIndex).click(function() {
+        updatePage('/'+SEARCH_URL[tabIndex], 0, true, tabIndex);
     });
 
     $('.tft-family-select').click(function() {
@@ -486,9 +485,9 @@ function addEventHandlers() {
         //choose the selected index
         initTab($('.tab-pane.active').index());
     })
-    $('#tft-result-container-2').hide();
+    $('#tft-result-container-'+tabIndex).hide();
     $('#tft-download-bar').hide();
-    //  $('#tft-summary-form-2').modal();
+    //  $('#tft-summary-form-'+tabIndex).modal();
     //  $('#tft-home-tab a[href="#download-database"]').click();
         /* $('.family-member').click(function() {
        // console.log('im a clicked member');
@@ -499,11 +498,11 @@ function addEventHandlers() {
              }
          });
     });*/
- 
+
     $('.dropdown-toggle').dropdown();
     $('.download-option').click(function(e) {
         $("#tft-download-bar").show();
-        $("#tft-download-status").text("Processing CSV ..");
+        $("#tft-download-status").text("Processing CSV ...");
         $("#tft-download-link").hide();
         $("#tft-download-progress").show();
         downloadDB(e);

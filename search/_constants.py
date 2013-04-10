@@ -74,6 +74,7 @@ TRANSCRIPTION_FACTORS = {
     'e2f5': 'E2F5',
     'e2f6': 'E2F6',
     'e2f7': 'E2F7',
+    'e2f8': 'E2F8',
 
     #FOX
     'foxa': 'FOXA',
