@@ -328,8 +328,24 @@ function searchSummary() {
         $summary.append($dl);
     }
 }
-
-
+function updateTranscriptionSummary(id, tabIndex) {
+    $(id).children().remove();
+    console.log(id);
+    var noSummary = true;
+    $('.family-member:checked').each(function() {
+        var factor = $(this).attr('value');
+        $(id).append($('<li/>')
+                     .append($('<ul/>')
+                             .addClass('inline tft-summary-item-container')
+                             .append($('<li/>')
+                                     .addClass('tft-summary-item-name')
+                                     .text(factor))
+                             .append($('<li/>')
+                                     .append($('<a/>')
+                                             .addClass('tft-summary-item-remove')
+                                             .text('X')))));
+    });
+}
 // ________________________________________________________________
 // |-------------------------RESULTS-------------------------------|
 // ````````````````````````````````````````````````````````````````
@@ -457,6 +473,7 @@ function addEventHandlers(tabIndex) {
     });
 
     $('.tft-family-select').click(function() {
+       
         $($(this).attr('tft-parent-id')).collapse('show');
         if($(this).is(':checked')==true){
             $('.'+$(this).attr('id')).each(function(){
@@ -467,7 +484,9 @@ function addEventHandlers(tabIndex) {
                 this.checked = false;
             });
         }
+        updateTranscriptionSummary('#tft-tf-summary-'+tabIndex, tabIndex);
     });
+   // updateTranscriptionSummary
     $('.tft-search-select-all').click(function() {
         if($(this).is(':checked')==true){
             $('.'+$(this).attr('select-target')).each(function(){
@@ -501,14 +520,14 @@ function addEventHandlers(tabIndex) {
 
     $('.dropdown-toggle').dropdown();
     $('.download-option').click(function(e) {
-        $("#tft-download-bar").show();
+        $("#tft-download-modal").modal('show');
         $("#tft-download-status").text("Processing CSV ...");
         $("#tft-download-link").hide();
         $("#tft-download-progress").show();
         downloadDB(e);
     });
     $("#tft-download-link").click(function () {
-        $("#tft-download-bar").hide();
+        $("#tft-download-modal").modal('hide');
     });
 }
 $(function() {
