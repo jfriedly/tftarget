@@ -151,3 +151,4 @@ TF_CHOICES = [
 SPECIES_CHOICES = ([(EMPTY_STRING, EMPTY_STRING)] +
                    [(s.capitalize(), s.capitalize()) for s in ALL_SPECIES])
 EXPT_CHOICES = [(v, v) for v in EXPT_TYPES.values()]
+TISSUE_CHOICES = [(v, v) for v in ALL_TISSUES.values()]

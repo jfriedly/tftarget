@@ -7,6 +7,7 @@ from django.db.models import Q
 from search.models import Experiment, Gene
 from search.forms import QueryDB_SearchForm, GeneEnrichement_SearchForm, DirectTargets_SearchForm
 from search._constants import (SPECIES_CHOICES,
+                               TISSUE_CHOICES,
                                TF_CHOICES,
                                EXPT_CHOICES,
                                EXPT_WEIGHTS,
@@ -32,7 +33,8 @@ def index(request):
                                    'direct_targets_form': dt_form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
 
 def _search(form):
@@ -76,7 +78,8 @@ def search(request):
                                   {'querydb_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
 
     results, count, row_index = _search(form)
@@ -96,7 +99,8 @@ def direct_search(request):
                                   {'direct_targets_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
     print form.cleaned_data
     #Get a list of genes that matches the query. Figure out their score, and
