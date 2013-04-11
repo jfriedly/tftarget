@@ -66,9 +66,9 @@ $(document).ready(function () {
 function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
         initForm('#tft-search-form-'+tabIndex);
-        initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species'+tabIndex);
-        initMultiSelect('#tft-tissues-dropdown-'+tabIndex, TISSUE_LIST, 'tissues'+tabIndex);
-        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex,EXPT_TYPES_LIST, 'expt-types'+tabIndex);
+        initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species'+tabIndex, '#tft-species-summary-'+tabIndex);
+        initMultiSelect('#tft-tissues-dropdown-'+tabIndex, TISSUE_LIST, 'tissues'+tabIndex, '#tft-tissues-summary-'+tabIndex);
+        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex,EXPT_TYPES_LIST, 'expt-types'+tabIndex, '#tft-expt-types-summary-'+tabIndex);
         initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
 
         addTabEvents(tabIndex);
@@ -142,8 +142,7 @@ function initTFControl(accordionId, trans, tab) {
         }
     }
 }
-
-function initMultiSelect(container, tftList, listClass) {
+function initMultiSelect(container, tftList, listClass, tftSummaryView) {
     //put the select all
     $(container)
         .append($('<li/>')
@@ -151,7 +150,9 @@ function initMultiSelect(container, tftList, listClass) {
                         .text('Select All')
                         .addClass('checkbox')
                         .append($('<input type="checkbox">')
-                                .addClass('tft-search-select-all')
+                                .addClass('tft-search-select-all tft-checkbox')
+                                .attr('tft-summary-target', tftSummaryView)
+                                .attr('tft-list-class', listClass)
                                 .attr('select-target', listClass))));
 
     for (var i=1; i<tftList.length; i++) {
@@ -160,7 +161,9 @@ function initMultiSelect(container, tftList, listClass) {
                     .text(tftList[i][1])
                     .addClass('checkbox')
                     .append($('<input type="checkbox">')
-                            .addClass(listClass)
+                            .addClass('tft-checkbox '+listClass)
+                            .attr('tft-summary-target', tftSummaryView)
+                            .attr('tft-list-class', listClass)
                             .attr('value', tftList[i][1])));
     }
     $(container).click(function (e) {
@@ -348,6 +351,24 @@ function updateTranscriptionSummary(id, tabIndex) {
                                              .text('X')))));
     });
 }
+function updateMultiSelectSummary(id, listId, tabIndex) {
+    $(id).children().remove();
+    console.log(id);
+    var noSummary = true;
+    $('.' + listId + ':checked').each(function() {
+        var factor = $(this).attr('value');
+        $(id).append($('<li/>')
+                     .append($('<ul/>')
+                             .addClass('inline tft-summary-item-container')
+                             .append($('<li/>')
+                                     .addClass('tft-summary-item-name')
+                                     .text(factor))
+                             .append($('<li/>')
+                                     .append($('<a/>')
+                                             .addClass('tft-summary-item-remove')
+                                             .text('X')))));
+    });
+}
 // ________________________________________________________________
 // |-------------------------RESULTS-------------------------------|
 // ````````````````````````````````````````````````````````````````
@@ -475,7 +496,6 @@ function addEventHandlers(tabIndex) {
     });
 
     $('.tft-family-select').click(function() {
-       
         $($(this).attr('tft-parent-id')).collapse('show');
         if($(this).is(':checked')==true){
             $('.'+$(this).attr('id')).each(function(){
@@ -499,7 +519,15 @@ function addEventHandlers(tabIndex) {
                 this.checked = false;
             });
         }
+        updateMultiSelectSummary($(this).attr('tft-summary-target'), 
+                                 $(this).attr('tft-list-class'),
+                                 tabIndex);
     });
+    $('.tft-checkbox').click(function() {
+        updateMultiSelectSummary($(this).attr('tft-summary-target'), 
+                                 $(this).attr('tft-list-class'),
+                                 tabIndex);
+    }); 
     $('#tft-home-tabs a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
