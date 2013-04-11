@@ -24,18 +24,18 @@ class DirectTargetsSearchForm(forms.Form):
     """Search form to be submitted by a user."""
     attrs = {'class': 'direct_targets'}
     hidden_attrs = {'class': 'tft-hidden direct_targets'}
-    transcription_factor_0 = forms.CharField(label="Transcription Factor",
+    transcription_factor = forms.CharField(label="Transcription Factor",
         widget=forms.HiddenInput(attrs=hidden_attrs), required=False)
-    species_0 = forms.CharField(label="Species",
+    species = forms.CharField(label="Species",
         widget=forms.HiddenInput(attrs=hidden_attrs), required=False)
-    expt_tissues_0 = forms.CharField(label="Organ",
+    expt_tissues = forms.CharField(label="Organ",
         widget=forms.HiddenInput(attrs=hidden_attrs), required=False)
-    row_index_0 = forms.CharField(label="Row Index",
+    row_index = forms.CharField(label="Row Index",
         widget=forms.HiddenInput(attrs=attrs), required=False)
 
 
 class EnrichmentAnalysisSearchForm(forms.Form):
     """Search form to be submitted by a user."""
-    text_attrs = {'class': 'input-text enrichment_analysis'}
+    attrs = {'class': 'enrichment_analysis'}
     gene_list = forms.CharField(label="Gene List",
-        widget=forms.Textarea(attrs=text_attrs), required=False)
+        widget=forms.Textarea(attrs=attrs), required=True)

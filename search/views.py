@@ -4,7 +4,6 @@ from django.shortcuts import render_to_response, render
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 
-
 from search.models import Experiment, Gene
 from search.forms import QueryDBSearchForm, EnrichmentAnalysisSearchForm, DirectTargetsSearchForm
 from search._constants import (SPECIES_CHOICES,
@@ -19,7 +18,6 @@ from search._constants import (SPECIES_CHOICES,
 
 import settings
 
-
 import os
 import operator
 import random
@@ -33,7 +31,7 @@ def index(request):
     qdb_form = QueryDBSearchForm()
     return render_to_response("search.html",
                                   {'querydb_form': qdb_form,
-                                   'ea_from': ea_form,
+                                   'ea_form': ea_form,
                                    'direct_targets_form': dt_form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
@@ -99,7 +97,6 @@ def direct_search(request):
     we return a ranked list of genes.
     """
     form = DirectTargetsSearchForm(request.POST or None)
-    print form
     if not form.is_valid():
         return render_to_response("search.html",
                                   {'direct_targets_form': form,
@@ -162,10 +159,17 @@ def direct_search(request):
     return HttpResponse(json.dumps(serialized))
 
 
+def enrichement_analysis(request):
+    form = EnrichmentAnalysisSearchForm(request.POST or None)
+    if not form.is_valed():
+        return HttpResponse('Invalid form %s.' % form.errors)
+    return HttpResponse('Not implemented!')
+
+
+
 @csrf_exempt
 def download(request, size):
     form = QueryDBSearchForm(request.POST or None)
-    print form
     if not form.is_valid():
         return HttpResponse('Invalid form %s.' % form.errors)
     results, count, row_index = _search(form)

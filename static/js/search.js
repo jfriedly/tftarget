@@ -1,5 +1,5 @@
 /**
-   This is a collection of JavaScript functions.
+0   This is a collection of JavaScript functions.
    @authors - Djenome Team - Tremayne Mushayahama, Joel Friedly, Grant Michalski, Edward Powell
    @primary author - Tremayne Mushayahama
    @date 2/7/2013
@@ -529,8 +529,8 @@ function addEventHandlers(tabIndex) {
     $('.tft-tf-checkbox').click(function() {
         updateTranscriptionSummary($(this).attr('tft-summary-target'),'tf'+tabIndex, tabIndex)
     });
-   
-    
+
+
    // updateTranscriptionSummary
     $('.tft-search-select-all').click(function() {
         if($(this).is(':checked')==true){
