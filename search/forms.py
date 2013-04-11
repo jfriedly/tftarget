@@ -9,7 +9,7 @@ class QueryDB_SearchForm(forms.Form):
         widget=forms.HiddenInput(attrs={'class': 'tft-hidden input input-text'}),
         required=False)
     gene_2 = forms.CharField(label="Gene",
-        widget=forms.TextInput(attrs={'class': 'input input-text'}),
+        widget=forms.TextInput(attrs={'class': 'input input-text span3'}),
         required=False)
     species_2 = forms.CharField(label="Species",
         widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
@@ -18,7 +18,7 @@ class QueryDB_SearchForm(forms.Form):
         widget=forms.HiddenInput(attrs={'class': 'input input-select'}),
         required=False)
     expt_tissues_2 = forms.CharField(label="Organ",
-        widget=forms.TextInput(attrs={'class': 'input input-text'}),
+        widget=forms.HiddenInput(attrs={'class': 'input input-text'}),
         required=False)
     row_index_2 = forms.CharField(label="Row Index",
         widget=forms.HiddenInput(),

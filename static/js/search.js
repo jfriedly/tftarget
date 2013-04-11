@@ -22,7 +22,7 @@ var SEARCH_URL = ["direct_targets", "enrichment_analysis", "query_db"];
 var RESULTS_PER_PAGE = 100;
 var PAGINATION_NEXT = 'Next';
 var PAGINATION_PREV = 'Prev';
-var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST;
+var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST, TISSUE_LIST;
 /**
    Used to order the column of the table. The purpose of the multidimensional array is to
    map from DB name to Human readable format
@@ -57,6 +57,7 @@ $(document).ready(function () {
     $.ajaxSetup({traditional: true});
     TF_LIST = $.parseJSON($('#tf-choices').html())
     SPECIES_LIST = $.parseJSON($('#tft-species').html());
+    TISSUE_LIST = $.parseJSON($('#tft-tissue-choices').html());
     EXPT_TYPES_LIST = $.parseJSON($('#tft-expt-types').html())
     initTab(0);// tab 2 is the  first
 });
@@ -66,6 +67,7 @@ function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
         initForm('#tft-search-form-'+tabIndex);
         initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species'+tabIndex);
+        initMultiSelect('#tft-tissues-dropdown-'+tabIndex, TISSUE_LIST, 'tissues'+tabIndex);
         initMultiSelect('#tft-expt-types-dropdown-'+tabIndex,EXPT_TYPES_LIST, 'expt-types'+tabIndex);
         initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
 

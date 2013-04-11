@@ -14,39 +14,51 @@
       <legend class="tft-legend">Direct Target Database Search</legend>
       <form id="tft-search-form-0" class="form-horizontal row">
         <label>Transcription Factor</label>
-        <div class="controls">
+        <div class="controls tft-controls">
           <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-0" data-target="#" class="tft-white-btn dropdown-toggle " role="button" data-toggle="dropdown">
-              Selected [0 of 40]
+            <a id="tft-family-dropdown-toggle-0" data-target="#" class="tft-white-btn btn-block dropdown-toggle " role="button" data-toggle="dropdown">
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu tft-family-dropdown-menu ">
               <li>
-                <div id="tft-family-accordion-0" class="accordion tft-dropdown-container">
+                <div id="tft-family-accordion-0" class="accordion tft-dropdown-container span3">
                 </div>
               </li>
             </ul>
           </div> <!-- dropdown -->
+          <ul id="tft-tf-summary-0" class="nav inline tft-summary">
+          </ul>
         </div>
-         {% csrf_token %}
+        {% csrf_token %}
         {{ direct_targets_form }}
-        <label>Species</label>
+         <label>Species</label>
         <div class="controls">
           <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-0" data-target="#" class="tft-white-btn dropdown-toggle" role="button" data-toggle="dropdown">
-              Selected [0 of 20]
+            <a id="tft-family-dropdown-toggle-0" data-target="#" class="tft-white-btn btn-block dropdown-toggle" role="button" data-toggle="dropdown">
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu ">
               <li>
-                <div id="tft-species-dropdown-0" class="accordion tft-dropdown-container">
+                <div id="tft-species-dropdown-0" class="accordion tft-dropdown-container span3">
                 </div>
               </li>
             </ul>
           </div> <!-- dropdown -->
         </div>
-        <label>Organ</label>
-        <input class="input input-text" type="text">
+        <label>Organs</label>
+        <div class="controls">
+          <div class="dropdown">
+            <a data-target="#" class="tft-white-btn btn-block dropdown-toggle" role="button" data-toggle="dropdown">
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <div id="tft-tissues-dropdown-0" class="accordion tft-dropdown-container span3">
+                </div>
+              </li>
+            </ul>
+          </div> <!-- dropdown -->
+        </div>
       </form>
       <div class ="form-actions tft-red-bottom-1">
         <button type="submit" id="tft-search-btn-0" data-loading-text="Loading..." class="btn">Submit</button>
@@ -144,20 +156,17 @@
       </div>
     </div> <!-- tab-header -->
     <div class="row tft-form-container">
-
       <legend class="tft-legend">Query Database Search</legend>
       <form id="tft-search-form-2" class="form-horizontal row">
-        <label>Transcription Factor</label>
-        
-        <div class="controls tft-controls">
-         
+        <label>Transcription Factor</label>  
+        <div class="controls tft-controls"> 
           <div class="dropdown">
             <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn btn-block dropdown-toggle " role="button" data-toggle="dropdown">
               <b class="caret"></b>
             </a>
-            <ul class="dropdown-menu tft-family-dropdown-menu ">
+            <ul class="dropdown-menu tft-family-dropdown-menu">
               <li>
-                <div id="tft-family-accordion-2" class="accordion tft-dropdown-container">
+                <div id="tft-family-accordion-2" class="nav nav-stacked accordion tft-dropdown-container span3">
                 </div>
               </li>
             </ul>
@@ -167,16 +176,29 @@
         </div>
         {% csrf_token %}
         {{ querydb_form }}
-        <label>Species</label>
+        <label>Organs</label>
         <div class="controls">
           <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn dropdown-toggle" role="button" data-toggle="dropdown">
-              Selected [0 of 20]
+            <a data-target="#" class="tft-white-btn btn-block dropdown-toggle" role="button" data-toggle="dropdown">
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu ">
               <li>
-                <div id="tft-species-dropdown-2" class="accordion tft-dropdown-container">
+                <div id="tft-tissues-dropdown-2" class="accordion tft-dropdown-container span3">
+                </div>
+              </li>
+            </ul>
+          </div> <!-- dropdown -->
+        </div>
+        <label>Species</label>
+        <div class="controls">
+          <div class="dropdown">
+            <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn btn-block dropdown-toggle" role="button" data-toggle="dropdown">
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <div id="tft-species-dropdown-2" class="accordion tft-dropdown-container span3">
                 </div>
               </li>
             </ul>
@@ -185,13 +207,12 @@
         <label>Experiment Type</label>
         <div class="controls">
           <div class="dropdown">
-            <a id="tft-family-dropdown-toggle-2" data-target="#" class="tft-white-btn dropdown-toggle " role="button" data-toggle="dropdown">
-              Selected [0 of 6]
+            <a data-target="#" class="tft-white-btn btn-block dropdown-toggle " role="button" data-toggle="dropdown">
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu ">
               <li>
-                <div id="tft-expt-types-dropdown-2" class="accordion tft-dropdown-container">
+                <div id="tft-expt-types-dropdown-2" class="accordion tft-dropdown-container span3">
                 </div>
               </li>
             </ul>
