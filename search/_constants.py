@@ -113,3 +113,6 @@ TF_CHOICES = [
 SPECIES_CHOICES = ([(EMPTY_STRING, EMPTY_STRING)] +
                    [(s.capitalize(), s.capitalize()) for s in ALL_SPECIES])
 EXPT_CHOICES = [(v, v) for v in EXPT_TYPES.values()]
+# .sort() doesn't have a return value, so this actually sorts the lists
+[sublist.sort() for sublist in TF_CHOICES]
+EXPT_CHOICES.sort(key=lambda x: x[0])

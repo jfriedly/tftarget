@@ -6,7 +6,10 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'search.views.index', name='home'),
-    url(r'^direct_targets', 'search.views.direct_search', name='direct_search'),
+    url(r'^direct_targets', 'search.views.direct_search',
+        name='direct_search'),
+    url(r'^enrichment_analysis', 'search.views.enrichment_analysis',
+        name='enrichment_analysis'),
     url(r'^query_db', 'search.views.search', name='search'),
     url(r'^download/(?P<size>(all|page))',
         'search.views.download', name='download'),

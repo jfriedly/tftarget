@@ -5,20 +5,18 @@
    @date 2/7/2013
 */
 
-//TODO(jfriedly):  Add a spinner when a user clicks on 'Download all pages'.
-//TODO(jfriedly):  Figure out why the link to download a CSV isn't in blue and fix it.
-//TODO(jfriedly):  Make the download window close when you click the link.
+//FIXME(jfriedly): global variables sucks.
 
 // ________________________________________________________________
 // |-------------------------CONSTANTS ----------------------------|
 // `````````````````````````````````````````````````````````````````
 
 var DEBUG = true;
+var TAB_NAMES = ["direct_targets", "enrichment_analysis", "query_db"];
 /** Search results displayed on one page. The lower the number the
     faster the load time. Preferred results is in the
     range 50 <= RESULTS_PER_PAGE <= 500
 */
-var SEARCH_URL = ["direct_targets", "enrichment_analysis", "query_db"];
 var RESULTS_PER_PAGE = 100;
 var PAGINATION_NEXT = 'Next';
 var PAGINATION_PREV = 'Prev';
@@ -58,15 +56,15 @@ $(document).ready(function () {
     TF_LIST = $.parseJSON($('#tf-choices').html())
     SPECIES_LIST = $.parseJSON($('#tft-species').html());
     EXPT_TYPES_LIST = $.parseJSON($('#tft-expt-types').html())
-    initTab(0);// tab 2 is the  first
+    initTab(0);// tab 0 is the  first
 });
 /*Initialize all the commponets. All the 3 main forms of the have the same format
 */
 function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
         initForm('#tft-search-form-'+tabIndex);
-        initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species'+tabIndex);
-        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex,EXPT_TYPES_LIST, 'expt-types'+tabIndex);
+        initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species-'+TAB_NAMES[tabIndex]);
+        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, EXPT_TYPES_LIST, 'expt-types-'+TAB_NAMES[tabIndex]);
         initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
 
         addTabEvents(tabIndex);
@@ -101,15 +99,15 @@ function initForm (formId) {
 */
 function initTFControl(accordionId, trans, tab) {
     for (var i = 0; i<trans.length; i++) {
-        var familyId = trans[i][0]+tab;
+        var familyId = trans[i][0]+'-'+TAB_NAMES[tab];
         var $inner = $('<div/>');
-        
+
         $(accordionId)
             .append($("<div/>")
                     .append($('<div/>') //Transcription Family Heading
                             .addClass('accordion-heading tft-family-heading')
                             .append($('<a/>')
-                                    .addClass ('tft-white-btn accordion-toggle tft-family-toggle')  
+                                    .addClass ('tft-white-btn accordion-toggle tft-family-toggle')
                                     .attr('data-toggle', 'collapse')
                                     .attr('data-parent', accordionId)
                                     .attr('data-target', '#collapse'+familyId)
@@ -124,7 +122,7 @@ function initTFControl(accordionId, trans, tab) {
                                      .addClass('accordion-body collapse tft-accordion-container')
                                      .attr('id', 'collapse'+familyId)
                                      .append($inner))));
-        
+
         for (var j= 1; j< trans[i].length; j++) {
             $inner
                 .addClass('accordion-inner ')
@@ -133,10 +131,10 @@ function initTFControl(accordionId, trans, tab) {
                                 .addClass('checkbox')
                                 .text(trans[i][j])
                                 .append($('<input type="checkbox">')
-                                        .addClass('family-member '+familyId) 
+                                        .addClass('family-member '+familyId)
                                         .attr('my-parent', familyId)
                                         .attr('value', trans[i][j]))));
-            
+
         }
     }
 }
@@ -171,13 +169,15 @@ function initMultiSelect(container, tftList, listClass) {
 function ajaxSearch(url, rowNum, callback, tabIndex) {
     if (DEBUG) {
         console.log("AJAX searching!");
-        console.log($('#tft-search-form-'+tabIndex).serialize())
-        console.log(tabIndex);
+        console.log("Tab index: " + tabIndex + " (" + TAB_NAMES[tabIndex] + ")");
     }
-    $('#id_transcription_factor_'+tabIndex).val(writeJSON('family-member'));
-    $('#id_expt_type_'+tabIndex).val(writeJSON('expt-types'+tabIndex));
-    $('#id_species_'+tabIndex).val(writeJSON('species'+tabIndex));
-    $('#id_row_index_'+tabIndex).val(rowNum);
+    $('#id_transcription_factor').val(writeJSON('family-member'));
+    $('#id_expt_type').val(writeJSON('expt-types-'+TAB_NAMES[tabIndex]));
+    $('#id_species').val(writeJSON('species-'+TAB_NAMES[tabIndex]));
+    $('#id_row_index').val(rowNum);
+    if (DEBUG) {
+        console.log($('#tft-search-form-'+tabIndex).serialize())
+    }
     $.post(url, $('#tft-search-form-'+tabIndex).serialize(), function (data) {
         if (DEBUG) {
             console.log("AJAX searched");
@@ -190,46 +190,47 @@ function ajaxSearch(url, rowNum, callback, tabIndex) {
 function updatePage (url, rowNum, resetPagination, tabIndex) {
     if (DEBUG) {
         console.log('Called updatePage');
-        console.log(tabIndex);
+        console.log("Tab index: " + tabIndex + " (" + TAB_NAMES[tabIndex] + ")");
     }
     function createTable(data) {
+        if (DEBUG) {
+            console.log('Called createTable');
+        }
         //clear the search result for ready for next search result
-        $('#search-results-'+tab_num).children().remove();
+        $('#search-results-'+tabIndex).children().remove();
         //create a table here
         var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
         var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
         var tbody = $('<tbody></tbody>');
 
-        var tab_num = data['tab_num'];
         var rows = data["num_results"];
         var results = data["results"];
         //differantiate searching by clicking page number of submit btn.
         //Submit btn should reset the page numbers shown starting from 1
         if (resetPagination==true) {
-            paginate('#tft-page-container-top-'+tab_num, 1, rows);
-            paginate('#tft-page-container-bottom-'+tab_num, 1, rows);
+            paginate('#tft-page-container-top-'+tabIndex, 1, rows);
+            paginate('#tft-page-container-bottom-'+tabIndex, 1, rows);
         }
         //Make sure we print the heading when the results returns values
-        $('#tft-results-number-top-'+tab_num).text(results.length + " results of " + rows);
-        $('#tft-results-number-bottom-'+tab_num).text(results.length + " results of " + rows);
+        $('#tft-results-number-top-'+tabIndex).text(results.length + " results of " + rows);
+        $('#tft-results-number-bottom-'+tabIndex).text(results.length + " results of " + rows);
         if (results.length > 0){
-            $('#tft-result-container-'+tab_num).show();
+            $('#tft-result-container-'+tabIndex).show();
             printTHead(thead);
             for (var i = 0; i < results.length; i++) {
                 printTBody(tbody, results[i], i+1);
             }
             table.append(thead);
             table.append(tbody);
-            $('#search-results-'+tab_num).append(table);
+            $('#search-results-'+tabIndex).append(table);
         } else {
-            $('#tft-result-container-'+tab_num).hide();
+            $('#tft-result-container-'+tabIndex).hide();
         }
     }
     ajaxSearch(url, rowNum, createTable, tabIndex);
 }
 
 function downloadDB(e) {
-    e.preventDefault();
     ajaxSearch(e.target.href, 0, function (data) {
         if (DEBUG) {
             console.log("Opening download file dialog.");
@@ -239,7 +240,7 @@ function downloadDB(e) {
         $("#tft-download-progress").hide();
         $("#tft-download-link").show();
         $("#tft-download-link").attr("href", data['url']);
-    });
+    }, 2);
 }
 /*Creates the page numbers. i.e. |Prev|3|4|5|Next
  * @params start The first page index to the left.
@@ -431,17 +432,20 @@ function addPageClickEvent(tabIndex) {
         } else {
             var rowNum = (parseInt(pageVal) - 1) * RESULTS_PER_PAGE;
             $(this).addClass('active');
-            updatePage('/', rowNum, false,  $('.tab-pane.active').index());
+            updatePage('/'+TAB_NAMES[tabIndex], rowNum, false,  $('.tab-pane.active').index());
         }
     });
 }
 function addEventHandlers(tabIndex) {
-    $('.input-text').keypress(function (e) {
+    //FIXME(jfriedly): We bind this event handler every time we initialize a
+    //tab, so if a user looks at two tabs and then searches by pressing enter,
+    //an AJAX request for each tab is made.
+    $('.input-text.' + TAB_NAMES[tabIndex]).keypress(function (e) {
         if (e.which == 13) {
             if (DEBUG) {
                 console.log('enter pressed');
             }
-            updatePage('/', 0, true, tabIndex);//start at row 1
+            updatePage('/'+TAB_NAMES[tabIndex], 0, true, tabIndex);//start at row 1
             //whenever someone presses enters, page 1 will be activated
             //resetPage(); will implement this
         }
@@ -453,7 +457,7 @@ function addEventHandlers(tabIndex) {
     });
 
     $('#tft-search-btn-'+tabIndex).click(function() {
-        updatePage('/'+SEARCH_URL[tabIndex], 0, true, tabIndex);
+        updatePage('/'+TAB_NAMES[tabIndex], 0, true, tabIndex);
     });
 
     $('.tft-family-select').click(function() {
@@ -499,14 +503,22 @@ function addEventHandlers(tabIndex) {
          });
     });*/
 
-    $('.dropdown-toggle').dropdown();
-    $('.download-option').click(function(e) {
+
+    var downloadOptionClick = function(e) {
+        if (DEBUG) {
+            console.log('A download option was clicked');
+        }
+        e.preventDefault()
         $("#tft-download-bar").show();
         $("#tft-download-status").text("Processing CSV ...");
         $("#tft-download-link").hide();
         $("#tft-download-progress").show();
         downloadDB(e);
-    });
+    }
+
+    $('.dropdown-toggle').dropdown();
+    $('.download-option').unbind();
+    $('.download-option').bind('click', downloadOptionClick);
     $("#tft-download-link").click(function () {
         $("#tft-download-bar").hide();
     });

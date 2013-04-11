@@ -123,11 +123,11 @@
       </div>
     </div> <!-- tab-header -->
     <div class="row tft-form-container">
-      
+
       <legend class="tft-legend">Direct Target Database Search</legend>
       <form id="tft-search-form-1" class="form-horizontal row">
-        <label>List of Genes</label>
-        <textarea id="tft-genelist" class="lined span4" rows="10"></textarea>
+        {{ ea_form }}
+        {% csrf_token %}
       </form>
       <div class ="form-actions tft-red-bottom-1">
         <button type="submit" id="tft-search-btn-1" data-loading-text="Loading..." class="btn">Submit</button>

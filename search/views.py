@@ -2,10 +2,11 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 
 
 from search.models import Experiment, Gene
-from search.forms import QueryDB_SearchForm, GeneEnrichement_SearchForm, DirectTargets_SearchForm
+from search.forms import QueryDBSearchForm, EnrichmentAnalysisSearchForm, DirectTargetsSearchForm
 from search._constants import (SPECIES_CHOICES,
                                TF_CHOICES,
                                EXPT_CHOICES,
@@ -24,32 +25,37 @@ import random
 import json
 import tablib
 
+
 def index(request):
-    qdb_form = QueryDB_SearchForm()
-    dt_form = DirectTargets_SearchForm()
+    dt_form = DirectTargetsSearchForm()
+    ea_form = EnrichmentAnalysisSearchForm()
+    qdb_form = QueryDBSearchForm()
     return render_to_response("search.html",
                                   {'querydb_form': qdb_form,
+                                   'ea_from': ea_form,
                                    'direct_targets_form': dt_form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
                                    'tft_expt_types':json.dumps(EXPT_CHOICES)},
                                   context_instance=RequestContext(request))
 
+
 def _search(form):
     results = Experiment.objects.filter(active=True)
-    row_index = int(form.cleaned_data.pop('row_index_2'))
+    print form.cleaned_data
+    row_index = int(form.cleaned_data.pop('row_index'))
     species = None
-    if form.cleaned_data['transcription_factor_2']:
-        tfs = json.loads(form.cleaned_data.pop('transcription_factor_2'))
+    if form.cleaned_data['transcription_factor']:
+        tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
         results = results.filter(transcription_factor__in=tfs)
-    if form.cleaned_data['expt_type_2']:
-        expts = json.loads(form.cleaned_data.pop('expt_type_2'))
+    if form.cleaned_data['expt_type']:
+        expts = json.loads(form.cleaned_data.pop('expt_type'))
         results = results.filter(expt_type__in=expts)
-    if form.cleaned_data['species_2']:
-        species = json.loads(form.cleaned_data.pop('species_2'))
+    if form.cleaned_data['species']:
+        species = json.loads(form.cleaned_data.pop('species'))
         results = results.filter(species__in=species)
-    if form.cleaned_data['gene_2']:
-        gene = form.cleaned_data.pop('gene_2')
+    if form.cleaned_data['gene']:
+        gene = form.cleaned_data.pop('gene')
         if species is not None:
             fnames = [s.lower() for s in species]
         else:
@@ -70,7 +76,7 @@ def _search(form):
 
 def search(request):
     """Search through the experiments for a search term."""
-    form = QueryDB_SearchForm(request.POST or None)
+    form = QueryDBSearchForm(request.POST or None)
     if not form.is_valid():
         return render_to_response("search.html",
                                   {'querydb_form': form,
@@ -80,7 +86,7 @@ def search(request):
                                   context_instance=RequestContext(request))
 
     results, count, row_index = _search(form)
-    serialized = _serialize_results(results, count, 2, row_index=row_index)
+    serialized = _serialize_results(results, count, row_index=row_index)
     return HttpResponse(json.dumps(serialized))
 
 
@@ -89,7 +95,7 @@ def direct_search(request):
     Perform a direct target search. User selects TFs, species, and organ, and
     we return a ranked list of genes.
     """
-    form = DirectTargets_SearchForm(request.POST or None)
+    form = DirectTargetsSearchForm(request.POST or None)
     print form
     if not form.is_valid():
         return render_to_response("search.html",
@@ -104,14 +110,14 @@ def direct_search(request):
     results = Experiment.objects.all()
     row_index = 0
     species = None
-    if form.cleaned_data['transcription_factor_0']:
-        tfs = json.loads(form.cleaned_data.pop('transcription_factor_0'))
+    if form.cleaned_data['transcription_factor']:
+        tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
         results = results.filter(transcription_factor__in=tfs)
-    if form.cleaned_data['species_0']:
-        species = json.loads(form.cleaned_data.pop('species_0'))
+    if form.cleaned_data['species']:
+        species = json.loads(form.cleaned_data.pop('species'))
         results = results.filter(species__in=species)
-    if form.cleaned_data['expt_tissues_0']:
-        organ = json.loads(form.cleaned_data.pop('expt_tissues_0'))
+    if form.cleaned_data['expt_tissues']:
+        organ = json.loads(form.cleaned_data.pop('expt_tissues'))
         results = results.filter(expt_tissues__in=organ)
     # Map genes to their score (cumulatively)
     genes = {}
@@ -142,18 +148,21 @@ def direct_search(request):
     # Now figure out what order to show them in
     actual_results = sorted(results_to_show, key=lambda r: genes[r.gene])
     #And finally, show them
-    serialized = _serialize_results(actual_results, len(actual_results), 0, None)
+    serialized = _serialize_results(actual_results, len(actual_results),
+                                    tab_num=0, row_index=None)
     return HttpResponse(json.dumps(serialized))
 
 
+@csrf_exempt
 def download(request, size):
-    form = QueryDB_SearchForm(request.POST or None)
+    form = QueryDBSearchForm(request.POST or None)
+    print form
     if not form.is_valid():
         return HttpResponse('Invalid form %s.' % form.errors)
     results, count, row_index = _search(form)
     if size == 'all':
-        serialized_results = _serialize_results(results,
-                                                count, csv=True)['results']
+        serialized_results = _serialize_results(results, count,
+                                                csv=True)['results']
     elif size == 'page':
         serialized_results = _serialize_results(results, count,
                                                 row_index=row_index,
@@ -181,8 +190,12 @@ def _get_filepath(fileid=None):
     filepath = 'tftarget-search-%d.csv' % int(fileid)
     return filepath, fileid
 
-def _serialize_results(results, count, tab_num, row_index=None, csv=False):
-    """Takes the results set and serializes it"""
+def _serialize_results(results, count, tab_num=2, row_index=None, csv=False):
+    """Takes the results set and serializes it
+
+    tab_num refers to the index of the tab that these results are intended for.
+    The tabs are Direct Targets, Enrichment Analysis, and Query DB, in 
+    """
     if row_index is not None:
         results = results[row_index:row_index+100]
     results = [expt.serialize(csv=csv) for expt in results]
