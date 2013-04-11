@@ -69,7 +69,7 @@ function initTab(tabIndex) {
         initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species'+tabIndex, '#tft-species-summary-'+tabIndex);
         initMultiSelect('#tft-tissues-dropdown-'+tabIndex, TISSUE_LIST, 'tissues'+tabIndex, '#tft-tissues-summary-'+tabIndex);
         initMultiSelect('#tft-expt-types-dropdown-'+tabIndex,EXPT_TYPES_LIST, 'expt-types'+tabIndex, '#tft-expt-types-summary-'+tabIndex);
-        initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
+        initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, 'tf'+tabIndex, '#tft-tf-summary-'+tabIndex, tabIndex);
 
         addTabEvents(tabIndex);
         addPopoverEvents();
@@ -101,7 +101,7 @@ function initForm (formId) {
 
 /*Initialize the transcription factor dropdown.
 */
-function initTFControl(accordionId, trans, tab) {
+function initTFControl(accordionId, trans, listClass,  tftSummaryView, tab) {
     for (var i = 0; i<trans.length; i++) {
         var familyId = trans[i][0]+tab;
         var $inner = $('<div/>');
@@ -135,8 +135,9 @@ function initTFControl(accordionId, trans, tab) {
                                 .addClass('checkbox')
                                 .text(trans[i][j])
                                 .append($('<input type="checkbox">')
-                                        .addClass('family-member '+familyId) 
+                                        .addClass('tft-tf-checkbox family-member '+familyId +' '+listClass) 
                                         .attr('my-parent', familyId)
+                                        .attr('tft-summary-target', tftSummaryView)
                                         .attr('value', trans[i][j]))));
             
         }
@@ -179,7 +180,7 @@ function ajaxSearch(url, rowNum, callback, tabIndex) {
         console.log($('#tft-search-form-'+tabIndex).serialize())
         console.log(tabIndex);
     }
-    $('#id_transcription_factor_'+tabIndex).val(writeJSON('family-member'));
+    $('#id_transcription_factor_'+tabIndex).val(writeJSON('tf'+tabIndex));
     $('#id_expt_type_'+tabIndex).val(writeJSON('expt-types'+tabIndex));
     $('#id_species_'+tabIndex).val(writeJSON('species'+tabIndex));
     $('#id_row_index_'+tabIndex).val(rowNum);
@@ -333,11 +334,11 @@ function searchSummary() {
         $summary.append($dl);
     }
 }
-function updateTranscriptionSummary(id, tabIndex) {
+function updateTranscriptionSummary(id, listClass, tabIndex) {
     $(id).children().remove();
     console.log(id);
     var noSummary = true;
-    $('.family-member:checked').each(function() {
+    $('.'+listClass+':checked').each(function() {
         var factor = $(this).attr('value');
         $(id).append($('<li/>')
                      .append($('<ul/>')
@@ -351,11 +352,11 @@ function updateTranscriptionSummary(id, tabIndex) {
                                              .text('X')))));
     });
 }
-function updateMultiSelectSummary(id, listId, tabIndex) {
+function updateMultiSelectSummary(id, listClass, tabIndex) {
     $(id).children().remove();
     console.log(id);
     var noSummary = true;
-    $('.' + listId + ':checked').each(function() {
+    $('.' + listClass + ':checked').each(function() {
         var factor = $(this).attr('value');
         $(id).append($('<li/>')
                      .append($('<ul/>')
@@ -506,8 +507,12 @@ function addEventHandlers(tabIndex) {
                 this.checked = false;
             });
         }
-        updateTranscriptionSummary('#tft-tf-summary-'+tabIndex, tabIndex);
+        updateTranscriptionSummary('#tft-tf-summary-'+tabIndex, 'tf'+tabIndex, tabIndex);
     });
+    $('.tft-tf-checkbox').click(function() {
+        updateTranscriptionSummary($(this).attr('tft-summary-target'),'tf'+tabIndex, tabIndex)
+    });
+    
    // updateTranscriptionSummary
     $('.tft-search-select-all').click(function() {
         if($(this).is(':checked')==true){
