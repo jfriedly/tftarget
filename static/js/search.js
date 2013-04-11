@@ -341,6 +341,7 @@ function updateTranscriptionSummary(id, listClass, tabIndex) {
     $('.'+listClass+':checked').each(function() {
         var factor = $(this).attr('value');
         $(id).append($('<li/>')
+                     .attr('id', 'tft-'+factor+'-container-'+tabIndex)
                      .append($('<ul/>')
                              .addClass('inline tft-summary-item-container')
                              .append($('<li/>')
@@ -349,6 +350,9 @@ function updateTranscriptionSummary(id, listClass, tabIndex) {
                              .append($('<li/>')
                                      .append($('<a/>')
                                              .addClass('tft-summary-item-remove')
+                                             .click(function() {
+                                                 $('#tft-'+factor+'-container-'+tabIndex).remove();
+                                             })
                                              .text('X')))));
     });
 }
@@ -359,6 +363,7 @@ function updateMultiSelectSummary(id, listClass, tabIndex) {
     $('.' + listClass + ':checked').each(function() {
         var factor = $(this).attr('value');
         $(id).append($('<li/>')
+                     .attr('id', 'tft-'+factor+'-container-'+tabIndex)
                      .append($('<ul/>')
                              .addClass('inline tft-summary-item-container')
                              .append($('<li/>')
@@ -367,6 +372,11 @@ function updateMultiSelectSummary(id, listClass, tabIndex) {
                              .append($('<li/>')
                                      .append($('<a/>')
                                              .addClass('tft-summary-item-remove')
+                                             .attr('tft-list-class', listClass)
+                                             .attr('tft-remove-target', '#tft-'+factor+'-container-'+tabIndex)
+                                             .click(function() {
+                                                 $('#tft-'+factor+'-container-'+tabIndex).remove();
+                                             })
                                              .text('X')))));
     });
 }
@@ -514,6 +524,7 @@ function addEventHandlers(tabIndex) {
     $('.tft-tf-checkbox').click(function() {
         updateTranscriptionSummary($(this).attr('tft-summary-target'),'tf'+tabIndex, tabIndex)
     });
+   
     
    // updateTranscriptionSummary
     $('.tft-search-select-all').click(function() {
