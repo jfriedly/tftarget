@@ -3,7 +3,11 @@ import csv
 import re
 import sys
 from copy import deepcopy
-from search._constants import TFS, ALL_SPECIES, IMPORT_COLUMN_ORDER, EXPT_TYPES
+from search._constants import (TFS,
+                               ALL_SPECIES,
+                               IMPORT_COLUMN_ORDER,
+                               EXPT_TYPES,
+                               ALL_TISSUES)
 
 
 from search.models import Experiment, Gene
@@ -114,17 +118,34 @@ class Command(BaseCommand):
         if species == 'monkey':
             species = 'human'
         if species not in ALL_SPECIES:
-            raise DBImportError("Error on line %d: Species %s is not valid."
-                                % (line, species))
+            if len(DELIMITER.split(species)) > 1:
+                raise DBImportError("Error on line %d: Species %s is not valid."
+                                    " You may have put more than one species"
+                                    " in the same cell. This is not supported."
+                                    % (line, species))
+            else:
+                raise DBImportError("Error on line %d: Species %s is not valid."
+                                    % (line, species))
 
+        # Let's just make sure nobody's being clever with genes here.
+        gene = row['gene'][:255]
+        if len(DELIMITER.split(gene)) > 1:
+            raise DBImportError("Error on line %d: There appear to be multiple"
+                                " genes on one row. This is not supported. The"
+                                " given value was %s" % (line, gene))
         #The values here is a bit weird. You're looking for the row where the
         #given gene is in the column of the species, verified above.
-        gene, created = Gene.objects.get_or_create(**{species:
-                                                      row['gene'][:255]})
+        gene, created = Gene.objects.get_or_create(**{species: gene})
         row['gene'] = gene
 
+        # Give an error for multiple PMIDs on a row
+        pmid = row['pmid'][:255].lower() or ''
+        if len(DELIMITER.split(pmid)) > 1:
+            raise DBImportError("Error on line %d: There appear to be multiple"
+                                " PMIDs on one row. This is not supported. The"
+                                " given value was %s" % (line, pmid))
         # Make sure pmid can be made an int, but pass on empty strings.
-        if row['pmid'] and row['pmid'].lower() not in ('na', 'n/a'):
+        if pmid and pmid not in ('na', 'n/a'):
             try:
                 int(row['pmid'])
             except ValueError:
@@ -137,7 +158,12 @@ class Command(BaseCommand):
         if not row['expt_tissues']:
             row['expt_tissues'] = ''
         else:
-            row['expt_tissues'] = row['expt_tissues'][:255].capitalize()
+            organ = row['expt_tissues'][:255].lower().replace(' ', '')
+            if organ not in ALL_TISSUES:
+                raise DBImportError('Error on line %d: Experiment tissue %s '
+                                    'is not valid.' % (line,
+                                                       row['expt_tissues']))
+            row['expt_tissues'] = ALL_TISSUES[organ]
 
         #Validate the rest of the values
         if not row['replicates']:

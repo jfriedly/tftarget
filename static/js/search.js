@@ -20,7 +20,7 @@ var TAB_NAMES = ["direct_targets", "enrichment_analysis", "query_db"];
 var RESULTS_PER_PAGE = 100;
 var PAGINATION_NEXT = 'Next';
 var PAGINATION_PREV = 'Prev';
-var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST;
+var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST, TISSUE_LIST;
 /**
    Used to order the column of the table. The purpose of the multidimensional array is to
    map from DB name to Human readable format
@@ -55,6 +55,7 @@ $(document).ready(function () {
     $.ajaxSetup({traditional: true});
     TF_LIST = $.parseJSON($('#tf-choices').html())
     SPECIES_LIST = $.parseJSON($('#tft-species').html());
+    TISSUE_LIST = $.parseJSON($('#tft-tissue-choices').html());
     EXPT_TYPES_LIST = $.parseJSON($('#tft-expt-types').html())
     initTab(0);// tab 0 is the  first
 });
@@ -63,9 +64,10 @@ $(document).ready(function () {
 function initTab(tabIndex) {
     if (tabInitialized[tabIndex]==false) {
         initForm('#tft-search-form-'+tabIndex);
-        initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species-'+TAB_NAMES[tabIndex]);
-        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, EXPT_TYPES_LIST, 'expt-types-'+TAB_NAMES[tabIndex]);
-        initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, tabIndex);
+        initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species-'+TAB_NAMES[tabIndex], '#tft-species-summary-'+tabIndex);
+        initMultiSelect('#tft-tissues-dropdown-'+tabIndex, TISSUE_LIST, 'tissues-'+TAB_NAMES[tabIndex], '#tft-tissues-summary-'+tabIndex);
+        initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, EXPT_TYPES_LIST, 'expt-types-'+TAB_NAMES[tabIndex], '#tft-expt-types-summary-'+tabIndex);
+        initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, 'tf'+tabIndex, '#tft-tf-summary-'+tabIndex, tabIndex);
 
         addTabEvents(tabIndex);
         addPopoverEvents();
@@ -97,7 +99,7 @@ function initForm (formId) {
 
 /*Initialize the transcription factor dropdown.
 */
-function initTFControl(accordionId, trans, tab) {
+function initTFControl(accordionId, trans, listClass,  tftSummaryView, tab) {
     for (var i = 0; i<trans.length; i++) {
         var familyId = trans[i][0]+'-'+TAB_NAMES[tab];
         var $inner = $('<div/>');
@@ -131,15 +133,15 @@ function initTFControl(accordionId, trans, tab) {
                                 .addClass('checkbox')
                                 .text(trans[i][j])
                                 .append($('<input type="checkbox">')
-                                        .addClass('family-member '+familyId)
+                                        .addClass('tft-tf-checkbox family-member '+familyId +' '+listClass)
                                         .attr('my-parent', familyId)
+                                        .attr('tft-summary-target', tftSummaryView)
                                         .attr('value', trans[i][j]))));
 
         }
     }
 }
-
-function initMultiSelect(container, tftList, listClass) {
+function initMultiSelect(container, tftList, listClass, tftSummaryView) {
     //put the select all
     $(container)
         .append($('<li/>')
@@ -147,7 +149,9 @@ function initMultiSelect(container, tftList, listClass) {
                         .text('Select All')
                         .addClass('checkbox')
                         .append($('<input type="checkbox">')
-                                .addClass('tft-search-select-all')
+                                .addClass('tft-search-select-all tft-checkbox')
+                                .attr('tft-summary-target', tftSummaryView)
+                                .attr('tft-list-class', listClass)
                                 .attr('select-target', listClass))));
 
     for (var i=1; i<tftList.length; i++) {
@@ -156,7 +160,9 @@ function initMultiSelect(container, tftList, listClass) {
                     .text(tftList[i][1])
                     .addClass('checkbox')
                     .append($('<input type="checkbox">')
-                            .addClass(listClass)
+                            .addClass('tft-checkbox '+listClass)
+                            .attr('tft-summary-target', tftSummaryView)
+                            .attr('tft-list-class', listClass)
                             .attr('value', tftList[i][1])));
     }
     $(container).click(function (e) {
@@ -174,6 +180,7 @@ function ajaxSearch(url, rowNum, callback, tabIndex) {
     $('#id_transcription_factor').val(writeJSON('family-member'));
     $('#id_expt_type').val(writeJSON('expt-types-'+TAB_NAMES[tabIndex]));
     $('#id_species').val(writeJSON('species-'+TAB_NAMES[tabIndex]));
+    $('#id_expt_tissues').val(writeJSON('tissues-'+TAB_NAMES[tabIndex]));
     $('#id_row_index').val(rowNum);
     if (DEBUG) {
         console.log($('#tft-search-form-'+tabIndex).serialize())
@@ -329,8 +336,52 @@ function searchSummary() {
         $summary.append($dl);
     }
 }
-
-
+function updateTranscriptionSummary(id, listClass, tabIndex) {
+    $(id).children().remove();
+    console.log(id);
+    var noSummary = true;
+    $('.'+listClass+':checked').each(function() {
+        var factor = $(this).attr('value');
+        $(id).append($('<li/>')
+                     .attr('id', 'tft-'+factor+'-container-'+tabIndex)
+                     .append($('<ul/>')
+                             .addClass('inline tft-summary-item-container')
+                             .append($('<li/>')
+                                     .addClass('tft-summary-item-name')
+                                     .text(factor))
+                             .append($('<li/>')
+                                     .append($('<a/>')
+                                             .addClass('tft-summary-item-remove')
+                                             .click(function() {
+                                                 $('#tft-'+factor+'-container-'+tabIndex).remove();
+                                             })
+                                             .text('X')))));
+    });
+}
+function updateMultiSelectSummary(id, listClass, tabIndex) {
+    $(id).children().remove();
+    console.log(id);
+    var noSummary = true;
+    $('.' + listClass + ':checked').each(function() {
+        var factor = $(this).attr('value');
+        $(id).append($('<li/>')
+                     .attr('id', 'tft-'+factor+'-container-'+tabIndex)
+                     .append($('<ul/>')
+                             .addClass('inline tft-summary-item-container')
+                             .append($('<li/>')
+                                     .addClass('tft-summary-item-name')
+                                     .text(factor))
+                             .append($('<li/>')
+                                     .append($('<a/>')
+                                             .addClass('tft-summary-item-remove')
+                                             .attr('tft-list-class', listClass)
+                                             .attr('tft-remove-target', '#tft-'+factor+'-container-'+tabIndex)
+                                             .click(function() {
+                                                 $('#tft-'+factor+'-container-'+tabIndex).remove();
+                                             })
+                                             .text('X')))));
+    });
+}
 // ________________________________________________________________
 // |-------------------------RESULTS-------------------------------|
 // ````````````````````````````````````````````````````````````````
@@ -450,10 +501,12 @@ function addEventHandlers(tabIndex) {
             //resetPage(); will implement this
         }
     });
-    //$('.input-select').change(updatePage(1));
-    $('#tft-summary-btn-'+tabIndex).click(function (){
-        $('#tft-summary-form-'+tabIndex).modal('show');
-        searchSummary();
+    $('#tft-clear-form-btn-'+tabIndex).click(function (){
+        $('#tft-search-form-'+tabIndex).find('.tft-checkbox, .tft-tf-checkbox, .tft-family-select').each(function(){
+            this.checked = false;
+        });
+        $('#tft-search-form-'+tabIndex).find('.tft-summary').children().remove();
+        $('#tft-search-form-'+tabIndex).find('#id_gene_'+tabIndex).val(''); //sloppy code since all tabs doesn't have gene, but ehhh.
     });
 
     $('#tft-search-btn-'+tabIndex).click(function() {
@@ -471,7 +524,14 @@ function addEventHandlers(tabIndex) {
                 this.checked = false;
             });
         }
+        updateTranscriptionSummary('#tft-tf-summary-'+tabIndex, 'tf'+tabIndex, tabIndex);
     });
+    $('.tft-tf-checkbox').click(function() {
+        updateTranscriptionSummary($(this).attr('tft-summary-target'),'tf'+tabIndex, tabIndex)
+    });
+   
+    
+   // updateTranscriptionSummary
     $('.tft-search-select-all').click(function() {
         if($(this).is(':checked')==true){
             $('.'+$(this).attr('select-target')).each(function(){
@@ -482,7 +542,15 @@ function addEventHandlers(tabIndex) {
                 this.checked = false;
             });
         }
+        updateMultiSelectSummary($(this).attr('tft-summary-target'), 
+                                 $(this).attr('tft-list-class'),
+                                 tabIndex);
     });
+    $('.tft-checkbox').click(function() {
+        updateMultiSelectSummary($(this).attr('tft-summary-target'), 
+                                 $(this).attr('tft-list-class'),
+                                 tabIndex);
+    }); 
     $('#tft-home-tabs a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
@@ -503,13 +571,13 @@ function addEventHandlers(tabIndex) {
          });
     });*/
 
-
     var downloadOptionClick = function(e) {
         if (DEBUG) {
             console.log('A download option was clicked');
         }
         e.preventDefault()
         $("#tft-download-bar").show();
+        $("#tft-download-modal").modal('show');
         $("#tft-download-status").text("Processing CSV ...");
         $("#tft-download-link").hide();
         $("#tft-download-progress").show();
@@ -520,7 +588,7 @@ function addEventHandlers(tabIndex) {
     $('.download-option').unbind();
     $('.download-option').bind('click', downloadOptionClick);
     $("#tft-download-link").click(function () {
-        $("#tft-download-bar").hide();
+        $("#tft-download-modal").modal('hide');
     });
 }
 $(function() {

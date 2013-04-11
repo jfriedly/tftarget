@@ -52,22 +52,24 @@ class Command(BaseCommand):
 
                 # Select where any of the given values are present
                 query = reduce(operator.or_, (Q(**{s:g}) for s, g in row.iteritems()))
-                gene = Gene.objects.filter(query)
+                matches = Gene.objects.filter(query)
 
                 # Modify extant entry or create a new one.
-                if gene:
+                if matches:
                     #FIXME This works when only two columns are actually in use,
                     # but there is the potential for data loss if more columns
                     # are used later on.
                     # Remove duplicates, if there are any.
-                    if len(gene) > 1:
-                        for g in gene:
+                    gene = matches[0]
+                    matches = matches[1:]
+                    if matches:
+                        for g in matches:
                             for exp in Experiment.objects.filter(gene=g):
-                                exp.gene = gene[0]
+                                exp.gene = gene
+                                exp.save()
                             g.delete()
                     #Perform the modification.
                     dupes += 1
-                    gene = gene[0]
                     for species in row.keys():
                         gene.__setattr__(species, row[species])
                     gene.save()

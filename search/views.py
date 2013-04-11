@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from search.models import Experiment, Gene
 from search.forms import QueryDBSearchForm, EnrichmentAnalysisSearchForm, DirectTargetsSearchForm
 from search._constants import (SPECIES_CHOICES,
+                               TISSUE_CHOICES,
                                TF_CHOICES,
                                EXPT_CHOICES,
                                EXPT_WEIGHTS,
@@ -36,7 +37,8 @@ def index(request):
                                    'direct_targets_form': dt_form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
 
 
@@ -54,6 +56,9 @@ def _search(form):
     if form.cleaned_data['species']:
         species = json.loads(form.cleaned_data.pop('species'))
         results = results.filter(species__in=species)
+    if form.cleaned_data['expt_tissues']:
+        tissues = json.loads(form.cleaned_data.pop('expt_tissues'))
+        results = results.filter(expt_tissues__in=tissues)
     if form.cleaned_data['gene']:
         gene = form.cleaned_data.pop('gene')
         if species is not None:
@@ -67,9 +72,6 @@ def _search(form):
             genes = Gene.objects.filter(qgroup)
             results = results.filter(gene__in=genes)
 
-    for key, value in form.cleaned_data.iteritems():
-        if value:
-            results = results.filter(**{key: value})
     count = results.count()
     return results, count, row_index
 
@@ -82,7 +84,8 @@ def search(request):
                                   {'querydb_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
 
     results, count, row_index = _search(form)
@@ -102,7 +105,8 @@ def direct_search(request):
                                   {'direct_targets_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
                                    'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES)},
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
     print form.cleaned_data
     #Get a list of genes that matches the query. Figure out their score, and
@@ -144,9 +148,14 @@ def direct_search(request):
     results_to_show = set()
     for r in results:
         if r.gene in genes_to_show:
+            #FIXME This line is for testing only!! It should be removed prior
+            #to delivery.
+            r.transcription_factor = r.transcription_factor + ' '+str(genes[r.gene])
+
             results_to_show.add(r)
     # Now figure out what order to show them in
-    actual_results = sorted(results_to_show, key=lambda r: genes[r.gene])
+    actual_results = sorted(results_to_show, key=lambda r: genes[r.gene],
+                            reverse=True)
     #And finally, show them
     serialized = _serialize_results(actual_results, len(actual_results),
                                     tab_num=0, row_index=None)

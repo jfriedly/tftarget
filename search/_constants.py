@@ -1,9 +1,47 @@
 """
 This file contains valid data values for the importer. They are stored in a
-dictionary, mapping the "slug" of the value - lower case, with all dashes and
-punctuation stripped - to the "canonical" value - the one which will actually
-display.
+dictionary, mapping the "slug" of the value - lower case, with all dashes,
+punctuation, and spaces  stripped - to the "canonical" value - the one which
+will actually display.
 """
+
+ALL_TISSUES = {
+    'adrenalgland': 'Adrenal gland',
+    'appendix': 'Appendix',
+    'bladder': 'Bladder',
+    'blood': 'Blood',
+    'bone': 'Bone',
+    'bonemarrow': 'Bone marrow',
+    'brain': 'Brain',
+    'breast': 'Breast',
+    'cartilage': 'Cartilage',
+    'embryo': 'Embryo',
+    'esophagus': 'Esophagus',
+    'eye': 'Eye',
+    'gallbladder': 'Gall bladder',
+    'heart': 'Heart',
+    'kidney': 'Kidney',
+    'largeintestine': 'Large intestine',
+    'liver': 'Liver',
+    'lung': 'Lung',
+    'muscle': 'Muscle',
+    'ovary': 'Ovary',
+    'pancreas': 'Pancreas',
+    'parathyroidgland': 'Parathyroid gland',
+    'pinealgland': 'Pineal gland',
+    'pituitarygland': 'Pituitary gland',
+    'placenta': 'Placenta',
+    'prostate': 'Prostate',
+    'skin': 'Skin',
+    'smallintestine': 'Small intestine',
+    'spleen': 'Spleen',
+    'stomach':  'Stomach',
+    'testis': 'Testis',
+    'thymmus': 'Thymus',
+    'thyroidgland': 'Thyroid gland',
+    'trachea': 'Trachea',
+    'uterus': 'Uterus',
+}
 
 TRANSCRIPTION_FACTORS = {
     #NF-kB
@@ -113,6 +151,8 @@ TF_CHOICES = [
 SPECIES_CHOICES = ([(EMPTY_STRING, EMPTY_STRING)] +
                    [(s.capitalize(), s.capitalize()) for s in ALL_SPECIES])
 EXPT_CHOICES = [(v, v) for v in EXPT_TYPES.values()]
+TISSUE_CHOICES = [(v, v) for v in ALL_TISSUES.values()]
 # .sort() doesn't have a return value, so this actually sorts the lists
 [sublist.sort() for sublist in TF_CHOICES]
 EXPT_CHOICES.sort(key=lambda x: x[0])
+TISSUE_CHOICES.sort(key=lambda x: x[0])
