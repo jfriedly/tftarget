@@ -120,7 +120,7 @@ class Command(BaseCommand):
         if species not in ALL_SPECIES:
             if len(DELIMITER.split(species)) > 1:
                 raise DBImportError("Error on line %d: Species %s is not valid."
-                                    "You may have put more than one species "
+                                    " You may have put more than one species"
                                     " in the same cell. This is not supported."
                                     % (line, species))
             else:
@@ -129,7 +129,7 @@ class Command(BaseCommand):
 
         # Let's just make sure nobody's being clever with genes here.
         gene = row['gene'][:255]
-        if len(DELIMITER.split(gene)):
+        if len(DELIMITER.split(gene)) > 1:
             raise DBImportError("Error on line %d: There appear to be multiple"
                                 " genes on one row. This is not supported. The"
                                 " given value was %s" % (line, gene))
@@ -140,7 +140,7 @@ class Command(BaseCommand):
 
         # Give an error for multiple PMIDs on a row
         pmid = row['pmid'][:255].lower() or ''
-        if len(DELIMITER.split(pmid)):
+        if len(DELIMITER.split(pmid)) > 1:
             raise DBImportError("Error on line %d: There appear to be multiple"
                                 " PMIDs on one row. This is not supported. The"
                                 " given value was %s" % (line, pmid))
