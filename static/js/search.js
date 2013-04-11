@@ -486,10 +486,12 @@ function addEventHandlers(tabIndex) {
             //resetPage(); will implement this
         }
     });
-    //$('.input-select').change(updatePage(1));
-    $('#tft-summary-btn-'+tabIndex).click(function (){
-        $('#tft-summary-form-'+tabIndex).modal('show');
-        searchSummary();
+    $('#tft-clear-form-btn-'+tabIndex).click(function (){
+        $('#tft-search-form-'+tabIndex).find('.tft-checkbox, .tft-tf-checkbox, .tft-family-select').each(function(){
+            this.checked = false;
+        });
+        $('#tft-search-form-'+tabIndex).find('.tft-summary').children().remove();
+        $('#tft-search-form-'+tabIndex).find('#id_gene_'+tabIndex).val(''); //sloppy code since all tabs doesn't have gene, but ehhh.
     });
 
     $('#tft-search-btn-'+tabIndex).click(function() {
