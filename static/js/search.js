@@ -177,11 +177,11 @@ function ajaxSearch(url, rowNum, callback, tabIndex) {
         console.log("AJAX searching!");
         console.log("Tab index: " + tabIndex + " (" + TAB_NAMES[tabIndex] + ")");
     }
-    $('#id_transcription_factor').val(writeJSON('family-member'));
-    $('#id_expt_type').val(writeJSON('expt-types-'+TAB_NAMES[tabIndex]));
-    $('#id_species').val(writeJSON('species-'+TAB_NAMES[tabIndex]));
-    $('#id_expt_tissues').val(writeJSON('tissues-'+TAB_NAMES[tabIndex]));
-    $('#id_row_index').val(rowNum);
+    $('#id_transcription_factor.'+TAB_NAMES[tabIndex]).val(writeJSON('family-member'));
+    $('#id_expt_type.'+TAB_NAMES[tabIndex]).val(writeJSON('expt-types-'+TAB_NAMES[tabIndex]));
+    $('#id_species.'+TAB_NAMES[tabIndex]).val(writeJSON('species-'+TAB_NAMES[tabIndex]));
+    $('#id_expt_tissues.'+TAB_NAMES[tabIndex]).val(writeJSON('tissues-'+TAB_NAMES[tabIndex]));
+    $('#id_row_index.'+TAB_NAMES[tabIndex]).val(rowNum);
     if (DEBUG) {
         console.log($('#tft-search-form-'+tabIndex).serialize())
     }
