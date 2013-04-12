@@ -91,23 +91,13 @@ def search(request):
     return HttpResponse(json.dumps(serialized))
 
 
-def _direct_search(form):
+def _direct_search(results, sort=False):
     """
-    Get a list of genes that matches the query. Figure out their score, and
-    then drop the ones below the threshold
+    With an iterable of Experiments, remove the ones on genes which do not have
+    both types of experiments and which are scored below the threshold. If
+    ``sort`` is passed as True, return the results as a list sorted by the
+    score. Otherwise, return the results in a Python set.
     """
-    results = Experiment.objects.all()
-    row_index = 0
-    species = None
-    if form.cleaned_data['transcription_factor']:
-        tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
-        results = results.filter(transcription_factor__in=tfs)
-    if form.cleaned_data['species']:
-        species = json.loads(form.cleaned_data.pop('species'))
-        results = results.filter(species__in=species)
-    if form.cleaned_data['expt_tissues']:
-        organ = json.loads(form.cleaned_data.pop('expt_tissues'))
-        results = results.filter(expt_tissues__in=organ)
     # Map genes to their score (cumulatively)
     genes = {}
     # Add genes to this as we see their score get high enough
@@ -139,8 +129,10 @@ def _direct_search(form):
 
             results_to_show.add(r)
     # Now figure out what order to show them in, and return them
-    return sorted(results_to_show, key=lambda r: genes[r.gene],
-                            reverse=True)
+    if sort:
+        sorted(results_to_show, key=lambda r: genes[r.gene], reverse=True)
+    else:
+        return results_to_show
 
 
 def direct_search(request):
@@ -157,9 +149,21 @@ def direct_search(request):
                                    'tft_expt_types':json.dumps(EXPT_CHOICES),
                                    'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
-    print form.cleaned_data
-    results = _direct_search(form)
-    serialized = _serialize_results(results, len(results),
+    print form.cleaned_dat
+    results = Experiment.objects.all()
+    row_index = 0
+    species = None
+    if form.cleaned_data['transcription_factor']:
+        tfs = json.loads(form.cleaned_data.pop('transcription_factor'))
+        results = results.filter(transcription_factor__in=tfs)
+    if form.cleaned_data['species']:
+        species = json.loads(form.cleaned_data.pop('species'))
+        results = results.filter(species__in=species)
+    if form.cleaned_data['expt_tissues']:
+        organ = json.loads(form.cleaned_data.pop('expt_tissues'))
+        results = results.filter(expt_tissues__in=organ)
+    sorted_results = _direct_search(results, sort=True)
+    serialized = _serialize_results(sorted_results, len(sorted_results),
                                     tab_num=0, row_index=None)
     return HttpResponse(json.dumps(serialized))
 
