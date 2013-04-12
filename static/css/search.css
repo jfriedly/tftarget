@@ -162,8 +162,11 @@ img {
     border:#fafafa solid 1px;
 }
 .tft-summary {
+    background-color:#fff;
     padding:1px;
     margin:0px;
+    border:#dddddd solid 1px;
+    
 }
 .tft-summary a{
     color:#ffaaaa;
@@ -177,7 +180,7 @@ img {
     color:#456789;
     border:#eeeeee solid 1px;
     background-color:#f5f5f9;
-    margin-top:4ps;
+    margin-top:4px;
 }
 .search-results {
     margin-left:30px;
