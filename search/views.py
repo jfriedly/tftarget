@@ -164,7 +164,7 @@ def direct_search(request):
         results = results.filter(expt_tissues__in=organ)
     sorted_results = _direct_search(results, sort=True)
     serialized = _serialize_results(sorted_results, len(sorted_results),
-                                    tab_num=0, row_index=None)
+                                    tab_num=0, row_index=0)
     return HttpResponse(json.dumps(serialized))
 
 
