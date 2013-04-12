@@ -14,6 +14,8 @@ class Gene(models.Model):
         d = self.__dict__.copy()
         if '_state' in d:
             d.pop('_state')
+        if 'id' in d:
+            d.pop('id')
         return d
 
     def __repr__(self):
@@ -42,8 +44,21 @@ class Experiment(models.Model):
             d.pop('_state')
         if '_gene_cache' in d:
             d.pop('_gene_cache')
-        d['created'] = str(d['created'])
-        d['modified'] = str(d['modified'])
+        if 'active' in d:
+            d.pop('active')
+        if 'created' in d:
+            d.pop('created')
+        if 'id' in d:
+            d.pop('created')
+        if 'modified' in d:
+            d.pop('modified')
+        if 'quality_factor' in d:
+            d.pop('quality_factor')
+        if 'quality' in d:
+            d.pop('quality')
+        if 'replicates' in d:
+            d.pop('replicates')
+
         if csv is True:
             d['gene'] = "%s" % Gene.objects.get(id=d.pop('gene_id')).serialize()
         else:
