@@ -91,23 +91,11 @@ def search(request):
     return HttpResponse(json.dumps(serialized))
 
 
-def direct_search(request):
+def _direct_search(form):
     """
-    Perform a direct target search. User selects TFs, species, and organ, and
-    we return a ranked list of genes.
+    Get a list of genes that matches the query. Figure out their score, and
+    then drop the ones below the threshold
     """
-    form = DirectTargetsSearchForm(request.POST or None)
-    if not form.is_valid():
-        return render_to_response("search.html",
-                                  {'direct_targets_form': form,
-                                   'tf_choices': json.dumps(TF_CHOICES),
-                                   'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
-                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
-                                  context_instance=RequestContext(request))
-    print form.cleaned_data
-    #Get a list of genes that matches the query. Figure out their score, and
-    #then drop the ones below the threshold
     results = Experiment.objects.all()
     row_index = 0
     species = None
@@ -150,11 +138,28 @@ def direct_search(request):
             r.transcription_factor = r.transcription_factor + ' '+str(genes[r.gene])
 
             results_to_show.add(r)
-    # Now figure out what order to show them in
-    actual_results = sorted(results_to_show, key=lambda r: genes[r.gene],
+    # Now figure out what order to show them in, and return them
+    return sorted(results_to_show, key=lambda r: genes[r.gene],
                             reverse=True)
-    #And finally, show them
-    serialized = _serialize_results(actual_results, len(actual_results),
+
+
+def direct_search(request):
+    """
+    Perform a direct target search. User selects TFs, species, and organ, and
+    we return a ranked list of genes.
+    """
+    form = DirectTargetsSearchForm(request.POST or None)
+    if not form.is_valid():
+        return render_to_response("search.html",
+                                  {'direct_targets_form': form,
+                                   'tf_choices': json.dumps(TF_CHOICES),
+                                   'tft_species':json.dumps(SPECIES_CHOICES),
+                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
+                                  context_instance=RequestContext(request))
+    print form.cleaned_data
+    results = _direct_search(form)
+    serialized = _serialize_results(results, len(results),
                                     tab_num=0, row_index=None)
     return HttpResponse(json.dumps(serialized))
 
