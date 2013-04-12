@@ -67,7 +67,7 @@ function initTab(tabIndex) {
         initMultiSelect('#tft-species-dropdown-'+tabIndex, SPECIES_LIST, 'species-'+TAB_NAMES[tabIndex], '#tft-species-summary-'+tabIndex);
         initMultiSelect('#tft-tissues-dropdown-'+tabIndex, TISSUE_LIST, 'tissues-'+TAB_NAMES[tabIndex], '#tft-tissues-summary-'+tabIndex);
         initMultiSelect('#tft-expt-types-dropdown-'+tabIndex, EXPT_TYPES_LIST, 'expt-types-'+TAB_NAMES[tabIndex], '#tft-expt-types-summary-'+tabIndex);
-        initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, 'tf'+tabIndex, '#tft-tf-summary-'+tabIndex, tabIndex);
+        initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, 'tf-'+tabIndex, '#tft-tf-summary-'+tabIndex, tabIndex);
 
         addTabEvents(tabIndex);
         addPopoverEvents();
@@ -177,7 +177,7 @@ function ajaxSearch(url, rowNum, callback, tabIndex) {
         console.log("AJAX searching!");
         console.log("Tab index: " + tabIndex + " (" + TAB_NAMES[tabIndex] + ")");
     }
-    $('#id_transcription_factor.'+TAB_NAMES[tabIndex]).val(writeJSON('family-member'));
+    $('#id_transcription_factor.'+TAB_NAMES[tabIndex]).val(writeJSON('tf-'+TAB_NAMES[tabIndex]));
     $('#id_expt_type.'+TAB_NAMES[tabIndex]).val(writeJSON('expt-types-'+TAB_NAMES[tabIndex]));
     $('#id_species.'+TAB_NAMES[tabIndex]).val(writeJSON('species-'+TAB_NAMES[tabIndex]));
     $('#id_expt_tissues.'+TAB_NAMES[tabIndex]).val(writeJSON('tissues-'+TAB_NAMES[tabIndex]));
@@ -303,7 +303,6 @@ function writeJSON(cls) {
         return ''; // so that it does not return [
     }
 }
-
 //will write a prettier code later
 function searchSummary() {
     //refresh the description
@@ -353,7 +352,7 @@ function updateTranscriptionSummary(id, listClass, tabIndex) {
                                      .append($('<a/>')
                                              .addClass('tft-summary-item-remove')
                                              .click(function() {
-                                                 $('#tft-'+factor+'-container-'+tabIndex).remove();
+                                                 $(this).parent().parent().parent().remove();
                                              })
                                              .text('X')))));
     });
@@ -365,19 +364,23 @@ function updateMultiSelectSummary(id, listClass, tabIndex) {
     $('.' + listClass + ':checked').each(function() {
         var factor = $(this).attr('value');
         $(id).append($('<li/>')
-                     .attr('id', 'tft-'+factor+'-container-'+tabIndex)
                      .append($('<ul/>')
                              .addClass('inline tft-summary-item-container')
                              .append($('<li/>')
-                                     .addClass('tft-summary-item-name')
+                                     .addClass('tft-summary-item-name tft-summary-'+listClass)
                                      .text(factor))
                              .append($('<li/>')
                                      .append($('<a/>')
                                              .addClass('tft-summary-item-remove')
                                              .attr('tft-list-class', listClass)
-                                             .attr('tft-remove-target', '#tft-'+factor+'-container-'+tabIndex)
+                                             .attr('tft-remove-target', factor)
                                              .click(function() {
-                                                 $('#tft-'+factor+'-container-'+tabIndex).remove();
+                                                 $(this).parent().parent().parent().remove();
+                                                 $('.'+listClass).each(function(){
+                                                     if ($(this).attr('value')=='Mouse'){
+                                                         $(this).checked = false;
+                                                     }
+                                                 });
                                              })
                                              .text('X')))));
     });
@@ -524,10 +527,10 @@ function addEventHandlers(tabIndex) {
                 this.checked = false;
             });
         }
-        updateTranscriptionSummary('#tft-tf-summary-'+tabIndex, 'tf'+tabIndex, tabIndex);
+        updateTranscriptionSummary('#tft-tf-summary-'+tabIndex, 'tf-'+tabIndex, tabIndex);
     });
     $('.tft-tf-checkbox').click(function() {
-        updateTranscriptionSummary($(this).attr('tft-summary-target'),'tf'+tabIndex, tabIndex)
+        updateTranscriptionSummary($(this).attr('tft-summary-target'),'tf-'+tabIndex, tabIndex)
     });
 
 
