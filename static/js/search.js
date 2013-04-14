@@ -1,5 +1,5 @@
 /**
-0   This is a collection of JavaScript functions.
+   This is a collection of JavaScript functions.
    @authors - Djenome Team - Tremayne Mushayahama, Joel Friedly, Grant Michalski, Edward Powell
    @primary author - Tremayne Mushayahama
    @date 2/7/2013
@@ -29,6 +29,7 @@ var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST, TISSUE_LIST;
 var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
                      ["gene", "Human Gene", 'human'],
                      ["gene", "Mouse Gene", 'mouse'],
+                     ["gene", "Rat Gene", 'rat'],
                      ["pmid", "PMID"],
                      ["species", "Species"],
                      ["expt_tissues", "Organ"],
@@ -174,7 +175,7 @@ function initMultiSelect(container, tftList, listClass, tftSummaryView) {
 // ````````````````````````````````````````````````````````````````
 function ajaxSearch(url, rowNum, callback, tabIndex) {
     if (DEBUG) {
-        console.log("AJAX searching!");
+        console.log("AJAX searching to " + url);
         console.log("Tab index: " + tabIndex + " (" + TAB_NAMES[tabIndex] + ")");
     }
     $('#id_transcription_factor.'+TAB_NAMES[tabIndex]).val(writeJSON('tf-'+tabIndex));
@@ -223,9 +224,9 @@ function updatePage (url, rowNum, resetPagination, tabIndex) {
         $('#tft-results-number-bottom-'+tabIndex).text(results.length + " results of " + rows);
         if (results.length > 0){
             $('#tft-result-container-'+tabIndex).show();
-            printTHead(thead);
+            printTHead(thead, TABLE_HEADING);
             for (var i = 0; i < results.length; i++) {
-                printTBody(tbody, results[i], i+1);
+                printTBody(tbody, TABLE_HEADING, results[i], i+1);
             }
             table.append(thead);
             table.append(tbody);
@@ -337,7 +338,9 @@ function searchSummary() {
 }
 function updateTranscriptionSummary(id, listClass, tabIndex) {
     $(id).children().remove();
-    console.log(id);
+    if (DEBUG) {
+        console.log("ID clicked was: " + id);
+    }
     var noSummary = true;
     $('.'+listClass+':checked').each(function() {
         var factor = $(this).attr('value');
@@ -392,12 +395,12 @@ function updateMultiSelectSummary(id, listClass, tabIndex) {
    Prints the headings of the table from a json object. The result is appended to the table.
    @param thead - the thead element of the table
 */
-function printTHead (thead) {
+function printTHead (thead, table_headers) {
     var row = '<tr>';
     //prints from heading according to the order of the TABLE_HEADING array.
     row += '<th class="tft-head tft-grey-bottom-1"></th>';
-    for(var i=0; i < TABLE_HEADING.length; i++) {
-       row += '<th class="tft-head tft-head tft-grey-bottom-1">' + TABLE_HEADING[i][1] + '</th>';
+    for(var i=0; i < table_headers.length; i++) {
+       row += '<th class="tft-head tft-head tft-grey-bottom-1">' + table_headers[i][1] + '</th>';
     }
     row += '</tr>' //close the table row
     thead.append(row);
@@ -411,25 +414,21 @@ function printTHead (thead) {
    @param tbody - the tbody element of the table
    @param object - the json object
 */
-function printTBody (tbody, object, rowNum) {
+function printTBody (tbody, table_headers, object, rowNum) {
     var row = '<tr>';
     row += '<td>' + rowNum + '</td>';
     //prints from row according to the order of the TABLE_HEADING array.
-    for (var i=0; i < TABLE_HEADING.length; i++) {
-        property = TABLE_HEADING[i][0];
+    for (var i=0; i < table_headers.length; i++) {
+        property = table_headers[i][0];
         if (property == 'gene') {
-            row += '<td>' + object['gene'][ TABLE_HEADING[i][2]] + '</td>';//TABLE_HEADING[I][2] contains a second name in case it is ambiguous i.e. gene
+            row += '<td>' + object['gene'][table_headers[i][2]] + '</td>';//TABLE_HEADING[I][2] contains a second name in case it is ambiguous i.e. gene
         } else if (object[property]==null || object[property]=='') {
             row += '<td> - </td>'; //prints a desh to indicate no value
         } else if (property == 'pmid') {
             row += '<td><a target="blank" href="http://www.ncbi.nlm.nih.gov/pubmed/' + object[property] + '">' + object[property] + '</a></td>';
-        } else if (property == 'gene') {
-            row += '<td>' + object['gene']['human'] + '</td>';
-            row += '<td>' + object['gene']['mouse'] + '</td>';
-            i++;
         } else {
             row += '<td>' + object[property] + '</td>';
-        } 
+        }
     }
     row += '</tr>'; //end the row, ready to append
     tbody.append(row);
@@ -490,6 +489,26 @@ function addPageClickEvent(tabIndex) {
         }
     });
 }
+function enrichment_callback(data) {
+    $('#search-results-1').children().remove();
+    //create a table here
+    var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
+    var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
+    var tbody = $('<tbody></tbody>');
+    var table_headers = [['tf',         'Transcription Factor'],
+                         ['enrichment', 'Enrichment']]
+    $('#tft-result-container-1').show();
+    printTHead(thead, table_headers);
+    for (var i = 0; i < data.length; i++) {
+        printTBody(tbody, table_headers, data[i], i+1);
+    }
+    table.append(thead);
+    table.append(tbody);
+    if (DEBUG) {
+        console.log('Appending table');
+    }
+    $('#search-results-1').append(table);
+}
 function addEventHandlers(tabIndex) {
     //FIXME(jfriedly): We bind this event handler every time we initialize a
     //tab, so if a user looks at two tabs and then searches by pressing enter,
@@ -514,7 +533,11 @@ function addEventHandlers(tabIndex) {
     });
 
     $('#tft-search-btn-'+tabIndex).click(function() {
-        updatePage('/'+TAB_NAMES[tabIndex], 0, true, tabIndex);
+        if (tabIndex == 1) {
+            ajaxSearch('/'+TAB_NAMES[tabIndex], 0, enrichment_callback, tabIndex);
+        } else {
+            updatePage('/'+TAB_NAMES[tabIndex], 0, true, tabIndex);
+        }
     });
 
     $('.tft-family-select').click(function() {

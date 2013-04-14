@@ -169,11 +169,11 @@ def direct_search(request):
     return HttpResponse(json.dumps(serialized))
 
 
-def enrichement_analysis(request):
+def enrichment_analysis(request):
     form = EnrichmentAnalysisSearchForm(request.POST or None)
-    if not form.is_valed():
+    if not form.is_valid():
         return HttpResponse('Invalid form %s.' % form.errors)
-    return HttpResponse('Not implemented!')
+    return HttpResponse(json.dumps([{'tf': 'E2F1', 'enrichment': 42}, {'tf': 'E2F2', 'enrichment': 69}]))
 
 
 @csrf_exempt
