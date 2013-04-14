@@ -177,7 +177,7 @@ function ajaxSearch(url, rowNum, callback, tabIndex) {
         console.log("AJAX searching!");
         console.log("Tab index: " + tabIndex + " (" + TAB_NAMES[tabIndex] + ")");
     }
-    $('#id_transcription_factor.'+TAB_NAMES[tabIndex]).val(writeJSON('tf-'+TAB_NAMES[tabIndex]));
+    $('#id_transcription_factor.'+TAB_NAMES[tabIndex]).val(writeJSON('tf-'+tabIndex));
     $('#id_expt_type.'+TAB_NAMES[tabIndex]).val(writeJSON('expt-types-'+TAB_NAMES[tabIndex]));
     $('#id_species.'+TAB_NAMES[tabIndex]).val(writeJSON('species-'+TAB_NAMES[tabIndex]));
     $('#id_expt_tissues.'+TAB_NAMES[tabIndex]).val(writeJSON('tissues-'+TAB_NAMES[tabIndex]));
@@ -496,6 +496,7 @@ function addEventHandlers(tabIndex) {
     //an AJAX request for each tab is made.
     $('.input-text.' + TAB_NAMES[tabIndex]).keypress(function (e) {
         if (e.which == 13) {
+            e.preventDefault();
             if (DEBUG) {
                 console.log('enter pressed');
             }
