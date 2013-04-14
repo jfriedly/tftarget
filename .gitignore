@@ -8,3 +8,4 @@ local_urls.py
 \#*\#
 .\#*
 .DS_Store
+tftarget-search-*.csv
