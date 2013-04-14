@@ -64,7 +64,7 @@ class Command(BaseCommand):
                 sys.stdout.write('\b' * 5 + str(line).rjust(5))
                 sys.stdout.flush()
                 # Sometimes the data has an extra column.  Ignore it.
-                if row.has_key(None):
+                if None in row:
                     row.pop(None)
 
                 # Try to validate, then add the row. If it doesn't work, say so
@@ -75,7 +75,6 @@ class Command(BaseCommand):
                     adds += added
                     dupes += dupe
                 except DBImportError as e:
-                    #TODO make a file of these errors.
                     errors += 1
                     sys.stdout.write('\n%s\n%s line:      ' % (e, args[0]))
                     with open(logfile, 'a') as log:
@@ -83,11 +82,10 @@ class Command(BaseCommand):
 
             # We're done, so print out the summary.
             done = ('\nAdded %d/%d entries. Ignored %d errors and %d duplicates.'
-                   % (adds, adds + dupes + errors, errors, dupes))
+                    % (adds, adds + dupes + errors, errors, dupes))
             print done
             with open(logfile, 'a') as log:
                 log.write(done)
-
 
     def _split_cell(self, row, name, depth, line):
         """
@@ -242,27 +240,29 @@ class Command(BaseCommand):
             canonical_value = TFS.get(value.translate(None, '-_. ').lower())
             if not canonical_value:
                 raise DBImportError("Error on line %d: Transcription factor %s"
-                                    " is not valid." % (line, value))  # TODO
+                                    " is not valid." % (line, value))
             return canonical_value
         row_multis, depth = self._get_row_multis(row, row_multis,
-                                          'transcription_factor',
-                                          'Transcription factor', depth, line,
-                                          validate_transcription_factor)
+                                                 'transcription_factor',
+                                                 'Transcription factor',
+                                                 depth, line,
+                                                 validate_transcription_factor)
 
         def validate_cell_line(value, line):
             return value
         row_multis, depth = self._get_row_multis(row, row_multis, 'cell_line',
-                                          'Cell line', depth, line, validate_cell_line)
+                                                 'Cell line', depth, line,
+                                                 validate_cell_line)
 
         def validate_expt_type(value, line):
             canonical_value = EXPT_TYPES.get(value.translate(None, '-_. ').lower())
             if not canonical_value:
                 raise DBImportError("Error on line %d: Experiment type %s"
-                                    " is not valid." % (line, value))  # TODO
+                                    " is not valid." % (line, value))
             return canonical_value
         row_multis, depth = self._get_row_multis(row, row_multis, 'expt_type',
-                                          'Experiment type', depth, line,
-                                          validate_expt_type)
+                                                 'Experiment type', depth,
+                                                 line, validate_expt_type)
 
         # Now we can finally add rows
         added = 0

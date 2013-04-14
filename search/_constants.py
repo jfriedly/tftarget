@@ -35,7 +35,7 @@ ALL_TISSUES = {
     'skin': 'Skin',
     'smallintestine': 'Small intestine',
     'spleen': 'Spleen',
-    'stomach':  'Stomach',
+    'stomach': 'Stomach',
     'testis': 'Testis',
     'thymmus': 'Thymus',
     'thyroidgland': 'Thyroid gland',

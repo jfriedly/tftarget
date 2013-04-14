@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 sys.stdout.write('\b' * 5 + str(line).rjust(5))
                 sys.stdout.flush()
                 # Sometimes the data has an extra column.  Ignore it.
-                if row.has_key(None):
+                if None in row:
                     row.pop(None)
 
                 # Ignore empty cells
@@ -51,7 +51,8 @@ class Command(BaseCommand):
                         row.pop(species)
 
                 # Select where any of the given values are present
-                query = reduce(operator.or_, (Q(**{s:g}) for s, g in row.iteritems()))
+                query = reduce(operator.or_,
+                               (Q(**{s: g}) for s, g in row.iteritems()))
                 matches = Gene.objects.filter(query)
 
                 # Modify extant entry or create a new one.
@@ -79,4 +80,4 @@ class Command(BaseCommand):
                     gene.save()
 
             print ('\nAdded %d/%d entries and modified %d. Ignored %d errors.'
-                    % (adds, adds+dupes+errors, dupes, errors))
+                   % (adds, adds + dupes + errors, dupes, errors))

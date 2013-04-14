@@ -30,14 +30,14 @@ def index(request):
     ea_form = EnrichmentAnalysisSearchForm()
     qdb_form = QueryDBSearchForm()
     return render_to_response("search.html",
-                                  {'querydb_form': qdb_form,
-                                   'ea_form': ea_form,
-                                   'direct_targets_form': dt_form,
-                                   'tf_choices': json.dumps(TF_CHOICES),
-                                   'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
-                                   'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
-                                  context_instance=RequestContext(request))
+                              {'querydb_form': qdb_form,
+                               'ea_form': ea_form,
+                               'direct_targets_form': dt_form,
+                               'tf_choices': json.dumps(TF_CHOICES),
+                               'tft_species': json.dumps(SPECIES_CHOICES),
+                               'tft_expt_types': json.dumps(EXPT_CHOICES),
+                               'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
+                              context_instance=RequestContext(request))
 
 
 def _search(form):
@@ -81,8 +81,8 @@ def search(request):
         return render_to_response("search.html",
                                   {'querydb_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
-                                   'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_species': json.dumps(SPECIES_CHOICES),
+                                   'tft_expt_types': json.dumps(EXPT_CHOICES),
                                    'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
 
@@ -125,7 +125,7 @@ def _direct_search(results, sort=False):
         if r.gene in genes_to_show:
             #FIXME This line is for testing only!! It should be removed prior
             #to delivery.
-            r.transcription_factor = r.transcription_factor + ' '+str(genes[r.gene])
+            r.transcription_factor = r.transcription_factor + ' ' + str(genes[r.gene])
 
             results_to_show.add(r)
     # Now figure out what order to show them in, and return them
@@ -146,8 +146,8 @@ def direct_search(request):
         return render_to_response("search.html",
                                   {'direct_targets_form': form,
                                    'tf_choices': json.dumps(TF_CHOICES),
-                                   'tft_species':json.dumps(SPECIES_CHOICES),
-                                   'tft_expt_types':json.dumps(EXPT_CHOICES),
+                                   'tft_species': json.dumps(SPECIES_CHOICES),
+                                   'tft_expt_types': json.dumps(EXPT_CHOICES),
                                    'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
     print form.cleaned_data
@@ -174,7 +174,6 @@ def enrichement_analysis(request):
     if not form.is_valed():
         return HttpResponse('Invalid form %s.' % form.errors)
     return HttpResponse('Not implemented!')
-
 
 
 @csrf_exempt
@@ -213,13 +212,14 @@ def _get_filepath(fileid=None):
     filepath = 'tftarget-search-%d.csv' % int(fileid)
     return filepath, fileid
 
+
 def _serialize_results(results, count, tab_num=2, row_index=None, csv=False):
     """Takes the results set and serializes it
 
     tab_num refers to the index of the tab that these results are intended for.
-    The tabs are Direct Targets, Enrichment Analysis, and Query DB, in 
+    The tabs are Direct Targets, Enrichment Analysis, and Query DB, in
     """
     if row_index is not None:
-        results = results[row_index:row_index+100]
+        results = results[row_index:row_index + 100]
     results = [expt.serialize(csv=csv) for expt in results]
-    return {'results': results, 'num_results': count, 'tab_num':tab_num}
+    return {'results': results, 'num_results': count, 'tab_num': tab_num}
