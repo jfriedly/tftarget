@@ -44,7 +44,7 @@ class Experiment(models.Model):
         d = {'transcription_factor': self.transcription_factor,
              'species': self.species, 'pmid': self.pmid,
              'expt_tissues': self.expt_tissues, 'cell_line': self.cell_line,
-             'control': self.control}
+             'control': self.control, 'expt_type': self.expt_type}
 
         if csv is True:
             d['gene'] = "%s" % self.gene.serialize()
