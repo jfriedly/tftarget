@@ -130,7 +130,8 @@ def _direct_search(results, sort=False):
             results_to_show.add(r)
     # Now figure out what order to show them in, and return them
     if sort:
-        sorted(results_to_show, key=lambda r: genes[r.gene], reverse=True)
+        return sorted(results_to_show, key=lambda r: genes[r.gene],
+                      reverse=True)
     else:
         return results_to_show
 
@@ -149,7 +150,7 @@ def direct_search(request):
                                    'tft_expt_types':json.dumps(EXPT_CHOICES),
                                    'tft_tissue_choices': json.dumps(TISSUE_CHOICES)},
                                   context_instance=RequestContext(request))
-    print form.cleaned_dat
+    print form.cleaned_data
     results = Experiment.objects.all()
     row_index = 0
     species = None

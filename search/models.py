@@ -3,6 +3,7 @@ import json
 
 from django.db import models
 
+
 class Gene(models.Model):
     human = models.CharField(max_length=255, default='', null=True)
     mouse = models.CharField(max_length=255, default='', null=True)
@@ -20,6 +21,7 @@ class Gene(models.Model):
 
     def __repr__(self):
         return json.dumps(self.serialize())
+
 
 class Experiment(models.Model):
     """Stores data about each known experiment."""
@@ -39,30 +41,15 @@ class Experiment(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     def serialize(self, csv=False):
-        d = self.__dict__.copy()
-        if '_state' in d:
-            d.pop('_state')
-        if '_gene_cache' in d:
-            d.pop('_gene_cache')
-        if 'active' in d:
-            d.pop('active')
-        if 'created' in d:
-            d.pop('created')
-        if 'id' in d:
-            d.pop('created')
-        if 'modified' in d:
-            d.pop('modified')
-        if 'quality_factor' in d:
-            d.pop('quality_factor')
-        if 'quality' in d:
-            d.pop('quality')
-        if 'replicates' in d:
-            d.pop('replicates')
+        d = {'transcription_factor': self.transcription_factor,
+             'species': self.species, 'pmid': self.pmid,
+             'expt_tissues': self.expt_tissues, 'cell_line': self.cell_line,
+             'control': self.control}
 
         if csv is True:
-            d['gene'] = "%s" % Gene.objects.get(id=d.pop('gene_id')).serialize()
+            d['gene'] = "%s" % self.gene.serialize()
         else:
-            d['gene'] = Gene.objects.get(id=d.pop('gene_id')).serialize()
+            d['gene'] = self.gene.serialize()
         return d
 
     def __repr__(self):
