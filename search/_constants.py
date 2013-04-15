@@ -141,12 +141,12 @@ ALL_SPECIES = ('mouse', 'human', 'rat', 'arabidopsis', 'hamster', 'pig')
 # Options for the search form
 EMPTY_STRING = ''
 TF_CHOICES = [
-    ['E2F'] + [v for v in TFS.values() if v.startswith('E2F')],
+    ['E2F'] + [v for v in TFS.itervalues() if v.startswith('E2F')],
     # There's duplicates in here
-    ['MYC'] + list(set([v for v in TFS.values() if v[2:] == 'Myc'])),
-    ['NFkB'] + [v for v in TFS.values() if v.startswith('NF-kB')],
-    ['FOX'] + [v for v in TFS.values() if v.startswith('FOX')],
-    ['STAT'] + [v for v in TFS.values() if v.startswith('STAT')],
+    ['MYC'] + list(set([v for v in TFS.itervalues() if v[2:] == 'Myc'])),
+    ['NFkB'] + [v for v in TFS.itervalues() if v.startswith('NF-kB')],
+    ['FOX'] + [v for v in TFS.itervalues() if v.startswith('FOX')],
+    ['STAT'] + [v for v in TFS.itervalues() if v.startswith('STAT')],
 ]
 SPECIES_CHOICES = ([(EMPTY_STRING, EMPTY_STRING)] +
                    [(s.capitalize(), s.capitalize()) for s in ALL_SPECIES])

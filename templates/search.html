@@ -30,6 +30,7 @@
           </ul>
         </div>
         {% csrf_token %}
+        {{ direct_targets_form.errors }}
         {{ direct_targets_form }}
          <label>Species</label>
         <div class="controls">
@@ -122,6 +123,7 @@
 
       <legend class="tft-legend">Direct Target Database Search</legend>
       <form id="tft-search-form-1" class="form-horizontal row">
+        {{ ea_form.errors }}
         {{ ea_form }}
         {% csrf_token %}
       </form>
@@ -199,6 +201,7 @@
           </ul>
         </div>
         {% csrf_token %}
+        {{ querydb_form.errors }}
         {{ querydb_form }}
         <label>Organs</label>
         <div class="controls">

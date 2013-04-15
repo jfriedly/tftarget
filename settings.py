@@ -154,7 +154,15 @@ LOGGING = {
     }
 }
 
+# Directory that DB download CSVs should be stored in
 DOWNLOAD_DIR = os.path.join(PROJECT_ROOT, 'csv')
+
+# Calculating the TF_TARGETED_GENES is a long operation that must be done at
+# least once for the Enrichment Analysis tab.  This option controls whether
+# it should be done when the server starts up or when the first request to
+# Enrichment Analysis is made.  Setting it to True does the calculations at
+# startup time.
+CALCULATE_TF_TARGETED_GENES_ON_START = True
 
 try:
     from local_settings import *

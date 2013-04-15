@@ -489,7 +489,7 @@ function addPageClickEvent(tabIndex) {
         }
     });
 }
-function enrichment_callback(data) {
+function enrichment_search(data) {
     $('#search-results-1').children().remove();
     //create a table here
     var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
@@ -534,7 +534,7 @@ function addEventHandlers(tabIndex) {
 
     $('#tft-search-btn-'+tabIndex).click(function() {
         if (tabIndex == 1) {
-            ajaxSearch('/'+TAB_NAMES[tabIndex], 0, enrichment_callback, tabIndex);
+            ajaxSearch('/'+TAB_NAMES[tabIndex], 0, enrichment_search, tabIndex);
         } else {
             updatePage('/'+TAB_NAMES[tabIndex], 0, true, tabIndex);
         }
