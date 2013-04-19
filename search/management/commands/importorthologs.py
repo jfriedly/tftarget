@@ -1,3 +1,11 @@
+"""
+This file contains a command to import a spreadsheet of orthologs. It can
+handle any arbitrary number of species in the import sheet (even though only
+two are currently used) as long as they are in the order specified by the
+ALL_SPECIES value in _constants and the appropriate tables have been added to
+the Gene table. If species are added, you'll also need to change the front end
+appropriately. It'll be a lot of work, but none of it in here.
+"""
 from django.core.management.base import BaseCommand, CommandError
 from search._constants import ALL_SPECIES
 from search.models import Gene, Experiment
@@ -57,19 +65,26 @@ class Command(BaseCommand):
 
                 # Modify extant entry or create a new one.
                 if matches:
-                    #FIXME This works when only two columns are actually in use,
-                    # but there is the potential for data loss if more columns
-                    # are used later on.
-                    # Remove duplicates, if there are any.
+                    # The first result will become our final gene, and the rest
+                    # will be assimilated and removed
                     gene = matches[0]
                     matches = matches[1:]
-                    if matches:
-                        for g in matches:
-                            for exp in Experiment.objects.filter(gene=g):
-                                exp.gene = gene
-                                exp.save()
-                            g.delete()
-                    #Perform the modification.
+                    for match in matches:
+                        # For each species, if the match has an ortholog,
+                        # add it to the final gene
+                        for species in ALL_SPECIES:
+                            gene_name = match.__dict__[species]
+                            if gene_name:
+                                gene.__setattr__(species, gene_name)
+                        # Then, reassociate all the experiments to the 
+                        # final gene.
+                        for exp in Experiment.objects.filter(gene=match):
+                            exp.gene = gene
+                            exp.save()
+                        # And finally, delete the duplicate
+                        match.delete()
+                    # Lastly, add the values in the file to the final gene and
+                    # save.
                     dupes += 1
                     for species in row.keys():
                         gene.__setattr__(species, row[species])

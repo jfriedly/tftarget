@@ -113,8 +113,6 @@ class Command(BaseCommand):
         Preform basic row validation before adding the row in.
         """
         species = row['species'].strip().lower()
-        if species == 'monkey':
-            species = 'human'
         if species not in ALL_SPECIES:
             if len(DELIMITER.split(species)) > 1:
                 raise DBImportError("Error on line %d: Species %s is not valid."
@@ -124,6 +122,7 @@ class Command(BaseCommand):
             else:
                 raise DBImportError("Error on line %d: Species %s is not valid."
                                     % (line, species))
+        row['species'] = species
 
         # Let's just make sure nobody's being clever with genes here.
         gene = row['gene'][:255]
@@ -131,9 +130,13 @@ class Command(BaseCommand):
             raise DBImportError("Error on line %d: There appear to be multiple"
                                 " genes on one row. This is not supported. The"
                                 " given value was %s" % (line, gene))
-        #The values here is a bit weird. You're looking for the row where the
-        #given gene is in the column of the species, verified above.
-        gene, created = Gene.objects.get_or_create(**{species: gene})
+        #If more ortholog species are added, this section will need to be
+        #changed to reflect that. You may end up wanting to use something like
+        #get_or_create(**{species: gene}) for that...
+        if species == 'mouse':
+            gene, created = Gene.objects.get_or_create(mouse=gene)
+        else:
+            gene, created = Gene.objects.get_or_create(human=gene)
         row['gene'] = gene
 
         # Give an error for multiple PMIDs on a row
