@@ -135,8 +135,6 @@ IMPORT_COLUMN_ORDER = ['gene', 'transcription_factor', 'pmid', 'species',
                        'expt_tissues', 'cell_line', 'expt_type', 'replicates',
                        'control', 'quality']
 
-#NOTE Changing this is not the only step to add a new species! You must also
-#add the column to the species table in models.py, and migrate the database.
 ALL_SPECIES = ('mouse', 'human', 'rat', 'arabidopsis', 'hamster', 'pig')
 
 
