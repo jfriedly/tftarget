@@ -1,0 +1,3 @@
+
+Error on line 2: Number of row sub-values does not match in each column. Experiment type has 3 values, while previous columns had 2 values.
+Added 0/1 entries. Ignored 1 errors and 0 duplicates.
