@@ -11,7 +11,7 @@
 // |-------------------------CONSTANTS ----------------------------|
 // `````````````````````````````````````````````````````````````````
 
-var DEBUG = true;
+var DEBUG = false;
 var TAB_NAMES = ["direct_targets", "enrichment_analysis", "query_db"];
 /** Search results displayed on one page. The lower the number the
     faster the load time. Preferred results is in the
@@ -29,7 +29,6 @@ var TF_LIST, SPECIES_LIST, EXPT_TYPE_LIST, TISSUE_LIST;
 var TABLE_HEADING = [["transcription_factor", "Transcription Factor"],
                      ["gene", "Human Gene", 'human'],
                      ["gene", "Mouse Gene", 'mouse'],
-                     ["gene", "Rat Gene", 'rat'],
                      ["pmid", "PMID"],
                      ["species", "Species"],
                      ["expt_tissues", "Organ"],

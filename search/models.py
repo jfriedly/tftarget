@@ -7,17 +7,9 @@ from django.db import models
 class Gene(models.Model):
     human = models.CharField(max_length=255, default='', null=True)
     mouse = models.CharField(max_length=255, default='', null=True)
-    rat = models.CharField(max_length=255, default='', null=True)
-    arabidopsis = models.CharField(max_length=255, default='', null=True)
-    hamster = models.CharField(max_length=255, default='', null=True)
 
     def serialize(self):
-        d = self.__dict__.copy()
-        if '_state' in d:
-            d.pop('_state')
-        if 'id' in d:
-            d.pop('id')
-        return d
+        return {'human': self.human, 'mouse': self.mouse}
 
     def __repr__(self):
         return json.dumps(self.serialize())
