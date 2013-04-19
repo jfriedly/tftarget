@@ -160,7 +160,9 @@ class Command(BaseCommand):
             row['expt_tissues'] = ''
         else:
             organ = row['expt_tissues'][:255].lower().replace(' ', '')
-            if organ not in ALL_TISSUES:
+            if organ in ('na', 'n/a', 'n-a'):
+                organ = 'na'
+            elif organ not in ALL_TISSUES:
                 raise DBImportError('Error on line %d: Experiment tissue %s '
                                     'is not valid.' % (line,
                                                        row['expt_tissues']))

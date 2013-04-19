@@ -6,6 +6,7 @@ will actually display.
 """
 
 ALL_TISSUES = {
+    'na': 'N/A',
     'adrenalgland': 'Adrenal gland',
     'appendix': 'Appendix',
     'bladder': 'Bladder',
@@ -70,6 +71,7 @@ TRANSCRIPTION_FACTORS = {
     'e2f2': 'E2F2',
     'e2f3': 'E2F3',
     'e2f3a': 'E2F3a',
+    'e2f3b': 'E2F3b',
     'e2f4': 'E2F4',
     'e2f5': 'E2F5',
     'e2f6': 'E2F6',
