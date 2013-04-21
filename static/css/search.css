@@ -16,6 +16,16 @@ img {
     filter: none;
     color:#000;
 }
+.tft-page-btn {
+    cursor:pointer;
+}
+.tft-page-active, tft-page-active:hover {
+    margin:0px;
+    padding:0px;
+    background-color:#eaeaea;
+    border:#990000 solid 1px;
+    color:#000;
+}
 #tft-navbar .brand, #tft-navbar a{
     color:#000;
 }
@@ -169,21 +179,23 @@ img {
     
 }
 .tft-summary a{
-    color:#ffaaaa;
+    color:#ffbbbb;
     cursor:pointer;
+    weight:bold;
 }
 .tft-summary a:hover{
+    font-size:1.2em;
     color:#990000;
 }
 
 .tft-summary-item-container {
-    color:#456789;
-    border:#eeeeee solid 1px;
-    background-color:#f5f5f9;
-    margin-top:4px;
+    color:#888888;
+    border:#cccccc solid 1px;
+    background-color:#f0f0f0;
+    margin-top:3px;
 }
 .search-results {
-    margin-left:30px;
+    margin-left:20px;
     background-color:#fff;
 }
 .tft-label-result {
