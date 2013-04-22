@@ -138,11 +138,20 @@ function updateTranscriptionSummary(id, listClass, tabIndex) {
                              .append($('<li/>')
                                      .append($('<a/>')
                                              .addClass('tft-summary-item-remove')
-                                             .click(function() {
-                                                 $(this).parent().parent().parent().remove();
-                                             })
+                                             .attr('tft-list-class', listClass)
+                                             .attr('tft-remove-target', factor)
                                              .text('x')))));
     });
+    $('.tft-summary-item-remove').click(function() {
+        $(this).parent().parent().parent().remove();
+        var removeTarget =  $(this).attr('tft-remove-target');
+        $('.'+listClass).each(function(){
+          //  alert ($(this).attr('value')=='Mouse');
+            if ($(this).attr('value')==removeTarget){
+                this.checked = false;
+            }
+        });
+    })
 }
 function updateMultiSelectSummary(id, listClass, tabIndex) {
     $(id).children().remove();
@@ -161,14 +170,16 @@ function updateMultiSelectSummary(id, listClass, tabIndex) {
                                              .addClass('tft-summary-item-remove')
                                              .attr('tft-list-class', listClass)
                                              .attr('tft-remove-target', factor)
-                                             .click(function() {
-                                                 $(this).parent().parent().parent().remove();
-                                                 $('.'+listClass).each(function(){
-                                                     if ($(this).attr('value')=='Mouse'){
-                                                         $(this).checked = false;
-                                                     }
-                                                 });
-                                             })
                                              .text('x')))));
     });
+    $('.tft-summary-item-remove').click(function() {
+        $(this).parent().parent().parent().remove();
+        var removeTarget =  $(this).attr('tft-remove-target');
+        $('.'+listClass).each(function(){
+          //  alert ($(this).attr('value')=='Mouse');
+            if ($(this).attr('value')==removeTarget){
+                this.checked = false;
+            }
+        });
+    })
 }
