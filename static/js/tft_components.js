@@ -146,7 +146,6 @@ function updateTranscriptionSummary(id, listClass, tabIndex) {
         $(this).parent().parent().parent().remove();
         var removeTarget =  $(this).attr('tft-remove-target');
         $('.'+listClass).each(function(){
-          //  alert ($(this).attr('value')=='Mouse');
             if ($(this).attr('value')==removeTarget){
                 this.checked = false;
             }
@@ -176,7 +175,6 @@ function updateMultiSelectSummary(id, listClass, tabIndex) {
         $(this).parent().parent().parent().remove();
         var removeTarget =  $(this).attr('tft-remove-target');
         $('.'+listClass).each(function(){
-          //  alert ($(this).attr('value')=='Mouse');
             if ($(this).attr('value')==removeTarget){
                 this.checked = false;
             }

@@ -146,7 +146,7 @@ function updatePage (url, rowNum, resetPagination, tabIndex) {
             $('#tft-result-container-'+tabIndex).show();
             printTHead(thead, TABLE_HEADING);
             for (var i = 0; i < results.length; i++) {
-                printTBody(tbody, TABLE_HEADING, results[i], i+1);
+                printTBody(tbody, TABLE_HEADING, results[i], rowNum+i+1);
             }
             table.append(thead);
             table.append(tbody);
