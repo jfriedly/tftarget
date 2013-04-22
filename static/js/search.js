@@ -6,17 +6,14 @@
 */
 
 //FIXME(jfriedly): global variables sucks.
+//FIXED(tmushayahama): bring a better solution on the table.
 
 // ________________________________________________________________
 // |-------------------------CONSTANTS ----------------------------|
 // `````````````````````````````````````````````````````````````````
 
 var DEBUG = false;
-var TAB_NAMES = ["direct_targets", "enrichment_analysis", "query_db"];
-/** Search results displayed on one page. The lower the number the
-    faster the load time. Preferred results is in the
-    range 50 <= RESULTS_PER_PAGE <= 500
-*/
+var TAB_NAMES = ["direct_targets", "enrichment_analysis", "query_db"]; 
 var RESULTS_PER_PAGE = 100;
 var PAGINATION_NEXT = 'Next';
 var PAGINATION_PREV = 'Prev';
@@ -42,12 +39,9 @@ var INPUT_NAME = [["id_gene", "Gene"],
 
 /*Shows which tabs are initialized */
 var tabInitialized = [false, false, false];
-/*__________________________________________________________________________________________________*/
-
 // ________________________________________________________________
 // |-------------------------INITIALIZATIONS-----------------------|
 // `````````````````````````````````````````````````````````````````
-
 $(document).ready(function () {
     if (DEBUG) {
         console.log("Loading search.js...");
@@ -71,7 +65,6 @@ function initTab(tabIndex) {
 
         addTabEvents(tabIndex);
         addPopoverEvents();
-        addOnMouseOverEvents();
         tabInitialized[tabIndex]=true;
     }
 }
@@ -97,78 +90,6 @@ function initForm (formId) {
     $(formId+' :input:not(:hidden)').wrap('<div class="controls " />');//wraps every input which is not hidden
 }
 
-/*Initialize the transcription factor dropdown.
-*/
-function initTFControl(accordionId, trans, listClass,  tftSummaryView, tab) {
-    for (var i = 0; i<trans.length; i++) {
-        var familyId = trans[i][0]+'-'+TAB_NAMES[tab];
-        var $inner = $('<div/>');
-
-        $(accordionId)
-            .append($("<div/>")
-                    .append($('<div/>') //Transcription Family Heading
-                            .addClass('accordion-heading tft-family-heading')
-                            .append($('<a/>')
-                                    .addClass ('tft-white-btn accordion-toggle tft-family-toggle')
-                                    .attr('data-toggle', 'collapse')
-                                    .attr('data-parent', accordionId)
-                                    .attr('data-target', '#collapse'+familyId)
-                                    .text(trans[i][0])
-                                    .prepend("&nbsp;&nbsp;&nbsp;")
-                                    .prepend($('<input id="'+familyId+'"type="checkbox" />')
-                                             .addClass('tft-family-select')
-                                             .attr('tft-parent-id', '#collapse'+ familyId))))
-                    .append($('<div/>') //Body
-                            .addClass('accordion-group')
-                            .append( $('<div/>')
-                                     .addClass('accordion-body collapse tft-accordion-container')
-                                     .attr('id', 'collapse'+familyId)
-                                     .append($inner))));
-
-        for (var j= 1; j< trans[i].length; j++) {
-            $inner
-                .addClass('accordion-inner ')
-                .append($('<li/>')
-                        .append($('<label/>')
-                                .addClass('checkbox')
-                                .text(trans[i][j])
-                                .append($('<input type="checkbox">')
-                                        .addClass('tft-tf-checkbox family-member '+familyId +' '+listClass)
-                                        .attr('my-parent', familyId)
-                                        .attr('tft-summary-target', tftSummaryView)
-                                        .attr('value', trans[i][j]))));
-
-        }
-    }
-}
-function initMultiSelect(container, tftList, listClass, tftSummaryView) {
-    //put the select all
-    $(container)
-        .append($('<li/>')
-                .append($('<label/>')
-                        .text('Select All')
-                        .addClass('checkbox')
-                        .append($('<input type="checkbox">')
-                                .addClass('tft-search-select-all tft-checkbox')
-                                .attr('tft-summary-target', tftSummaryView)
-                                .attr('tft-list-class', listClass)
-                                .attr('select-target', listClass))));
-
-    for (var i=1; i<tftList.length; i++) {
-        $(container)
-            .append($('<label/>')
-                    .text(tftList[i][1])
-                    .addClass('checkbox')
-                    .append($('<input type="checkbox">')
-                            .addClass('tft-checkbox '+listClass)
-                            .attr('tft-summary-target', tftSummaryView)
-                            .attr('tft-list-class', listClass)
-                            .attr('value', tftList[i][1])));
-    }
-    $(container).click(function (e) {
-        e.stopPropagation();
-    });
-}
 // ________________________________________________________________
 // |-------------------------SEARCH------ -------------------------|
 // ````````````````````````````````````````````````````````````````
@@ -215,8 +136,8 @@ function updatePage (url, rowNum, resetPagination, tabIndex) {
         //differantiate searching by clicking page number of submit btn.
         //Submit btn should reset the page numbers shown starting from 1
         if (resetPagination==true) {
-            paginate('#tft-page-container-top-'+tabIndex, 1, rows);
-            paginate('#tft-page-container-bottom-'+tabIndex, 1, rows);
+            paginate('#tft-page-container-top-'+tabIndex, 1, rows, 1);
+            paginate('#tft-page-container-bottom-'+tabIndex, 1, rows, 1);
         }
         //Make sure we print the heading when the results returns values
         $('#tft-results-number-top-'+tabIndex).text(results.length + " results of " + rows);
@@ -225,7 +146,7 @@ function updatePage (url, rowNum, resetPagination, tabIndex) {
             $('#tft-result-container-'+tabIndex).show();
             printTHead(thead, TABLE_HEADING);
             for (var i = 0; i < results.length; i++) {
-                printTBody(tbody, TABLE_HEADING, results[i], i+1);
+                printTBody(tbody, TABLE_HEADING, results[i], rowNum+i+1);
             }
             table.append(thead);
             table.append(tbody);
@@ -236,7 +157,26 @@ function updatePage (url, rowNum, resetPagination, tabIndex) {
     }
     ajaxSearch(url, rowNum, createTable, tabIndex);
 }
-
+function enrichment_search(data) {
+    $('#search-results-1').children().remove();
+    //create a table here
+    var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
+    var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
+    var tbody = $('<tbody></tbody>');
+    var table_headers = [['tf',         'Transcription Factor'],
+                         ['enrichment', 'Enrichment']]
+    $('#tft-result-container-1').show();
+    printTHead(thead, table_headers);
+    for (var i = 0; i < data.length; i++) {
+        printTBody(tbody, table_headers, data[i], i+1);
+    }
+    table.append(thead);
+    table.append(tbody);
+    if (DEBUG) {
+        console.log('Appending table');
+    }
+    $('#search-results-1').append(table);
+}
 function downloadDB(e) {
     ajaxSearch(e.target.href, 0, function (data) {
         if (DEBUG) {
@@ -249,46 +189,6 @@ function downloadDB(e) {
         $("#tft-download-link").attr("href", data['url']);
     }, 2);
 }
-/*Creates the page numbers. i.e. |Prev|3|4|5|Next
- * @params start The first page index to the left.
- * @params results the total number of rows
-*/
-function paginate(containerId, start, results) {
-    $(containerId).children().remove();
-    var pages = (results / RESULTS_PER_PAGE) + 1;//get the number of pages
-    var pageSpan = start + 10;
-    var $pagesContainer = $('<div/>').addClass('pagination tft-page-container ');
-    var $pageList = $('<ul/>'); 
-    for (var i=start; i<=pages && i<pageSpan; i++) {
-        $pageList
-            .append($('<li/>')
-                    .attr('tft-page', i)
-                    .addClass("tft-page-btn")
-                    .append($('<a/>')
-                            .text(i)));
-    }
-    // Determine to print "Previous" or "Next" Button
-    if (start>1) {
-        var $pageItem = $('<li class="tft-page-btn"><a>Prev</a></li>');
-        $pageItem.attr('tft-page', PAGINATION_PREV);
-        $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
-        $pageItem.attr('tft-results', results);
-        $pageList.prepend($pageItem);
-    }
-    if (pages>pageSpan) {
-        var $pageItem = $('<li class="tft-page-btn"><a>Next</a></li>');
-        $pageItem.attr('tft-page', PAGINATION_NEXT);
-        $pageItem.attr('tft-start-index', start);//indicates the btn value next to previous i.e |Prev|2|3|4.. val = 2
-        $pageItem.attr('tft-results', results);
-        $pageList.append($pageItem);
-    }
-
-    $pagesContainer.append($pageList);
-    $(containerId).append($pagesContainer);
-    addPageClickEvent( $('.tab-pane.active').index());
-}
-
-
 /**This is a messed up function although it works
 It is a temporary way to write json
 */
@@ -303,90 +203,7 @@ function writeJSON(cls) {
         return ''; // so that it does not return [
     }
 }
-//will write a prettier code later
-function searchSummary() {
-    //refresh the description
-    var $summary = $('#tft-summary-body');
-    var factors = '';
-    var noSummary = true;
-    $summary.children().remove();
-    $('.family-member:checked').each(function() {
-        factors += $(this).attr('value') + ', '
-    });
 
-    var $dl = $('<dl></dl>');
-    $dl.addClass('dl-horizontal');
-    if($.trim(factors)!='') {
-        $dl.append('<dt>Transcription Factor(s): </dt>');
-        $dl.append('<dd>'+factors+'</dd>');
-        noSummary = false;
-    }
-    for (var i=0; i < INPUT_NAME.length; i++) {
-        var inputVal = $('#'+INPUT_NAME[i][0]).val();
-        if($.trim(inputVal)!='') {
-            $dl.append('<dt>'+INPUT_NAME[i][1]+': </dt>');
-            $dl.append('<dd>'+inputVal+'</dd>');
-            noSummary=false;
-        }
-    }
-    if(noSummary==true) {
-         $summary.append('<h5>no selected item(s) </h5>');
-    } else {
-        $summary.append($dl);
-    }
-}
-function updateTranscriptionSummary(id, listClass, tabIndex) {
-    $(id).children().remove();
-    if (DEBUG) {
-        console.log("ID clicked was: " + id);
-    }
-    var noSummary = true;
-    $('.'+listClass+':checked').each(function() {
-        var factor = $(this).attr('value');
-        $(id).append($('<li/>')
-                     .attr('id', 'tft-'+factor+'-container-'+tabIndex)
-                     .append($('<ul/>')
-                             .addClass('inline tft-summary-item-container')
-                             .append($('<li/>')
-                                     .addClass('tft-summary-item-name')
-                                     .text(factor))
-                             .append($('<li/>')
-                                     .append($('<a/>')
-                                             .addClass('tft-summary-item-remove')
-                                             .click(function() {
-                                                 $(this).parent().parent().parent().remove();
-                                             })
-                                             .text('X')))));
-    });
-}
-function updateMultiSelectSummary(id, listClass, tabIndex) {
-    $(id).children().remove();
-    console.log(id);
-    var noSummary = true;
-    $('.' + listClass + ':checked').each(function() {
-        var factor = $(this).attr('value');
-        $(id).append($('<li/>')
-                     .append($('<ul/>')
-                             .addClass('inline tft-summary-item-container')
-                             .append($('<li/>')
-                                     .addClass('tft-summary-item-name tft-summary-'+listClass)
-                                     .text(factor))
-                             .append($('<li/>')
-                                     .append($('<a/>')
-                                             .addClass('tft-summary-item-remove')
-                                             .attr('tft-list-class', listClass)
-                                             .attr('tft-remove-target', factor)
-                                             .click(function() {
-                                                 $(this).parent().parent().parent().remove();
-                                                 $('.'+listClass).each(function(){
-                                                     if ($(this).attr('value')=='Mouse'){
-                                                         $(this).checked = false;
-                                                     }
-                                                 });
-                                             })
-                                             .text('X')))));
-    });
-}
 // ________________________________________________________________
 // |-------------------------RESULTS-------------------------------|
 // ````````````````````````````````````````````````````````````````
@@ -451,12 +268,6 @@ function addToggleEvents(tabIndex) {
         });
     });
 }
-function addOnMouseOverEvents(tabIndex) {
-    $("#tft-family-dropdown-toggle-"+tabIndex).mouseover(function(){
-       // fooo=(writeJSON('family-member'));
-        $("#tft-popover-tf-inner-"+tabIndex).text(writeJSON('family-member'));
-    });
-}
 function addPopoverEvents(tabIndex) {
     $('#tft-family-dropdown-toggle-'+tabIndex).popover({ 
         trigger :'hover',
@@ -470,43 +281,23 @@ function addPopoverEvents(tabIndex) {
 }
 function addPageClickEvent(tabIndex) {
     $('.tft-page-btn').click(function () {
-        var pageVal = $(this).attr('tft-page');
-        if (pageVal=="Prev") {
-            var startIndex=parseInt($(this).attr('tft-start-index'));
-            var results=parseInt($(this).attr('tft-results'));
-            paginate('#tft-page-container-top-'+tabIndex, startIndex-1, results);
-            paginate('#tft-page-container-bottom-'+tabIndex, startIndex-1, results);
-        }else if (pageVal=="Next") {
-            var startIndex=parseInt($(this).attr('tft-start-index'));
-            var results=parseInt($(this).attr('tft-results'));
-            paginate('#tft-page-container-top-'+tabIndex, startIndex+1, results);
-            paginate('#tft-page-container-bottom-'+tabIndex, startIndex+1, results);
+        var pageVal = parseInt($(this).attr('tft-page-value'));
+        var pageName = $(this).attr('tft-page-name');
+        var startIndex=parseInt($(this).attr('tft-start-index'));
+        var results=parseInt($(this).attr('tft-results'));
+        if (pageName=="Prev") {
+            paginate('#tft-page-container-top-'+tabIndex, startIndex-1, results, pageVal);
+            paginate('#tft-page-container-bottom-'+tabIndex, startIndex-1, results, pageVal);
+        }else if (pageName=="Next") {
+            paginate('#tft-page-container-top-'+tabIndex, startIndex+1, results, pageVal);
+            paginate('#tft-page-container-bottom-'+tabIndex, startIndex+1, results, pageVal);
         } else {
             var rowNum = (parseInt(pageVal) - 1) * RESULTS_PER_PAGE;
-            $(this).addClass('active');
+            paginate('#tft-page-container-top-'+tabIndex, startIndex, results, pageVal);
+            paginate('#tft-page-container-bottom-'+tabIndex, startIndex, results, pageVal);
             updatePage('/'+TAB_NAMES[tabIndex], rowNum, false,  $('.tab-pane.active').index());
         }
     });
-}
-function enrichment_search(data) {
-    $('#search-results-1').children().remove();
-    //create a table here
-    var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
-    var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
-    var tbody = $('<tbody></tbody>');
-    var table_headers = [['tf',         'Transcription Factor'],
-                         ['enrichment', 'Enrichment']]
-    $('#tft-result-container-1').show();
-    printTHead(thead, table_headers);
-    for (var i = 0; i < data.length; i++) {
-        printTBody(tbody, table_headers, data[i], i+1);
-    }
-    table.append(thead);
-    table.append(tbody);
-    if (DEBUG) {
-        console.log('Appending table');
-    }
-    $('#search-results-1').append(table);
 }
 function addEventHandlers(tabIndex) {
     //FIXME(jfriedly): We bind this event handler every time we initialize a
