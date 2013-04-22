@@ -39,3 +39,7 @@ class EnrichmentAnalysisSearchForm(forms.Form):
     attrs = {'class': 'enrichment_analysis'}
     gene_list = forms.CharField(label="Gene List",
         widget=forms.Textarea(attrs=attrs), required=True)
+    species = forms.CharField(label="Species",
+        widget=forms.HiddenInput(attrs=attrs), required=False)
+    expt_tissues = forms.CharField(label="Organ",
+        widget=forms.HiddenInput(attrs=attrs), required=False)

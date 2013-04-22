@@ -115,8 +115,8 @@ _experiments = {
     'rtpcr': ('RT-PCR', 1, 'gene expression'),
     'microarray': ('Microarray', 1, 'gene expression'),
     'rnaseq': ('RNA-seq', 1, 'gene expression'),
-    'nuclearnrunon': ('Nuclearn run-on', 1, 'gene expression'),
-    'nuclearnrunoff': ('Nuclearn run-off', 1, 'gene expression'),
+    'nuclearrunon': ('Nuclear run-on', 1, 'gene expression'),
+    'nuclearrunoff': ('Nuclear run-off', 1, 'gene expression'),
 }
 
 EXPT_TYPES = {key: value[0] for key, value in _experiments.iteritems()}
@@ -135,6 +135,8 @@ IMPORT_COLUMN_ORDER = ['gene', 'transcription_factor', 'pmid', 'species',
                        'expt_tissues', 'cell_line', 'expt_type', 'replicates',
                        'control', 'quality']
 
+#NOTE Changing this is not the only step to add a new species! If you have
+# orthologs, you must also add the species to the Gene table in models.py.
 ALL_SPECIES = ('mouse', 'human', 'rat', 'arabidopsis', 'hamster', 'pig')
 
 
