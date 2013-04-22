@@ -162,7 +162,7 @@ DOWNLOAD_DIR = os.path.join(PROJECT_ROOT, 'csv')
 # it should be done when the server starts up or when the first request to
 # Enrichment Analysis is made.  Setting it to True does the calculations at
 # startup time.
-CALCULATE_TF_TARGETED_GENES_ON_START = True
+CALCULATE_TF_TARGETED_GENES_ON_START = False
 
 try:
     from local_settings import *

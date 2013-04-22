@@ -13,6 +13,8 @@ from django.db.models import Q
 import csv
 import sys
 import operator
+#TODO(jfriedly): Split handle() into multiple functions.  We reach an indent
+# depth of 9 tabs in there.
 
 
 class DBImportError(Exception):
@@ -53,7 +55,7 @@ class Command(BaseCommand):
                 if None in row:
                     row.pop(None)
 
-                # Ignore empty cells
+                # Ignore empty cells.  Can't user iterkeys() here though.
                 for species in row.keys():
                     if not row[species]:
                         row.pop(species)
@@ -71,12 +73,21 @@ class Command(BaseCommand):
                     matches = matches[1:]
                     for match in matches:
                         # For each species, if the match has an ortholog,
-                        # add it to the final gene
+                        # add it to the final gene.  Note:  if the DB doesn't
+                        # have a column for this ortholog, no changes will be
+                        # persisted.
                         for species in ALL_SPECIES:
-                            gene_name = match.__dict__[species]
-                            if gene_name:
-                                gene.__setattr__(species, gene_name)
-                        # Then, reassociate all the experiments to the 
+                            gene_name = getattr(match, species, '')
+                            existing_ortholog = getattr(gene, species, '')
+                            if gene_name != '':
+                                # Print a warning if we're overwriting an
+                                # ortholog
+                                if existing_ortholog != '':
+                                    print ("Warning: Overwriting existing %s "
+                                           "ortholog for %s with %s" % (
+                                           species, repr(gene), gene_name))
+                                setattr(gene, species, gene_name)
+                        # Then, reassociate all the experiments to the
                         # final gene.
                         for exp in Experiment.objects.filter(gene=match):
                             exp.gene = gene
@@ -86,8 +97,8 @@ class Command(BaseCommand):
                     # Lastly, add the values in the file to the final gene and
                     # save.
                     dupes += 1
-                    for species in row.keys():
-                        gene.__setattr__(species, row[species])
+                    for species in row.iterkeys():
+                        setattr(gene, species, row[species])
                     gene.save()
                 else:
                     adds += 1

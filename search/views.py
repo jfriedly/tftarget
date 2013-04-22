@@ -122,6 +122,7 @@ def _direct_search(results, sort=False):
     ``sort`` is passed as True, return the results as a list sorted by the
     score. Otherwise, return the results in a Python set.
     """
+    results = results.select_related('gene')
     # Map genes to their score (cumulatively)
     genes = {}
     # Add genes to this as we see their score get high enough
@@ -136,7 +137,7 @@ def _direct_search(results, sort=False):
             genes_above_threshold.add(result.gene)
         if result.expt_type in BINDING_EXPTS:
             genes_with_binding.add(result.gene)
-        elif result.expt_type in EXPRESSION_EXPTS:
+        else:
             genes_with_expression.add(result.gene)
 
     # We want the ones with both experiment classes and above the threshold
@@ -156,7 +157,7 @@ def _direct_search(results, sort=False):
         return sorted(results_to_show, key=lambda r: genes[r.gene],
                       reverse=True)
     else:
-        return results_to_show
+        return list(results_to_show)
 
 
 def direct_search(request):
