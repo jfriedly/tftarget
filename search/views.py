@@ -148,9 +148,6 @@ def _direct_search(results, sort=False):
     results_to_show = set()
     for r in results:
         if r.gene in genes_to_show:
-            #FIXME This line is for testing only!! It should be removed prior
-            #to delivery.
-            r.transcription_factor += ' ' + str(genes[r.gene])
             results_to_show.add(r)
     # Now figure out what order to show them in, and return them
     if sort is True:
