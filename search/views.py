@@ -255,6 +255,7 @@ def enrichment_analysis(request):
     results = []
     expts, count, row_index = _search(form)
     for tf in set(TFS.itervalues()):
+        print tf
         expts_for_loop = copy.deepcopy(expts)
         expts_for_loop = expts_for_loop.filter(transcription_factor=tf)
         targeted = set(expt.gene for expt in _direct_search(expts_for_loop))
@@ -263,10 +264,14 @@ def enrichment_analysis(request):
             enrichment = 1.0
         else:
             overlap = user_list.intersection(targeted)
-            enrichment = stats.hypergeom.sf(len(overlap) - 1,
-                                            all_genes.count(),
-                                            len(user_list),
-                                            len(targeted))
+            if len(overlap) == 0:
+                print "Setting enrichment to 1.0 for %s" % tf
+                enrichment = 1.0
+            else:
+                enrichment = stats.hypergeom.sf(len(overlap) - 1,
+                                                all_genes.count(),
+                                                len(user_list),
+                                                len(targeted))
         results.append({'tf': tf, 'enrichment': enrichment})
     results = sorted(results, key=lambda tf: tf['tf'])
     print time.time() - start
