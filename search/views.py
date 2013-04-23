@@ -25,6 +25,7 @@ import random
 import json
 import tablib
 import time
+import copy
 from scipy import stats
 
 
@@ -171,7 +172,7 @@ def direct_search(request):
     results, count, row_index = _search(form)
     sorted_results = _direct_search(results, sort=True)
     serialized = _serialize_results(sorted_results, len(sorted_results),
-                                    tab_num=0, row_index=0)
+                                    tab_num=0, row_index=row_index)
     return HttpResponse(json.dumps(serialized))
 
 
@@ -234,11 +235,6 @@ def _serialize_results(results, count, tab_num=2, row_index=None, csv=False):
     return {'results': results, 'num_results': count, 'tab_num': tab_num}
 
 
-# This set of searches is needed for every call to enrichment_analysis, so
-# we only calculate it once and store it as a global variable.
-TF_TARGETED_GENES = {}
-
-
 def enrichment_analysis(request):
     start = time.time()
     form = EnrichmentAnalysisSearchForm(request.POST or None)
@@ -257,12 +253,11 @@ def enrichment_analysis(request):
     print "User list is %s" % user_list
     all_genes = Gene.objects.all()
     results = []
-    # If CALCULATE_TF_TARGETED_GENES_ON_START was False, this won't be
-    # populated, so we'll need to populate it now.
-    if len(TF_TARGETED_GENES) == 0:
-        _calculate_tf_targeted_genes()
+    expts, count, row_index = _search(form)
     for tf in set(TFS.itervalues()):
-        targeted = TF_TARGETED_GENES[tf]
+        expts_for_loop = copy.deepcopy(expts)
+        expts_for_loop = expts_for_loop.filter(transcription_factor=tf)
+        targeted = set(expt.gene for expt in _direct_search(expts_for_loop))
         if len(targeted) == 0:
             print "Setting enrichment to 1.0 for %s" % tf
             enrichment = 1.0
@@ -274,17 +269,5 @@ def enrichment_analysis(request):
                                             len(targeted))
         results.append({'tf': tf, 'enrichment': enrichment})
     results = sorted(results, key=lambda tf: tf['tf'])
+    print time.time() - start
     return HttpResponse(json.dumps(results))
-
-
-def _calculate_tf_targeted_genes():
-    print "Calculating Direct Targets, this may take some time..."
-    for tf in set(TFS.itervalues()):
-        print tf
-        expts = Experiment.objects.filter(transcription_factor=tf)
-        direct_targets = _direct_search(expts)
-        TF_TARGETED_GENES[tf] = set(expt.gene for expt in direct_targets)
-
-
-if settings.CALCULATE_TF_TARGETED_GENES_ON_START is True:
-    _calculate_tf_targeted_genes()

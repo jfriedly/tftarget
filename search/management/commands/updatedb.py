@@ -11,19 +11,11 @@ from search._constants import (TFS,
 
 
 from search.models import Experiment, Gene
+from search.management.commands._shared import DBImportError
 
 
 # We use this a lot, so we should only compile it once.
 DELIMITER = re.compile('\s*[/;,&]+\s*')
-
-
-class DBImportError(Exception):
-    message = ''
-
-    def __init__(self, message=None):
-        if message:
-            self.message = message
-        super(DBImportError, self).__init__(self.message)
 
 
 class Command(BaseCommand):

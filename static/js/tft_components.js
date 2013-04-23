@@ -154,7 +154,9 @@ function updateTranscriptionSummary(id, listClass, tabIndex) {
 }
 function updateMultiSelectSummary(id, listClass, tabIndex) {
     $(id).children().remove();
-    console.log(id);
+    if (DEBUG) {
+        console.log(id);
+    }
     var noSummary = true;
     $('.' + listClass + ':checked').each(function() {
         var factor = $(this).attr('value');

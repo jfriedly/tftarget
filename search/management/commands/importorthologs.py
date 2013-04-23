@@ -9,21 +9,13 @@ appropriately. It'll be a lot of work, but none of it in here.
 from django.core.management.base import BaseCommand, CommandError
 from search._constants import ALL_SPECIES
 from search.models import Gene, Experiment
+from search.management.commands._shared import DBImportError
 from django.db.models import Q
 import csv
 import sys
 import operator
 #TODO(jfriedly): Split handle() into multiple functions.  We reach an indent
 # depth of 9 tabs in there.
-
-
-class DBImportError(Exception):
-    message = ''
-
-    def __init__(self, message=None):
-        if message:
-            self.message = message
-        super(DBImportError, self).__init__(self.message)
 
 
 class Command(BaseCommand):
