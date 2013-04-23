@@ -118,7 +118,7 @@ function paginate(containerId, start, results, pageNum) {
     }
     $pagesContainer.append($pageList);
     $(containerId).append($pagesContainer);
-    addPageClickEvent( $('.tab-pane.active').index());
+    
 }
 function updateTranscriptionSummary(id, listClass, tabIndex) {
     $(id).children().remove();

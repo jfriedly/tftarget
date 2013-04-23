@@ -64,7 +64,6 @@ function initTab(tabIndex) {
         initTFControl('#tft-family-accordion-'+tabIndex, TF_LIST, 'tf-'+tabIndex, '#tft-tf-summary-'+tabIndex, tabIndex);
 
         addTabEvents(tabIndex);
-        addPopoverEvents();
         tabInitialized[tabIndex]=true;
     }
 }
@@ -130,7 +129,6 @@ function updatePage (url, rowNum, resetPagination, tabIndex) {
         var table = $('<table></table>').addClass('table table-condensed table-striped table-hover');
         var thead = $('<thead></thead>').addClass('tft-grey-bottom-1');
         var tbody = $('<tbody></tbody>');
-
         var rows = data["num_results"];
         var results = data["results"];
         //differantiate searching by clicking page number of submit btn.
@@ -138,6 +136,7 @@ function updatePage (url, rowNum, resetPagination, tabIndex) {
         if (resetPagination==true) {
             paginate('#tft-page-container-top-'+tabIndex, 1, rows, 1);
             paginate('#tft-page-container-bottom-'+tabIndex, 1, rows, 1);
+            addPageClickEvent( $('.tab-pane.active').index());
         }
         //Make sure we print the heading when the results returns values
         $('#tft-results-number-top-'+tabIndex).text(results.length + " results of " + rows);
@@ -268,17 +267,6 @@ function addToggleEvents(tabIndex) {
         });
     });
 }
-function addPopoverEvents(tabIndex) {
-    $('#tft-family-dropdown-toggle-'+tabIndex).popover({ 
-        trigger :'hover',
-        title :'Selected Transcription Factor(s)',
-        placement :'right',
-        html : true,
-        content: function() {
-            return $('#tft-popover-tf-'+tabIndex).html();
-        }
-  });
-}
 function addPageClickEvent(tabIndex) {
     $('.tft-page-btn').click(function () {
         var pageVal = parseInt($(this).attr('tft-page-value'));
@@ -297,6 +285,7 @@ function addPageClickEvent(tabIndex) {
             paginate('#tft-page-container-bottom-'+tabIndex, startIndex, results, pageVal);
             updatePage('/'+TAB_NAMES[tabIndex], rowNum, false,  $('.tab-pane.active').index());
         }
+        addPageClickEvent( $('.tab-pane.active').index());
     });
 }
 function addEventHandlers(tabIndex) {
@@ -318,6 +307,7 @@ function addEventHandlers(tabIndex) {
         $('#tft-search-form-'+tabIndex).find('.tft-checkbox, .tft-tf-checkbox, .tft-family-select').each(function(){
             this.checked = false;
         });
+        $('#tft-search-form-'+tabIndex).find('#id_gene_list').val('');
         $('#tft-search-form-'+tabIndex).find('.tft-summary').children().remove();
         $('#tft-search-form-'+tabIndex).find('#id_gene_'+tabIndex).val(''); //sloppy code since all tabs doesn't have gene, but ehhh.
     });
@@ -376,17 +366,6 @@ function addEventHandlers(tabIndex) {
     })
     $('#tft-result-container-'+tabIndex).hide();
     $('#tft-download-bar').hide();
-    //  $('#tft-summary-form-'+tabIndex).modal();
-    //  $('#tft-home-tab a[href="#download-database"]').click();
-        /* $('.family-member').click(function() {
-       // console.log('im a clicked member');
-       // console.log( $('.'+$(this).attr('my-parent')).length);
-         $('.'+$(this).attr('my-parent')).each(function(){ 
-             if($(this).is(':checked')==false) {
-                 $('#'+$(this).attr('my-parent')).attr("checked", "false");
-             }
-         });
-    });*/
 
     var downloadOptionClick = function(e) {
         if (DEBUG) {
