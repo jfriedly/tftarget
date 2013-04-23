@@ -121,7 +121,7 @@ def _direct_search(results, sort=False):
     With an iterable of Experiments, remove the ones on genes which do not have
     both types of experiments and which are scored below the threshold. If
     ``sort`` is passed as True, return the results as a list sorted by the
-    score. Otherwise, return the results in a Python set.
+    score. Otherwise, return the results in a Python list.
     """
     results = results.select_related('gene')
     # Map genes to their score (cumulatively)
